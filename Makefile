@@ -3,7 +3,11 @@ NAME	= minishell
 SRCS	:= \
 main\
 get_next_line\
-get_next_line_utils
+get_next_line_utils\
+signals\
+parse_line\
+free_split\
+exec_builtin\
 
 
 S 		:= src/
