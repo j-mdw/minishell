@@ -15,7 +15,7 @@ void
 void
 	sigquit_handler(int sig_nb)
 {
-	sig_nb++;	
+	sig_nb++;
 }
 
 void

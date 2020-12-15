@@ -38,7 +38,7 @@ int	ft_gnl(char **line, char *buffer)
 		return (0);
 	}
 }
-
+#include <stdio.h>
 int	get_next_line(int fd, char **line)
 {
 	int			bytes_read;
@@ -55,7 +55,9 @@ int	get_next_line(int fd, char **line)
 		{
 			if ((bytes_read = read(fd, buffer, BUFFER_SIZE)) < 0)
 				return (-1);
-			if (bytes_read == 0)
+			write(1, buffer, bytes_read);
+			printf("%d|%d|%d\n", buffer[0], bytes_read, **line);
+			if (bytes_read == 0 && !(*line)[0])
 				return (0);
 			buffer[bytes_read] = '\0';
 		}

@@ -23,7 +23,7 @@ $(addprefix $O, $(addsuffix .o, $(SRCS)))
 
 CC		= gcc
 
-CFLAGS	= -Wall -Werror -Wextra -I$I
+CFLAGS	= -Wall -Werror -Wextra -I$I -g
 
 RM		= rm -f
 	

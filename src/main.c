@@ -18,7 +18,8 @@ int
 		if (gnl_ret < 0)
 			fprintf(stderr, "%s\n", strerror(errno));		
 		else if (*line != 0)
-		{	
+		{
+			printf("%s\n", line); //Debug
 			if ((split_ret = parse_input(line, &line_split)) < 0)
 				fprintf(stderr, "%s\n", strerror(errno));
 			else if (split_ret == BUILT_IN_CMD)
@@ -27,5 +28,6 @@ int
 		}
 		free(line);
 	}	
+	printf("Ggnl: %d\n", gnl_ret);
 	return (0);
 }
