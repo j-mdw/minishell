@@ -26,6 +26,5 @@ char
     }
     if (!(filename = ft_substr(line, 0, i)))
         return (NULL);
-    printf("Filename: %s\n", filename);
     return (filename);
 }

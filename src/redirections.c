@@ -103,6 +103,12 @@ int
     return (0);
 }
 
+/*
+** Close redir files
+** Set STDIN and STDOUT to redir_io_saved_fd
+** Close redir_io_saved_fd's
+*/
+
 int
     reset_redirections(int redir_io_saved_fd[2], int redir_file_fd[2])
 {
@@ -111,6 +117,8 @@ int
     if (reset_fd(redir_io_saved_fd[0], STDIN_FILENO) < 0 ||
     reset_fd(redir_io_saved_fd[1], STDOUT_FILENO) < 0)
         return (-1);
+    close(redir_io_saved_fd[0]);
+    close(redir_io_saved_fd[1]);
     return (0);
 }
 

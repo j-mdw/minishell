@@ -36,6 +36,12 @@ int     reset_fd(int save_fd, int reset_fd);
 int     set_fd(int start_fd, int set_fd);
 
 /*
+** PIPES
+*/
+
+char    **parse_open_pipe(char *line, int pipe_fd[2], int pipe_io_saved_fd[2]);
+int     close_pipe(int pipe_fd[2], int stdio_fd_cp[2]);
+/*
 ** SIGNALS MANAGEMENT
 */
 void    set_signals(void);
