@@ -8,7 +8,11 @@ signals\
 parse_line\
 free_split\
 exec_builtin\
-
+redirections\
+pipe_mng\
+get_filename\
+set_fd\
+reset_fd\
 
 S 		:= src/
 
@@ -42,12 +46,12 @@ bonus: all
 
 clean:
 	$(RM) $(O_FILES)
+	make --directory=libft clean
 
 fclean: clean
 	$(RM) $(NAME)
-	$(MAKE) --directory=libft clean
+	make --directory=libft fclean
 
 re: fclean all
-	$(MAKE) --directory=libft fclean
 
 .PHONY: all, bonus, clean, fclean, re

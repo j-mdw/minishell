@@ -21,7 +21,9 @@ int
 		fprintf(stderr, "%s\n", strerror(errno));
 	else if (child == 0)
 	{
-		reset_signals();
+		reset_signals(); //All signals are reset to DFL during when execve is called
+						// So depending on what is done here, may not need to call
+						// 'reset_signals()' 
 		if ((file_path = ft_strjoin(BIN_PATH, arg_split[0])) == NULL)
 		{
 			printf("Join error\n");

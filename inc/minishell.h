@@ -4,11 +4,13 @@
 # include <stdio.h>
 # include <sys/types.h>
 # include <sys/wait.h>
+# include <sys/stat.h>
 # include <unistd.h>
 # include <errno.h>
 # include <string.h>
 # include <limits.h>
 # include <signal.h>
+# include <fcntl.h>
 
 # include "get_next_line.h"
 # include "libft.h"
@@ -17,13 +19,21 @@
 # define BUILT_IN_CMD   1
 # define LOCAL_CMD      2
 # define SHELL_MSG      "coquillage$>"
-# define SHELL_MSG_LEN  12
 
 /*
 ** PORGRAM CORE
 */
 int     exec_builtin(char **arg_split);
 
+/*
+** REDIRECTIONS
+*/
+int     redir_input(char **cmd, char *filename);
+int     redir_output(char **cmd, char *filename, int append_flag);
+int     parse_set_redirections(char *line, int redir_io_saved_fd[2], int redir_file_fd[2]);
+int     reset_redirections(int redir_io_saved_fd[2], int redir_file_fd[2]);
+int     reset_fd(int save_fd, int reset_fd);
+int     set_fd(int start_fd, int set_fd);
 
 /*
 ** SIGNALS MANAGEMENT
@@ -36,8 +46,9 @@ void    sigexit_handler(int sig_nb);
 /*
 ** PARSING
 */
-int     parse_input(char *line, char ***line_split);
-
+int     parse_input(char *line);
+char    *get_filename(char *line);
+int     ft_isblank(int c);
 /*
 ** ERRORS AND FREE
 */

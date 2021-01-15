@@ -1,5 +1,11 @@
 #include "minishell.h"
 
+/*
+** Does not work properly when a SIGINT is received
+** inside of a running process, as 'coquillage$>'
+** gets written twice
+*/
+
 void
 	sigint_handler(int sig_nb)
 {

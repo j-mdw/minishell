@@ -1,16 +1,22 @@
 
 #include "minishell.h"
 
+/*
+** Free split data
+** Set *split to NULL
+*/
+
 void
-	free_split(char ***line_split)
+	free_split(char ***split)
 {
 	int	i;
 
 	i = 0;
-	while ((*line_split)[i])
+	while ((*split)[i])
 	{
-		free((*line_split)[i]);
+		free((*split)[i]);
 		i++;
 	}
-	free(*line_split);
+	free(*split);
+	*split = NULL;
 }

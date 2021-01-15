@@ -34,13 +34,13 @@ static char	**ft_split_init_array(char const *s, char c)
 
 	i = 0;
 	count = 0;
-	while (s[i] != '\0')
+	while (s[i])
 	{
-		while (s[i] == c && s[i] != '\0')
+		while (s[i] == c && s[i])
 			i++;
-		if (s[i] != c && s[i] != '\0')
+		if (s[i] != c && s[i])
 		{
-			while (s[i] != c && s[i] != '\0')
+			while (s[i] != c && s[i])
 				i++;
 			count++;
 		}
@@ -62,7 +62,7 @@ static int	ft_mybs(char const *s, char c)
 	return (i);
 }
 
-static void	*ft_free_array(char **array)
+static void	*free_array(char **array)
 {
 	int i;
 
@@ -92,9 +92,8 @@ char		**ft_split(char const *s, char c)
 		{
 			while (s[j] != c && s[j] != '\0')
 				j++;
-			array[ptr_ref] = (char *)malloc(sizeof(char) * (j + 1));
-			if (array[ptr_ref] == NULL)
-				return (ft_free_array(array));
+			if (!(array[ptr_ref] = (char *)malloc(sizeof(char) * (j + 1))))
+				return (free_array(array));
 			array[ptr_ref] = ft_strncpy(array[ptr_ref], s, j);
 			ptr_ref++;
 			s += j;
