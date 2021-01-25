@@ -18,7 +18,7 @@ int
 	
 	file_path = NULL;
 	if ((child = fork()) < 0)
-		fprintf(stderr, "%s\n", strerror(errno));
+		fprintf(stderr, "From fork: %s\n", strerror(errno));
 	else if (child == 0)
 	{
 		reset_signals(); //All signals are reset to DFL during when execve is called
@@ -30,7 +30,7 @@ int
 			return (-1);
 		}
 		execve(file_path, arg_split, NULL);
-		fprintf(stderr, "%s\n", strerror(errno));
+		fprintf(stderr, "From exec builtin: %s\n", strerror(errno));
 		exit(0); // Not so sure how we should set exit status
 	}
 	else

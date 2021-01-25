@@ -20,6 +20,16 @@
 # define LOCAL_CMD      2
 # define SHELL_MSG      "coquillage$>"
 
+typedef	struct	s_parse {
+		char	**control_op_split;
+		char	**pipe_split;
+		char	**cmd_split;
+		int		redir_io_saved_fd[2];
+		int		redir_file_fd[2];
+		int		pipe_fd[2];
+		int		pipe_io_saved_fd[2];
+}			    t_parse;
+
 /*
 ** PORGRAM CORE
 */
@@ -40,6 +50,7 @@ int     set_fd(int start_fd, int set_fd);
 */
 
 char    **parse_open_pipe(char *line, int pipe_fd[2], int pipe_io_saved_fd[2]);
+int     set_pipe(int pipe_fd[2], int stdio_fd_cp[2]);
 int     close_pipe(int pipe_fd[2], int stdio_fd_cp[2]);
 /*
 ** SIGNALS MANAGEMENT
@@ -59,5 +70,10 @@ int     ft_isblank(int c);
 ** ERRORS AND FREE
 */
 void    free_split(char ***line_split);
+int     free_parsing_reset_fd(t_parse *parse_ptr);
+
+/*
+** MISC
+*/
 
 #endif

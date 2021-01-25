@@ -14,7 +14,7 @@ int
 		(gnl_ret = get_next_line(STDIN_FILENO, &line)) != 0))
 	{
 		if (gnl_ret < 0)
-			fprintf(stderr, "%s\n", strerror(errno));		
+			fprintf(stderr, "GNL error: %s\n", strerror(errno));		
 		else if (*line != 0)
 		{
 			//Split on ';', to handle instruction groups independantly

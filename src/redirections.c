@@ -99,7 +99,7 @@ int
 	}
 	if ((redir_io_saved_fd[0] = set_fd(STDIN_FILENO, redir_file_fd[0])) < 0 || \
 	(redir_io_saved_fd[1] = set_fd(STDOUT_FILENO, redir_file_fd[1])) < 0)	//Set STDIN to file_fd[0], if no redirections, it is set to 0  AND Set STDOUT to file_fd[1], if no redirections, it is set to 1
-        return (-1);
+        return (-1);    
     return (0);
 }
 
@@ -112,13 +112,20 @@ int
 int
     reset_redirections(int redir_io_saved_fd[2], int redir_file_fd[2])
 {
-    close(redir_file_fd[0]);
-    close(redir_file_fd[1]);
-    if (reset_fd(redir_io_saved_fd[0], STDIN_FILENO) < 0 ||
-    reset_fd(redir_io_saved_fd[1], STDOUT_FILENO) < 0)
-        return (-1);
-    close(redir_io_saved_fd[0]);
-    close(redir_io_saved_fd[1]);
+    if (redir_file_fd[0] != STDIN_FILENO)
+    {
+        close(redir_file_fd[0]);
+        if (reset_fd(redir_io_saved_fd[0], STDIN_FILENO) < 0)
+            return (-1);
+        close(redir_io_saved_fd[0]);
+    }
+    if (redir_io_saved_fd[1] != STDOUT_FILENO)
+    {
+        close(redir_file_fd[1]);
+        if (reset_fd(redir_io_saved_fd[1], STDOUT_FILENO) < 0)
+            return (-1);
+        close(redir_io_saved_fd[1]);
+    }
     return (0);
 }
 

@@ -54,10 +54,12 @@ char
 {
     char    **pipe_split;
 
+    write(1, "From pop: No pipes yet\n", 23);
     pipe_fd[0] = -1;                                    // Default value - if still -1 at end of function, means there's no pipe
     pipe_fd[1] = -1;
-	if (!(pipe_split = ft_split(line, '|')))	        // Error if ft_split returns NULL
+    if (!(pipe_split = ft_split(line, '|')))	        // Error if ft_split returns NULL
 			return (NULL);
+    printf("From pop |%s|%s|\n", pipe_split[0], pipe_split[1]);
     if (pipe_split[1] != NULL)					        // If 2nd element of pipe_split is NULL, there is no pipe
     {
         if (set_pipe(pipe_fd, pipe_io_saved_fd) < 0)	// Set up pipe, with write fd in pipe_fd[0] and read fd in pipe_fd[1]
