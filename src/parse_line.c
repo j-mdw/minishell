@@ -28,11 +28,12 @@ int
 		free_split(&(parse_ptr->pipe_split));
 	if (parse_ptr->cmd_split)
 		free_split(&(parse_ptr->cmd_split));
-	if (parse_ptr->redir_file_fd[0] != STDIN_FILENO || \
-	parse_ptr->redir_file_fd[1] != STDOUT_FILENO)
-		ret += reset_redirections(parse_ptr->redir_io_saved_fd, parse_ptr->redir_file_fd);
-	// if (parse_ptr->pipe_fd[0] != -1)
-	// 	ret += close_pipe(parse_ptr->pipe_fd, parse_ptr->pipe_io_saved_fd);
+	/* if (parse_ptr->redir_file_fd[0] != STDIN_FILENO || \
+	 parse_ptr->redir_file_fd[1] != STDOUT_FILENO)
+	 	ret += reset_redirections(parse_ptr->redir_io_saved_fd, parse_ptr->redir_file_fd);
+	 if (parse_ptr->pipe_fd[0] != -1)
+	 	ret += close_pipe(parse_ptr->pipe_fd, parse_ptr->pipe_io_saved_fd);
+	*/
 	return (ret);
 }
 
