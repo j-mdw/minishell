@@ -76,14 +76,18 @@ int
 			return (-1);
 		if (!(p_ptr->cmd_split = ft_split(p_ptr->pipe_split[i], ' ')))
 			return (-1);		
-		exitstatus = exec_builtin(p_ptr->cmd_split);
+		if ((exitstatus = exec_function(p_ptr->cmd_split, p_ptr->env)) != 0)
+		{
+			printf("Exit status: %d | errno: %d\n", exitstatus, errno);
+			printf("Error: %s | %s\n", strerror(errno), strerror(exitstatus));
+			return (-1);
+		}
 		free_split(&(p_ptr->cmd_split));	
 		if (reset_redirections(p_ptr->redir_io_saved_fd) < 0)
 			return (-1);
 		dup2(p_ptr->pipe_fd[0], STDIN_FILENO); 				// Set stdin to pipe[0]
 		close(p_ptr->pipe_fd[0]); 							// Close initial pipe[0] fd as a duplicate is now in fd=0
 		p_ptr->pipe_fd[0] = -1;
-		printf("Exit status: %X\n", exitstatus);
 		i++;
 	}			
 	if (reset_fd(p_ptr->pipe_io_saved_fd[0], STDIN_FILENO) < 0)
@@ -93,12 +97,13 @@ int
 }
 
 int
-	parse_input(char *line)
+	parse_input(char *line, char **env)
 {
 	t_parse	parse_data;
 	int		i;
 
 	init_parsing_struct(&parse_data);
+	parse_data.env = env;
 	if (!(parse_data.control_op_split = ft_split(line, ';')))
 		return (-1);
 	i = 0;

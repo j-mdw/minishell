@@ -7,7 +7,7 @@ get_next_line_utils\
 signals\
 parse_line\
 free_split\
-exec_builtin\
+exec_function\
 redirections\
 pipe_mng\
 get_filename\

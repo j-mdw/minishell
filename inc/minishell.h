@@ -24,6 +24,7 @@ typedef	struct	s_parse {
 		char	**control_op_split;
 		char	**pipe_split;
 		char	**cmd_split;
+		char	**env;
 		int		redir_io_saved_fd[2];
 		int		redir_file_fd[2];
 		int		pipe_fd[2];
@@ -33,7 +34,7 @@ typedef	struct	s_parse {
 /*
 ** PORGRAM CORE
 */
-int     exec_builtin(char **arg_split);
+int     exec_function(char **cmd, char **env);
 /*
 ** REDIRECTIONS
 */
@@ -59,7 +60,7 @@ void    sigexit_handler(int sig_nb);
 /*
 ** PARSING
 */
-int     parse_input(char *line);
+int     parse_input(char *line, char **env);
 char    *get_filename(char *line);
 int     ft_isblank(int c);
 /*

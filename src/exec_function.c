@@ -10,7 +10,7 @@
 */
 
 int
-	exec_builtin(char **arg_split)
+	exec_function(char **cmd, char **env)
 {
 	pid_t	child;
 	int		wstatus; //arg to wait
@@ -18,19 +18,16 @@ int
 	
 	file_path = NULL;
 	if ((child = fork()) < 0)
-		fprintf(stderr, "From fork: %s\n", strerror(errno));
+		return(-1);
 	else if (child == 0)
 	{
 		reset_signals(); //All signals are reset to DFL during when execve is called
 						// So depending on what is done here, may not need to call
 						// 'reset_signals()' 
-		if ((file_path = ft_strjoin(BIN_PATH, arg_split[0])) == NULL)
-		{
-			printf("Join error\n");
+		if ((file_path = ft_strjoin(BIN_PATH, cmd[0])) == NULL)
 			return (-1);
-		}
-		execve(file_path, arg_split, NULL);
-		fprintf(stderr, "From exec builtin: %s\n", strerror(errno));
+		execve(file_path, cmd, env);
+		// fprintf(stderr, "From exec builtin: error %d : %s\n", errno, strerror(errno));
 		exit(EXIT_FAILURE); // Not so sure how we should set exit status
 	}
 	else
