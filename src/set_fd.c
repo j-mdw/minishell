@@ -1,18 +1,18 @@
 #include "minishell.h"
 
 /*
-** sets start_fd to new_fd
-** returns copy of start_fd
+** sets newfd to oldfd file description
+** returns copy of initial newfd
 */
 
 int
-    set_fd(int start_fd, int set_fd)
+    set_fd(int oldfd, int newfd)
 {
-    int save_fd;
+    int newfd_cp;
 
-    if ((save_fd = dup(start_fd)) < 0)        //copy start_fd in save_fd
+    if ((newfd_cp = dup(newfd)) < 0)        //copy newfd in newfd_cp
         return (-1);
-    if (dup2(set_fd, start_fd) < 0)               //Set start_fd to set_fd file description
+    if (dup2(oldfd, newfd) < 0)               //Set newfd to oldfd file description
         return (-1);
-    return (save_fd);
+    return (newfd_cp);
 }

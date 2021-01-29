@@ -6,14 +6,14 @@ void
 	parse_ptr->control_op_split = NULL;
 	parse_ptr->pipe_split = NULL;
 	parse_ptr->cmd_split = NULL;
-	parse_ptr->pipe_fd[0] = -1;		// pipe_fd and redir_file_fd defaults values are set every time their initialization function is called
-									// however, while testing the program, need to init them here as well as redir or pipe funcitons might be commented
+	parse_ptr->pipe_fd[0] = -1;
 	parse_ptr->pipe_fd[1] = -1;
+	parse_ptr->pipe_io_saved_fd[0] = STDIN_FILENO;
+	parse_ptr->pipe_io_saved_fd[1] = STDOUT_FILENO;
 	parse_ptr->redir_file_fd[0] = STDIN_FILENO;
 	parse_ptr->redir_file_fd[1] = STDOUT_FILENO;
 
-	parse_ptr->pipe_io_saved_fd[0] = STDIN_FILENO;
-	parse_ptr->pipe_io_saved_fd[1] = STDOUT_FILENO;
+
 }
 
 int
@@ -28,6 +28,14 @@ int
 		free_split(&(parse_ptr->pipe_split));
 	if (parse_ptr->cmd_split)
 		free_split(&(parse_ptr->cmd_split));
+	if (parse_ptr->pipe_io_saved_fd[0] != STDIN_FILENO)
+		ret += reset_fd(parse_ptr->pipe_io_saved_fd[0], STDIN_FILENO);
+	if (parse_ptr->pipe_io_saved_fd[1] != STDOUT_FILENO)
+		ret += reset_fd(parse_ptr->pipe_io_saved_fd[1], STDOUT_FILENO);
+	if (parse_ptr->pipe_fd[0] >= 0)
+		close(parse_ptr->pipe_fd[0]);
+	if (parse_ptr->pipe_fd[1] >= 0)
+		close(parse_ptr->pipe_fd[1]);
 	/* if (parse_ptr->redir_file_fd[0] != STDIN_FILENO || \
 	 parse_ptr->redir_file_fd[1] != STDOUT_FILENO)
 	 	ret += reset_redirections(parse_ptr->redir_io_saved_fd, parse_ptr->redir_file_fd);
@@ -51,40 +59,33 @@ int
 		{
 			if (pipe(p_ptr->pipe_fd) < 0)
 				return (-1);
-			dup2(p_ptr->pipe_fd[1], STDOUT_FILENO); 			// Set stdout to pipi[1]
+			if (dup2(p_ptr->pipe_fd[1], STDOUT_FILENO) < 0)			// Set stdout to pipi[1]
+				return (free_parsing_reset_fd(p_ptr) - 1);
 			close(p_ptr->pipe_fd[1]); 							// close pipe_fd[1] - copy saved in fd=1
+			p_ptr->pipe_fd[1] = -1;
 		}
 		else
 		{
 			if (reset_fd(p_ptr->pipe_io_saved_fd[1], STDOUT_FILENO) < 0)	// If last command, reset stdout
 				return (-1);
+			p_ptr->pipe_io_saved_fd[1] = STDOUT_FILENO;
 		}
-		if (parse_set_redirections(p_ptr->pipe_split[i], p_ptr->redir_io_saved_fd, p_ptr->redir_file_fd) < 0)	// Set up redirections
+		if (parse_set_redirections(p_ptr->pipe_split[i], p_ptr->redir_io_saved_fd) < 0)	// Set up redirections
 			return (-1);
 		if (!(p_ptr->cmd_split = ft_split(p_ptr->pipe_split[i], ' ')))
-			return (-1);
-		dprintf(p_ptr->pipe_io_saved_fd[1], "Cmd split: |%s|%s|\n", p_ptr->cmd_split[0], p_ptr->cmd_split[1]);
-		
+			return (-1);		
 		exec_builtin(p_ptr->cmd_split);
 		free_split(&(p_ptr->cmd_split));	
-		if (reset_redirections(p_ptr->redir_io_saved_fd, p_ptr->redir_file_fd) < 0)
+		if (reset_redirections(p_ptr->redir_io_saved_fd) < 0)
 			return (-1);
-		// dprintf(p_ptr->pipe_io_saved_fd[1], "Zozo1: |%s|%s|\n", p_ptr->cmd_split[0], p_ptr->cmd_split[1]);
 		dup2(p_ptr->pipe_fd[0], STDIN_FILENO); 				// Set stdin to pipe[0]
 		close(p_ptr->pipe_fd[0]); 							// Close initial pipe[0] fd as a duplicate is now in fd=0
+		p_ptr->pipe_fd[0] = -1;
 		i++;
 	}			
-	// if (parse_set_redirections(p_ptr->pipe_split[i], p_ptr->redir_io_saved_fd, p_ptr->redir_file_fd) < 0)	// Set up redirections
-	// 		return (-1);
-	// 	// dprintf(p_ptr->pipe_io_saved_fd[1], "Cmd split: |%s|%s|\n", p_ptr->cmd_split[0], p_ptr->cmd_split[1]);
-	// if (!(p_ptr->cmd_split = ft_split(p_ptr->pipe_split[i], ' ')))
-	// 	return (-1);
-	// exec_builtin(p_ptr->cmd_split);
-	// free_split(&(p_ptr->cmd_split));	
-	// if (reset_redirections(p_ptr->redir_io_saved_fd, p_ptr->redir_file_fd) < 0)
-	// 		return (-1);
 	if (reset_fd(p_ptr->pipe_io_saved_fd[0], STDIN_FILENO) < 0)
 		return (-1);
+	p_ptr->pipe_io_saved_fd[0] = STDIN_FILENO;
 	return (0);
 }
 

@@ -62,6 +62,18 @@ static int
     free(filename);
     return (fd);
 }
+/*
+** Close_if: close fd specified as arg1
+** if it is different from value in arg2
+** return 0
+*/
+int
+    close_if(int fd1, int diff)
+{
+    if (fd1 != diff)
+        close(fd1);
+    return (0);
+}
 
 /*
 ** Search for redirection symbols in *line
@@ -71,36 +83,46 @@ static int
 ** Sets saved_fd_redir to saved stdin/stdout fds
 */
 int
-	parse_set_redirections(char *line, int redir_io_saved_fd[2], int redir_file_fd[2])
+	parse_set_redirections(char *line, int redir_io_saved_fd[2])
 {
-	int		i;
+	int	i;
+    int in_redir_fd;
+    int out_redir_fd;
 
 	i = 0;
-	redir_file_fd[0] = STDIN_FILENO;
-	redir_file_fd[1] = STDOUT_FILENO;
+	in_redir_fd = STDIN_FILENO;
+	out_redir_fd = STDOUT_FILENO;
 	while (line[i])
 	{
 		if (line[i] == '>')
 		{
-            if (redir_file_fd[1] != STDOUT_FILENO)
-                close(redir_file_fd[1]);                              // If a file was already opened for an output redir, close it
-            if ((redir_file_fd[1] = parse_output_redir(&(line[i]))) < 0)
-                return (-1);
+            if (out_redir_fd != STDOUT_FILENO)
+                close(out_redir_fd);                              // If a file was already opened for an output redir, close it
+            if ((out_redir_fd = parse_output_redir(&(line[i]))) < 0)
+                return (close_if(in_redir_fd, STDIN_FILENO) - 1);
 		}
         else if (line[i] == '<')
         {
-            if (redir_file_fd[0] != STDIN_FILENO)
-                close(redir_file_fd[1]);                              // If a file was already opened for an input redir, close it
-            if ((redir_file_fd[0] = parse_input_redir(&(line[i]))) < 0)
-                return (-1);
+            if (in_redir_fd != STDIN_FILENO)
+                close(in_redir_fd);                              // If a file was already opened for an input redir, close it
+            if ((in_redir_fd = parse_input_redir(&(line[i]))) < 0)
+                return (close_if(out_redir_fd, STDOUT_FILENO));
         }
 		else
 			i++;
 	}
-	if ((redir_io_saved_fd[0] = set_fd(STDIN_FILENO, redir_file_fd[0])) < 0 || \
-	(redir_io_saved_fd[1] = set_fd(STDOUT_FILENO, redir_file_fd[1])) < 0)	//Set STDIN to file_fd[0], if no redirections, it is set to 0  AND Set STDOUT to file_fd[1], if no redirections, it is set to 1
-        return (-1);    
-    return (0);
+    i = 0;
+    if (in_redir_fd != STDIN_FILENO)
+	{
+        i += ((redir_io_saved_fd[0] = set_fd(STDIN_FILENO, in_redir_fd)) < 0);
+        close(in_redir_fd);
+    }    
+    if (out_redir_fd != STDOUT_FILENO)
+    {
+        i += ((redir_io_saved_fd[1] = set_fd(STDOUT_FILENO, out_redir_fd)) < 0);	//Set STDIN to file_fd[0], if no redirections, it is set to 0  AND Set STDOUT to file_fd[1], if no redirections, it is set to 1
+        close(out_redir_fd);
+    }
+    return (i * -1);
 }
 
 /*
@@ -110,21 +132,21 @@ int
 */
 
 int
-    reset_redirections(int redir_io_saved_fd[2], int redir_file_fd[2])
+    reset_redirections(int redir_io_saved_fd[2])
 {
-    if (redir_file_fd[0] != STDIN_FILENO)
+    if (redir_io_saved_fd[0] != STDIN_FILENO)
     {
-        close(redir_file_fd[0]);
         if (reset_fd(redir_io_saved_fd[0], STDIN_FILENO) < 0)
             return (-1);
         close(redir_io_saved_fd[0]);
+        redir_io_saved_fd[0] = STDIN_FILENO;
     }
     if (redir_io_saved_fd[1] != STDOUT_FILENO)
     {
-        close(redir_file_fd[1]);
         if (reset_fd(redir_io_saved_fd[1], STDOUT_FILENO) < 0)
             return (-1);
         close(redir_io_saved_fd[1]);
+        redir_io_saved_fd[1] = STDOUT_FILENO;
     }
     return (0);
 }

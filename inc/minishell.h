@@ -40,10 +40,10 @@ int     exec_builtin(char **arg_split);
 */
 int     redir_input(char **cmd, char *filename);
 int     redir_output(char **cmd, char *filename, int append_flag);
-int     parse_set_redirections(char *line, int redir_io_saved_fd[2], int redir_file_fd[2]);
-int     reset_redirections(int redir_io_saved_fd[2], int redir_file_fd[2]);
+int     parse_set_redirections(char *line, int redir_io_saved_fd[2]);
+int     reset_redirections(int redir_io_saved_fd[2]);
 int     reset_fd(int save_fd, int reset_fd);
-int     set_fd(int start_fd, int set_fd);
+int     set_fd(int oldfd, int newfd);
 
 /*
 ** PIPES
