@@ -34,7 +34,6 @@ typedef	struct	s_parse {
 ** PORGRAM CORE
 */
 int     exec_builtin(char **arg_split);
-
 /*
 ** REDIRECTIONS
 */
@@ -44,11 +43,9 @@ int     parse_set_redirections(char *line, int redir_io_saved_fd[2]);
 int     reset_redirections(int redir_io_saved_fd[2]);
 int     reset_fd(int save_fd, int reset_fd);
 int     set_fd(int oldfd, int newfd);
-
 /*
 ** PIPES
 */
-
 char    **parse_open_pipe(char *line, int pipe_fd[2], int pipe_io_saved_fd[2]);
 int     set_pipe(int pipe_fd[2], int stdio_fd_cp[2]);
 int     close_pipe(int pipe_fd[2], int stdio_fd_cp[2]);
@@ -59,7 +56,6 @@ void    set_signals(void);
 void    reset_signals(void);
 void    sigint_handler(int sig_nb);
 void    sigexit_handler(int sig_nb);
-
 /*
 ** PARSING
 */
@@ -70,8 +66,8 @@ int     ft_isblank(int c);
 ** ERRORS AND FREE
 */
 void    free_split(char ***line_split);
-int     free_parsing_reset_fd(t_parse *parse_ptr);
-
+int     free_parsing(t_parse *parse_ptr);
+int		reset_close_fds(t_parse *parse_ptr);
 /*
 ** MISC
 */

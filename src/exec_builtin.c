@@ -31,7 +31,7 @@ int
 		}
 		execve(file_path, arg_split, NULL);
 		fprintf(stderr, "From exec builtin: %s\n", strerror(errno));
-		exit(0); // Not so sure how we should set exit status
+		exit(EXIT_FAILURE); // Not so sure how we should set exit status
 	}
 	else
 	{

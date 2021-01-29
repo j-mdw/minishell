@@ -50,15 +50,15 @@ static int
     char    *filename;
 
     i = 0;
-    line[i] = ' ';			// Overwritting redirection symbol
+    line[i] = ' ';			                            // Overwritting redirection symbol
     i++;														
-    if (!(filename = get_filename(&(line[i]))))	// Parsing of get_filename not final yet
+    if (!(filename = get_filename(&(line[i]))))	        // Parsing of get_filename not final yet
         return (-1);
-    fd = open(filename, O_RDWR, 0664);   // Open filename, if it doesn't exist, should return -1
+    fd = open(filename, O_RDWR, 0664);                  // Open filename, if it doesn't exist, should return -1
 
     while (ft_isblank(line[i]))
         i++;
-    ft_memset(&(line[i]), ' ', ft_strlen(filename));		// overwritting filename with ' ' in line
+    ft_memset(&(line[i]), ' ', ft_strlen(filename));	// overwritting filename with ' ' in line
     free(filename);
     return (fd);
 }
@@ -99,7 +99,7 @@ int
             if (out_redir_fd != STDOUT_FILENO)
                 close(out_redir_fd);                              // If a file was already opened for an output redir, close it
             if ((out_redir_fd = parse_output_redir(&(line[i]))) < 0)
-                return (close_if(in_redir_fd, STDIN_FILENO) - 1);
+                return (close_if(in_redir_fd, STDIN_FILENO) - 1);   // Closes input_redir file if one was open before returning
 		}
         else if (line[i] == '<')
         {
@@ -108,18 +108,17 @@ int
             if ((in_redir_fd = parse_input_redir(&(line[i]))) < 0)
                 return (close_if(out_redir_fd, STDOUT_FILENO));
         }
-		else
-			i++;
+		i++;
 	}
     i = 0;
     if (in_redir_fd != STDIN_FILENO)
 	{
-        i += ((redir_io_saved_fd[0] = set_fd(STDIN_FILENO, in_redir_fd)) < 0);
+        i += ((redir_io_saved_fd[0] = set_fd(in_redir_fd, STDIN_FILENO)) < 0);
         close(in_redir_fd);
     }    
     if (out_redir_fd != STDOUT_FILENO)
     {
-        i += ((redir_io_saved_fd[1] = set_fd(STDOUT_FILENO, out_redir_fd)) < 0);	//Set STDIN to file_fd[0], if no redirections, it is set to 0  AND Set STDOUT to file_fd[1], if no redirections, it is set to 1
+        i += ((redir_io_saved_fd[1] = set_fd(out_redir_fd, STDOUT_FILENO)) < 0);	//Set STDIN to file_fd[0], if no redirections, it is set to 0  AND Set STDOUT to file_fd[1], if no redirections, it is set to 1
         close(out_redir_fd);
     }
     return (i * -1);
@@ -150,81 +149,3 @@ int
     }
     return (0);
 }
-
-
-
-
-/*
-** Function: redir_input
-** Redirects the output of cmd to filename;
-** Appends the output to filename or
-** replaces the content of filename with the output of cmd depending
-** on append_flag, which should either be O_APPEND or O_TRUNC
-** Return 0 on sussess, -1 if error
-
-
-int
-    redir_output(char **cmd, char *filename, int append_flag)
-{
-    int file_fd;
-    int saved_fd;
-    int ret;
-
-    if (append_flag != O_APPEND && append_flag != O_TRUNC)
-        printf("Wrong flag\n");                                                 // Not sure if need to keep this step
-    if ((file_fd = open(filename, O_RDWR | O_CREAT | append_flag, 0664)) < 0)   // Open filename, if it doesn't exist, create it
-    {
-        printf("Error in redir_output: %s\n", strerror(errno));
-        return (-1);
-    }
-    if ((saved_fd = set_fd(STDOUT_FILENO, file_fd)) < 0)                        // Set stdout to file_fd
-        return (-1);
-    if ((ret = exec_builtin(cmd)) < 0)
-        printf("Error in redir_output - exec_builtin: %s\n", strerror(errno));
-    reset_fd(saved_fd, STDOUT_FILENO);                                          // Reset stdout to 1
-    if (close(file_fd) < 0)                                                     // Close file_fd
-    {
-        printf("Error in redir_output: %s\n", strerror(errno));
-        return (-1);
-    }
-    return (ret);
-}
-*/
-/*
-** Function: redir_input
-** Redirects the input of cmd to be filename;
-
-
-int
-    redir_input(char **cmd, char *filename)
-{
-    int file_fd;
-    int saved_fd;
-    int ret;
-
-    if ((file_fd = open(filename, O_RDONLY)) < 0)                               // Open filename, error if does not exist
-    {
-        printf("Error in redir_input: %s\n", strerror(errno));
-        return (-1);
-    }
-    if ((saved_fd = set_fd(STDIN_FILENO, file_fd)) < 0)                         // Set stdin to file_fd
-        return (-1);
-    if ((ret = exec_builtin(cmd)) < 0)
-        printf("Error in redir_intput - exec_builtin: %s\n", strerror(errno));
-    if ((reset_fd(saved_fd, STDIN_FILENO)) < 0)                                 // Reset stdin to 0
-        return (-1);
-    if (close(file_fd) < 0)                                                     // Close file_fd
-        printf("Error in redir_input: %s\n", strerror(errno));
-    return (ret);
-}
-*/
-// int main(void)
-// {
-//     char *cmd1[3] = {"ls", "-la", NULL};
-
-//     redir_output(cmd1, "Redir_tst", O_TRUNC);
-
-//     char *cmd2[3] = {"cat", "-e", NULL};
-//     redir_input(cmd2, "Redir_tst");
-//     return (0);
-// }

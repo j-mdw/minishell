@@ -1,11 +1,14 @@
 #include "minishell.h"
 
 int
-	main(void)
+	main(int ac, char **av, char **env)
 {
 	char	*line;
 	int		gnl_ret;
 
+	(void)ac;
+	(void)av;
+	(void)env;
 	set_signals();
 	gnl_ret = 1;
 	//The below stops looping when a EOF is read - only way to send a EOF through stdin

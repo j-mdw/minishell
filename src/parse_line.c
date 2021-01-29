@@ -10,24 +10,16 @@ void
 	parse_ptr->pipe_fd[1] = -1;
 	parse_ptr->pipe_io_saved_fd[0] = STDIN_FILENO;
 	parse_ptr->pipe_io_saved_fd[1] = STDOUT_FILENO;
-	parse_ptr->redir_file_fd[0] = STDIN_FILENO;
-	parse_ptr->redir_file_fd[1] = STDOUT_FILENO;
-
-
+	parse_ptr->redir_io_saved_fd[0] = STDIN_FILENO;
+	parse_ptr->redir_io_saved_fd[1] = STDOUT_FILENO;
 }
 
 int
-	free_parsing_reset_fd(t_parse *parse_ptr)
+	reset_close_fds(t_parse *parse_ptr)
 {
 	int	ret;
 
 	ret = 0;
-	if (parse_ptr->control_op_split)
-		free_split(&(parse_ptr->control_op_split));
-	if (parse_ptr->pipe_split)
-		free_split(&(parse_ptr->pipe_split));
-	if (parse_ptr->cmd_split)
-		free_split(&(parse_ptr->cmd_split));
 	if (parse_ptr->pipe_io_saved_fd[0] != STDIN_FILENO)
 		ret += reset_fd(parse_ptr->pipe_io_saved_fd[0], STDIN_FILENO);
 	if (parse_ptr->pipe_io_saved_fd[1] != STDOUT_FILENO)
@@ -36,20 +28,29 @@ int
 		close(parse_ptr->pipe_fd[0]);
 	if (parse_ptr->pipe_fd[1] >= 0)
 		close(parse_ptr->pipe_fd[1]);
-	/* if (parse_ptr->redir_file_fd[0] != STDIN_FILENO || \
-	 parse_ptr->redir_file_fd[1] != STDOUT_FILENO)
-	 	ret += reset_redirections(parse_ptr->redir_io_saved_fd, parse_ptr->redir_file_fd);
-	 if (parse_ptr->pipe_fd[0] != -1)
-	 	ret += close_pipe(parse_ptr->pipe_fd, parse_ptr->pipe_io_saved_fd);
-	*/
+	if (parse_ptr->redir_io_saved_fd[0] != STDIN_FILENO || \
+	 parse_ptr->redir_io_saved_fd[1] != STDOUT_FILENO)
+	 	ret += reset_redirections(parse_ptr->redir_io_saved_fd);
 	return (ret);
+}
+
+int
+	free_parsing(t_parse *parse_ptr)
+{
+	if (parse_ptr->control_op_split)
+		free_split(&(parse_ptr->control_op_split));
+	if (parse_ptr->pipe_split)
+		free_split(&(parse_ptr->pipe_split));
+	if (parse_ptr->cmd_split)
+		free_split(&(parse_ptr->cmd_split));
+	return (0);
 }
 
 int
 	parse_pipe(t_parse *p_ptr)
 {
 	int	i;
-	
+
 	i = 0;
 	p_ptr->pipe_io_saved_fd[0] = dup(STDIN_FILENO);			// Save copy of stdin
 	p_ptr->pipe_io_saved_fd[1] = dup(STDOUT_FILENO);		// Save copy of stdout
@@ -60,7 +61,7 @@ int
 			if (pipe(p_ptr->pipe_fd) < 0)
 				return (-1);
 			if (dup2(p_ptr->pipe_fd[1], STDOUT_FILENO) < 0)			// Set stdout to pipi[1]
-				return (free_parsing_reset_fd(p_ptr) - 1);
+				return (- 1);
 			close(p_ptr->pipe_fd[1]); 							// close pipe_fd[1] - copy saved in fd=1
 			p_ptr->pipe_fd[1] = -1;
 		}
@@ -102,14 +103,13 @@ int
 	while (parse_data.control_op_split[i])
 	{
 		if (!(parse_data.pipe_split = ft_split(parse_data.control_op_split[i], '|')))
-			return (free_parsing_reset_fd(&parse_data) - 1);
-		// printf("Pipe split: %s\n", parse_data.pipe_split[0]);
+			return (free_parsing(&parse_data) - 1);
 		if (parse_pipe(&parse_data) < 0)
-			return (free_parsing_reset_fd(&parse_data) - 1);
+			return (free_parsing_reset_fd(&parse_data) + reset_close_fds(&parse_data) - 1);
 		free_split(&(parse_data.pipe_split));
 		i++;
 	}
-	return (free_parsing_reset_fd(&parse_data));
+	return (free_parsing(&parse_data));
 }
 /*
 
