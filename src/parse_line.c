@@ -50,6 +50,7 @@ int
 	parse_pipe(t_parse *p_ptr)
 {
 	int	i;
+	int	exitstatus;
 
 	i = 0;
 	p_ptr->pipe_io_saved_fd[0] = dup(STDIN_FILENO);			// Save copy of stdin
@@ -75,13 +76,14 @@ int
 			return (-1);
 		if (!(p_ptr->cmd_split = ft_split(p_ptr->pipe_split[i], ' ')))
 			return (-1);		
-		exec_builtin(p_ptr->cmd_split);
+		exitstatus = exec_builtin(p_ptr->cmd_split);
 		free_split(&(p_ptr->cmd_split));	
 		if (reset_redirections(p_ptr->redir_io_saved_fd) < 0)
 			return (-1);
 		dup2(p_ptr->pipe_fd[0], STDIN_FILENO); 				// Set stdin to pipe[0]
 		close(p_ptr->pipe_fd[0]); 							// Close initial pipe[0] fd as a duplicate is now in fd=0
 		p_ptr->pipe_fd[0] = -1;
+		printf("Exit status: %X\n", exitstatus);
 		i++;
 	}			
 	if (reset_fd(p_ptr->pipe_io_saved_fd[0], STDIN_FILENO) < 0)
@@ -105,7 +107,7 @@ int
 		if (!(parse_data.pipe_split = ft_split(parse_data.control_op_split[i], '|')))
 			return (free_parsing(&parse_data) - 1);
 		if (parse_pipe(&parse_data) < 0)
-			return (free_parsing_reset_fd(&parse_data) + reset_close_fds(&parse_data) - 1);
+			return (free_parsing(&parse_data) + reset_close_fds(&parse_data) - 1);
 		free_split(&(parse_data.pipe_split));
 		i++;
 	}

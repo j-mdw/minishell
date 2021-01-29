@@ -38,5 +38,5 @@ int
 		wait(&wstatus); //TBC whether we have to do smth w/ 'wstatus'
 		free(file_path);
 	}
-	return (0);
+	return (WEXITSTATUS(wstatus));
 }

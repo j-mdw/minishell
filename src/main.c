@@ -20,10 +20,6 @@ int
 			fprintf(stderr, "GNL error: %s\n", strerror(errno));		
 		else if (*line != 0)
 		{
-			//Split on ';', to handle instruction groups independantly
-			//Spilt? on pipes - Then open pipe, execute 1st cmd and write result from pipe
-			//	then exec cmd 2, reading arg from pipe?
-			// printf("%s\n", line); //Debug
 			if (parse_input(line) < 0)
 				printf("Error: %s\n", strerror(errno));
 		}
