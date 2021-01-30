@@ -2,8 +2,6 @@ NAME	= minishell
 
 SRCS	:= \
 main\
-get_next_line\
-get_next_line_utils\
 signals\
 parse_line\
 free_split\
@@ -19,7 +17,8 @@ S 		:= src/
 
 O 		:= obj/
 
-I		= inc/
+I		= -I .\
+		-I libft/
 
 LIBFT	= libft/libft.a
 
@@ -28,7 +27,7 @@ $(addprefix $O, $(addsuffix .o, $(SRCS)))
 
 CC		= gcc
 
-CFLAGS	= -Wall -Werror -Wextra -I$I -g
+CFLAGS	= -Wall -Werror -Wextra $I -g
 
 RM		= rm -f
 	

@@ -14,8 +14,8 @@ int
 	gnl_ret = 1;
 	//The below stops looping when a EOF is read - only way to send a EOF through stdin
 	//seems to be through ctrl + D, which is an option we have to handle
-	while ((write(STDIN_FILENO, SHELL_MSG, ft_strlen(SHELL_MSG)) && \
-		(gnl_ret = get_next_line(STDIN_FILENO, &line)) != 0))
+	while ((write(STDIN_FILENO, SHELL_MSG, ft_strlen(SHELL_MSG))
+		&& (gnl_ret = get_next_line(STDIN_FILENO, &line)) != 0))
 	{
 		if (gnl_ret < 0)
 			fprintf(stderr, "GNL error: %s\n", strerror(errno));		
