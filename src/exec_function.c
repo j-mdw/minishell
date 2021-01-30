@@ -27,7 +27,7 @@ int
 		if ((file_path = ft_strjoin(BIN_PATH, cmd[0])) == NULL)
 			return (-1);
 		execve(file_path, cmd, env);
-		// fprintf(stderr, "From exec builtin: error %d : %s\n", errno, strerror(errno));
+		fprintf(stderr, "From exec builtin: error %d : %s\n", errno, strerror(errno));
 		exit(EXIT_FAILURE); // Not so sure how we should set exit status
 	}
 	else
