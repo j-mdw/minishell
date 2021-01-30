@@ -19,6 +19,8 @@
 # define BUILT_IN_CMD   1
 # define LOCAL_CMD      2
 # define SHELL_MSG      "coquillage$>"
+# define MAND_CMD	{"echo", "exit"}
+
 
 typedef	struct	s_parse {
 		char	**control_op_split;
@@ -69,6 +71,12 @@ int     ft_isblank(int c);
 void    free_split(char ***line_split);
 int     free_parsing(t_parse *parse_ptr);
 int		reset_close_fds(t_parse *parse_ptr);
+
+/*
+** MANDOTARY FUNCTIONS
+*/
+int		echo(char **cmd);
+
 /*
 ** MISC
 */

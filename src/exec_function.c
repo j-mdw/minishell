@@ -1,7 +1,7 @@
 #include "minishell.h"
 
 /*
-** execute_builtin forks current process and attempts to execute
+** execute_function forks current process and attempts to execute
 ** a command based on arguments passed through **arg_split
 ** The forked process resets signals to default so it can be
 ** interrupted or quit using SIGINT or SIGQUIT signals
@@ -10,12 +10,12 @@
 */
 
 int
-	exec_function(char **cmd, char **env)
+	exec_builtin(char **cmd, char **env)
 {
 	pid_t	child;
 	int		wstatus; //arg to wait
 	char	*file_path;
-	
+
 	file_path = NULL;
 	if ((child = fork()) < 0)
 		return(-1);
@@ -36,4 +36,13 @@ int
 		free(file_path);
 	}
 	return (WEXITSTATUS(wstatus));
+}
+
+int
+	exec_function(char **cmd, char **env)
+{
+	if (!ft_strncmp(cmd[0], "exit", 4))
+		return (echo(cmd));
+	else
+		return (exec_builtin(cmd, env));
 }

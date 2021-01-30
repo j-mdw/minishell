@@ -34,6 +34,11 @@ int
 	return (ret);
 }
 
+/*
+** Free t_parse arrays if memory was allocated
+** return 0
+*/
+
 int
 	free_parsing(t_parse *parse_ptr)
 {
@@ -76,10 +81,10 @@ int
 			return (-1);
 		if (!(p_ptr->cmd_split = ft_split(p_ptr->pipe_split[i], ' ')))
 			return (-1);		
-		if ((exitstatus = exec_function(p_ptr->cmd_split, p_ptr->env)) != 0)
+		if ((exitstatus = exec_function(p_ptr->cmd_split, p_ptr->env)) < 0)
 		{
-			printf("Exit status: %d | errno: %d\n", exitstatus, errno);
-			printf("Error: %s | %s\n", strerror(errno), strerror(exitstatus));
+			// printf("Exit status: %d | errno: %d\n", exitstatus, errno);
+			// printf("Error: %s | %s\n", strerror(errno), strerror(exitstatus));
 			return (-1);
 		}
 		free_split(&(p_ptr->cmd_split));	
@@ -95,6 +100,12 @@ int
 	p_ptr->pipe_io_saved_fd[0] = STDIN_FILENO;
 	return (0);
 }
+/*
+** Split line on ';' then on '|'
+** Sends the splited output to 'parse_pipe'
+** Returns -1 on program error or Exit Status of 
+** Returns 0 on success, -1 on error
+*/
 
 int
 	parse_input(char *line, char **env)
@@ -118,63 +129,3 @@ int
 	}
 	return (free_parsing(&parse_data));
 }
-/*
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-		if (!(parse_data.pipe_split = parse_open_pipe(parse_data.control_op_split[i], parse_data.pipe_fd, parse_data.pipe_io_saved_fd)))
-			return (free_parsing_reset_fd(&parse_data) - 1);
-		j = 0;
-		dprintf(parse_data.pipe_io_saved_fd[1],"pipe_io_saved_fd: |%d|%d|\n", parse_data.pipe_io_saved_fd[0], parse_data.pipe_io_saved_fd[1]);
-		dprintf(parse_data.pipe_io_saved_fd[1], "Pipe split: |%s|%s|\n", parse_data.pipe_split[0], parse_data.pipe_split[1]);
-		while (parse_data.pipe_split[j])
-		{
-			//if (parse_set_redirections(parse_data.pipe_split[j], parse_data.redir_io_saved_fd, parse_data.redir_file_fd) < 0)	// Set up redirections
-				// return (free_parsing_reset_fd(&parse_data) - 1);
-			if (!(parse_data.cmd_split = ft_split(parse_data.pipe_split[j], ' ')))												// Split command
-				return (free_parsing_reset_fd(&parse_data) - 1);
-			dprintf(parse_data.pipe_io_saved_fd[1], "Cmd split: |%s|%s|\n", parse_data.cmd_split[0], parse_data.cmd_split[1]);
-			if (exec_builtin(parse_data.cmd_split) < 0)																		// Execute command
-				return (free_parsing_reset_fd(&parse_data) - 1);
-			if (i == 0)
-			{
-				close(parse_data.pipe_fd[1]);
-				reset_fd(parse_data.pipe_io_saved_fd[1], STDOUT_FILENO);
-			}
-			if (i == 1)
-			{
-				close(parse_data.pipe_fd[0]);
-				reset_fd(parse_data.pipe_io_saved_fd[0], STDIN_FILENO);
-			}
-			// print_file(parse_data.pipe_fd[0], parse_data.pipe_io_saved_fd[1]);
-			// if (reset_redirections(parse_data.redir_io_saved_fd, parse_data.redir_file_fd) < 0)
-				// return (free_parsing_reset_fd(&parse_data) - 1);
-			dprintf(parse_data.pipe_io_saved_fd[1], "Zozo1: |%s|%s|\n", parse_data.cmd_split[0], parse_data.cmd_split[1]);
-			free_split(&(parse_data.cmd_split));
-
-			dprintf(parse_data.pipe_io_saved_fd[1], "Zozo2\n");
-			j++;
-		}
-		// if (parse_data.pipe_fd[1] != -1 && print_file(parse_data.pipe_fd[0], parse_data.pipe_io_saved_fd[1]) < 0)
-		// 		return(free_parsing_reset_fd(&parse_data) - 1);
-		// if (parse_data.pipe_fd[0] != -1 && close_pipe(parse_data.pipe_fd, parse_data.pipe_io_saved_fd) < 0) // If a pipe was open, close pipe
-		// 	return (free_parsing_reset_fd(&parse_data) - 1);
-		free_split(&(parse_data.pipe_split));
-		i++;
-	}
-	return (free_parsing_reset_fd(&parse_data));
-}
-*/

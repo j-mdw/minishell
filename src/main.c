@@ -5,6 +5,7 @@ int
 {
 	char	*line;
 	int		gnl_ret;
+	int		exit_status;
 
 	(void)ac;
 	(void)av;
@@ -20,7 +21,7 @@ int
 			fprintf(stderr, "GNL error: %s\n", strerror(errno));		
 		else if (*line != 0)
 		{
-			if (parse_input(line) < 0)
+			if ((exit_status = parse_input(line, env)) < 0)
 				printf("Error: %s\n", strerror(errno));
 		}
 		free(line);

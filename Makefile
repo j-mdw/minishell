@@ -13,6 +13,7 @@ pipe_mng\
 get_filename\
 set_fd\
 reset_fd\
+echo\
 
 S 		:= src/
 
