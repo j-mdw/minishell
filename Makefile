@@ -11,7 +11,10 @@ pipe_mng\
 get_filename\
 set_fd\
 reset_fd\
-echo\
+\
+echo_builtin\
+exit_builtin\
+pwd_builtin\
 
 S 		:= src/
 

@@ -58,15 +58,15 @@ int
 	int	exitstatus;
 
 	i = 0;
-	p_ptr->pipe_io_saved_fd[0] = dup(STDIN_FILENO);			// Save copy of stdin
-	p_ptr->pipe_io_saved_fd[1] = dup(STDOUT_FILENO);		// Save copy of stdout
+	p_ptr->pipe_io_saved_fd[0] = dup(STDIN_FILENO);				// Save copy of stdin
+	p_ptr->pipe_io_saved_fd[1] = dup(STDOUT_FILENO);			// Save copy of stdout
 	while (p_ptr->pipe_split[i])
 	{
 		if (p_ptr->pipe_split[i + 1])
 		{
 			if (pipe(p_ptr->pipe_fd) < 0)
 				return (-1);
-			if (dup2(p_ptr->pipe_fd[1], STDOUT_FILENO) < 0)			// Set stdout to pipi[1]
+			if (dup2(p_ptr->pipe_fd[1], STDOUT_FILENO) < 0)		// Set stdout to pipi[1]
 				return (- 1);
 			close(p_ptr->pipe_fd[1]); 							// close pipe_fd[1] - copy saved in fd=1
 			p_ptr->pipe_fd[1] = -1;
@@ -80,7 +80,7 @@ int
 		if (parse_set_redirections(p_ptr->pipe_split[i], p_ptr->redir_io_saved_fd) < 0)	// Set up redirections
 			return (-1);
 		if (!(p_ptr->cmd_split = ft_split(p_ptr->pipe_split[i], ' ')))
-			return (-1);		
+			return (-1);
 		if ((exitstatus = exec_function(p_ptr->cmd_split, p_ptr->env)) < 0)
 		{
 			// printf("Exit status: %d | errno: %d\n", exitstatus, errno);

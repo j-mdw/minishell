@@ -1,10 +1,11 @@
 #include "minishell.h"
 
 int
-    echo(char **arg)
+    echo_builtin(char **arg, char **env)
 {
     int n_flag;
 
+    (void)env;
     n_flag = 0;
     if (!(ft_strcmp(arg[1], "-n")))
         n_flag = 1;

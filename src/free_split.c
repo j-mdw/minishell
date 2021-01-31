@@ -2,7 +2,7 @@
 #include "minishell.h"
 
 /*
-** Free split data
+** Free string arr data
 ** Set *split to NULL
 */
 

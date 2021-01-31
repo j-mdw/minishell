@@ -10,7 +10,7 @@
 */
 
 int
-	exec_builtin(char **cmd, char **env)
+	exec_bin(char **cmd, char **env)
 {
 	pid_t	child;
 	int		wstatus; //arg to wait
@@ -38,11 +38,43 @@ int
 	return (WEXITSTATUS(wstatus));
 }
 
+void
+	init_binfunc_arr(t_binfunc_arr *binfunc_arr)
+{
+	binfunc_arr[0] = echo_builtin;
+	binfunc_arr[1] = exit_builtin;
+}
+
+char
+	**init_builtin_names_arr(void)
+{
+	char **arr;
+	
+	arr = (char **)malloc(sizeof(char *) * BUILTIN_COUNT + 1);
+
+	arr[0] = ft_strdup("echo");
+	arr[1] = ft_strdup("exit");
+	arr[2] = ft_strdup("pwd");
+	arr[3] = NULL;
+	return (arr);
+}
+
 int
 	exec_function(char **cmd, char **env)
 {
-	if (!ft_strncmp(cmd[0], "exit", 4))
-		return (echo(cmd));
+	int						func_index;
+	static t_binfunc_arr	func_arr[BUILTIN_COUNT];
+	char 					**builtin_names;
+	int						ret;
+	
+	builtin_names = init_builtin_names_arr();
+	if ((func_index = ft_strfind((const char **)builtin_names, cmd[0])) >= 0)
+	{
+		init_binfunc_arr(func_arr);
+		ret = func_arr[func_index](cmd, env);
+	}
 	else
-		return (exec_builtin(cmd, env));
+		ret = exec_bin(cmd, env);
+	ft_freestrarr(builtin_names, BUILTIN_COUNT);
+	return (ret);
 }

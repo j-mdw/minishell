@@ -123,8 +123,12 @@ int				fill_nb_buf(va_list *arg_ptr, t_flags *options, char *buf);
 double			power_base_to2(int exp);
 double			ft_strtod(char *str, char **endptr);
 
+/*
+** JANUARY 2021
+*/
 int				ft_strcmp(const char *s1, const char *s2);
 void			ft_strcpy(char *dest, const char *src);
 int				ft_strfind(const char **array, const char *str);
-
+void			ft_putstrarr(char **arr);
+void			ft_freestrarr(char **arr, int arr_size);
 #endif

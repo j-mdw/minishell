@@ -55,7 +55,9 @@ ft_strtod.c
 JANUARY_2021	:= \
 ft_strcmp.c\
 ft_strcpy.c\
-ft_strfind.c
+ft_strfind.c\
+ft_putstrarr.c\
+ft_freestrarr.c\
 
 FILES			:= \
 $(addprefix libc/, $(LIBC))\
