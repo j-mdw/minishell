@@ -15,6 +15,7 @@ reset_fd\
 echo_builtin\
 exit_builtin\
 pwd_builtin\
+env_builtin\
 
 S 		:= src/
 

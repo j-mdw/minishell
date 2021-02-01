@@ -43,6 +43,8 @@ void
 {
 	binfunc_arr[0] = echo_builtin;
 	binfunc_arr[1] = exit_builtin;
+	binfunc_arr[2] = pwd_builtin;
+	binfunc_arr[3] = env_builtin;
 }
 
 char
@@ -55,7 +57,8 @@ char
 	arr[0] = ft_strdup("echo");
 	arr[1] = ft_strdup("exit");
 	arr[2] = ft_strdup("pwd");
-	arr[3] = NULL;
+	arr[3] = ft_strdup("env");
+	arr[4] = NULL;
 	return (arr);
 }
 
