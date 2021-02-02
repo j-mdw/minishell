@@ -6,7 +6,7 @@
 /*   By: clkuznie <clkuznie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/21 07:58:02 by clkuznie          #+#    #+#             */
-/*   Updated: 2021/01/29 16:24:15 by clkuznie         ###   ########.fr       */
+/*   Updated: 2021/02/02 11:30:45 by jmaydew          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,8 @@ char		**
 
 	if (s)
 		s_nbr = count_strs(s, c);
+	else
+		return (NULL);
 	if (!(strs = malloc((s_nbr + 1) * sizeof(s))))
 		return (NULL);
 	strs[s_nbr] = NULL;
