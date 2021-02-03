@@ -16,6 +16,7 @@ echo_builtin\
 exit_builtin\
 pwd_builtin\
 env_builtin\
+cd_builtin\
 
 S 		:= src/
 
