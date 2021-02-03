@@ -17,6 +17,11 @@ exit_builtin\
 pwd_builtin\
 env_builtin\
 cd_builtin\
+\
+env_get_val\
+env_print\
+env_create_list\
+env_make_arr\
 
 S 		:= src/
 

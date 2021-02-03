@@ -131,4 +131,6 @@ void			ft_strcpy(char *dest, const char *src);
 int				ft_strfind(const char **array, const char *str);
 void			ft_putstrarr(char **arr);
 void			ft_freestrarr(char **arr, int arr_size);
+void			ft_list_remove_if(t_list **begin_list, void *data_ref,
+				void (*free_fct)(void *));
 #endif

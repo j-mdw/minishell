@@ -34,7 +34,7 @@ typedef	struct	s_parse {
 typedef	int	(*t_binfunc_arr)(char **cmd, char **env);
 
 /*
-** PORGRAM CORE
+** PROCESS MNG
 */
 int     exec_function(char **cmd, char **env);
 /*
@@ -53,7 +53,7 @@ char    **parse_open_pipe(char *line, int pipe_fd[2], int pipe_io_saved_fd[2]);
 int     set_pipe(int pipe_fd[2], int stdio_fd_cp[2]);
 int     close_pipe(int pipe_fd[2], int stdio_fd_cp[2]);
 /*
-** SIGNALS MANAGEMENT
+** SIGNALS MNG
 */
 void    set_signals(void);
 void    reset_signals(void);
@@ -80,7 +80,18 @@ int		pwd_builtin(char **argv, char **env);
 int		env_builtin(char **argv, char **env);
 int		cd_builtin(char **argv, char **env);
 /*
-** MISC
+** ENV
 */
+char	*env_get_val(t_list *env, char *key);
+void	env_print(t_list *local_env);
+t_list	*env_create_list(char **env);
+
+/*
+** Create an array of the current env variable.
+**
+** @param local_env_lst List to take env variable from.
+** @return A malloc-ed array ready to be used by execve for exemple.
+*/
+char	**env_make_arr(t_list *local_env_lst);
 
 #endif
