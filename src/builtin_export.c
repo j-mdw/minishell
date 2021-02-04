@@ -10,7 +10,7 @@ int
         while (*env)
         {
             write(STDOUT_FILENO, "declare -x ", 11);
-            if (!(ptr = ft_strchr((*env)->content, "=")))
+            if (!(ptr = ft_strchr((*env)->content, '=')))
                 ft_putstr_fd((*env)->content, STDOUT_FILENO);
             else
             {
@@ -23,4 +23,5 @@ int
             *env = (*env)->next;
         }
     }
+    return (0);
 }

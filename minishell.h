@@ -18,7 +18,7 @@
 # define BUILT_IN_CMD   1
 # define LOCAL_CMD      2
 # define SHELL_MSG      "coquillage$>"
-# define BUILTIN_COUNT	5
+# define BUILTIN_COUNT	6
 
 typedef	struct	s_parse {
 		char			**control_op_split;
@@ -86,7 +86,7 @@ int		builtin_pwd(char **argv, t_list **env);
 int		builtin_env(char **argv, t_list **env);
 int		builtin_cd(char **argv, t_list **env);
 int		builtin_export(char **av, t_list **env);
-char	**builtin_init_funcames_arr(void);
+char	**builtin_init_names_arr(void);
 void	builtin_init_funcarr(t_binfunc_arr *binfunc_arr);
 /*
 ** ENV

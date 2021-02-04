@@ -1,7 +1,7 @@
 #include "minishell.h"
 
 int
-    pwd_builtin(char **argv, t_list **env)
+    builtin_pwd(char **argv, t_list **env)
 {
     char *current_path;
 

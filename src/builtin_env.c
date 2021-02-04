@@ -1,7 +1,7 @@
 #include "minishell.h"
 
 int
-    env_builtin(char **argv, t_list **env)
+    builtin_env(char **argv, t_list **env)
 {
     (void)argv;
     if (!(*env))

@@ -18,7 +18,7 @@ builtin_pwd\
 builtin_env\
 builtin_cd\
 builtin_export\
-builtin_init_funcnames_arr\
+builtin_init_names_arr\
 builtin_init_funcarr\
 \
 env_get_val\

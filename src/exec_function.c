@@ -50,12 +50,13 @@ int
 		ret = builtin_data->buitin_func_arr[func_index](cmd, &(builtin_data->local_env));
 	else
 	{
-		if (env_arr = env_make_arr(builtin_data->local_env))
+		if ((env_arr = env_make_arr(builtin_data->local_env)))
 		{
 			ret = exec_bin(cmd, env_arr);	
 			free(env_arr);
 		}
 		else
 			return (-1);
+	}
 	return (ret);
 }

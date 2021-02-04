@@ -5,7 +5,7 @@ void
 {
     while (local_env)
     {
-        printf("%s\n", local_env->content);
+        printf("%s\n", (char *)local_env->content);
         local_env = local_env->next;
     }
 }
