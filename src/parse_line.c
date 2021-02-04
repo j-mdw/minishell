@@ -43,16 +43,16 @@ int
 	free_parsing(t_parse *parse_ptr)
 {
 	if (parse_ptr->control_op_split)
-		free_split(&(parse_ptr->control_op_split));
+		free_strarr(&(parse_ptr->control_op_split));
 	if (parse_ptr->pipe_split)
-		free_split(&(parse_ptr->pipe_split));
+		free_strarr(&(parse_ptr->pipe_split));
 	if (parse_ptr->cmd_split)
-		free_split(&(parse_ptr->cmd_split));
+		free_strarr(&(parse_ptr->cmd_split));
 	return (0);
 }
 
 int
-	parse_pipe(t_parse *p_ptr)
+	parse_pipe(t_parse *p_ptr, t_builtin *builtin_data)
 {
 	int	i;
 	int	exitstatus;
@@ -81,13 +81,13 @@ int
 			return (-1);
 		if (!(p_ptr->cmd_split = ft_split(p_ptr->pipe_split[i], ' ')))
 			return (-1);
-		if ((exitstatus = exec_function(p_ptr->cmd_split, p_ptr->env)) < 0)
+		if ((exitstatus = exec_function(p_ptr->cmd_split, builtin_data)) < 0)
 		{
 			// printf("Exit status: %d | errno: %d\n", exitstatus, errno);
 			// printf("Error: %s | %s\n", strerror(errno), strerror(exitstatus));
 			return (-1);
 		}
-		free_split(&(p_ptr->cmd_split));	
+		free_strarr(&(p_ptr->cmd_split));	
 		if (reset_redirections(p_ptr->redir_io_saved_fd) < 0)
 			return (-1);
 		dup2(p_ptr->pipe_fd[0], STDIN_FILENO); 				// Set stdin to pipe[0]
@@ -108,13 +108,12 @@ int
 */
 
 int
-	parse_input(char *line, char **env)
+	parse_input(char *line, t_builtin *builtin_data)
 {
 	t_parse	parse_data;
 	int		i;
 
 	init_parsing_struct(&parse_data);
-	parse_data.env = env;
 	if (!(parse_data.control_op_split = ft_split(line, ';')))
 		return (-1);
 	i = 0;
@@ -122,9 +121,9 @@ int
 	{
 		if (!(parse_data.pipe_split = ft_split(parse_data.control_op_split[i], '|')))
 			return (free_parsing(&parse_data) - 1);
-		if (parse_pipe(&parse_data) < 0)
+		if (parse_pipe(&parse_data, builtin_data) < 0)
 			return (free_parsing(&parse_data) + reset_close_fds(&parse_data) - 1);
-		free_split(&(parse_data.pipe_split));
+		free_strarr(&(parse_data.pipe_split));
 		i++;
 	}
 	return (free_parsing(&parse_data));

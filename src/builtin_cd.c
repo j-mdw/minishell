@@ -1,7 +1,7 @@
 #include "minishell.h"
 
 int
-    cd_builtin(char **argv, char **env)
+    cd_builtin(char **argv, t_list **env)
 {
     (void)env;
     

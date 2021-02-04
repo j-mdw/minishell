@@ -6,7 +6,7 @@
 /*   By: clkuznie <clkuznie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/12 11:15:10 by clkuznie          #+#    #+#             */
-/*   Updated: 2021/01/30 11:20:46 by clkuznie         ###   ########.fr       */
+/*   Updated: 2021/02/04 14:23:46 by jmaydew          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,6 +131,5 @@ void			ft_strcpy(char *dest, const char *src);
 int				ft_strfind(const char **array, const char *str);
 void			ft_putstrarr(char **arr);
 void			ft_freestrarr(char **arr, int arr_size);
-void			ft_list_remove_if(t_list **begin_list, void *data_ref,
-				void (*free_fct)(void *));
+void			ft_list_remove_if(t_list **begin_list, void *data_ref, void (*free_fct)(void *));
 #endif

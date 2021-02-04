@@ -58,7 +58,7 @@ ft_strcpy.c\
 ft_strfind.c\
 ft_putstrarr.c\
 ft_freestrarr.c\
-ft_list_remove_if\
+ft_list_remove_if.c\
 
 FILES			:= \
 $(addprefix libc/, $(LIBC))\

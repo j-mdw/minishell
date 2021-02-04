@@ -1,11 +1,11 @@
 #include "minishell.h"
 
 int
-    env_builtin(char **argv, char **env)
+    env_builtin(char **argv, t_list **env)
 {
     (void)argv;
-    if (!env)
+    if (!(*env))
         return (EXIT_FAILURE);
-    ft_putstrarr(env);
+    env_print(*env);
     return (EXIT_SUCCESS);
 }

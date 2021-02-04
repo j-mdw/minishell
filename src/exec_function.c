@@ -38,48 +38,24 @@ int
 	return (WEXITSTATUS(wstatus));
 }
 
-void
-	init_binfunc_arr(t_binfunc_arr *binfunc_arr)
-{
-	binfunc_arr[0] = echo_builtin;
-	binfunc_arr[1] = exit_builtin;
-	binfunc_arr[2] = pwd_builtin;
-	binfunc_arr[3] = env_builtin;
-	binfunc_arr[4] = cd_builtin;
-}
-
-char
-	**init_builtin_names_arr(void)
-{
-	char **arr;
-	
-	arr = (char **)malloc(sizeof(char *) * BUILTIN_COUNT + 1);
-
-	arr[0] = ft_strdup("echo");
-	arr[1] = ft_strdup("exit");
-	arr[2] = ft_strdup("pwd");
-	arr[3] = ft_strdup("env");
-	arr[4] = ft_strdup("cd");
-	arr[5] = NULL;
-	return (arr);
-}
 
 int
-	exec_function(char **cmd, char **env)
+	exec_function(char **cmd, t_builtin *builtin_data)
 {
 	int						func_index;
-	static t_binfunc_arr	func_arr[BUILTIN_COUNT];
-	char 					**builtin_names;
+	char					**env_arr;
 	int						ret;
 	
-	builtin_names = init_builtin_names_arr();
-	if ((func_index = ft_strfind((const char **)builtin_names, cmd[0])) >= 0)
-	{
-		init_binfunc_arr(func_arr);
-		ret = func_arr[func_index](cmd, env);
-	}
+	if ((func_index = ft_strfind((const char **)builtin_data->builtin_names_arr, cmd[0])) >= 0)
+		ret = builtin_data->buitin_func_arr[func_index](cmd, &(builtin_data->local_env));
 	else
-		ret = exec_bin(cmd, env);
-	ft_freestrarr(builtin_names, BUILTIN_COUNT);
+	{
+		if (env_arr = env_make_arr(builtin_data->local_env))
+		{
+			ret = exec_bin(cmd, env_arr);	
+			free(env_arr);
+		}
+		else
+			return (-1);
 	return (ret);
 }

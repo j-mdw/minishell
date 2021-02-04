@@ -1,7 +1,7 @@
 #include "minishell.h"
 
 int
-    echo_builtin(char **arg, char **env)
+    echo_builtin(char **arg, t_list **env)
 {
     int n_flag;
     int i;

@@ -21,22 +21,28 @@
 # define BUILTIN_COUNT	5
 
 typedef	struct	s_parse {
-		char	**control_op_split;
-		char	**pipe_split;
-		char	**cmd_split;
-		char	**env;
-		int		redir_io_saved_fd[2];
-		int		redir_file_fd[2];
-		int		pipe_fd[2];
-		int		pipe_io_saved_fd[2];
+		char			**control_op_split;
+		char			**pipe_split;
+		char			**cmd_split;
+		int				redir_io_saved_fd[2];
+		int				redir_file_fd[2];
+		int				pipe_fd[2];
+		int				pipe_io_saved_fd[2];
 }			    t_parse;
 
-typedef	int	(*t_binfunc_arr)(char **cmd, char **env);
+typedef	int	(*t_binfunc_arr)(char **cmd, t_list **local_env);
+
+typedef struct	s_builtin	{
+		char			**builtin_names_arr;
+		t_binfunc_arr	buitin_func_arr[BUILTIN_COUNT];
+		t_list			*local_env;
+}				t_builtin;
+
 
 /*
 ** PROCESS MNG
 */
-int     exec_function(char **cmd, char **env);
+int		exec_function(char **cmd, t_builtin *builtin_data);
 /*
 ** REDIRECTIONS
 */
@@ -62,23 +68,26 @@ void    sigexit_handler(int sig_nb);
 /*
 ** PARSING
 */
-int     parse_input(char *line, char **env);
+int		parse_input(char *line, t_builtin *builtin_data);
 char    *get_filename(char *line);
 int     ft_isblank(int c);
 /*
 ** ERRORS AND FREE
 */
-void    free_split(char ***line_split);
+void    free_strarr(char ***line_split);
 int     free_parsing(t_parse *parse_ptr);
 int		reset_close_fds(t_parse *parse_ptr);
 /*
 ** BUILTIN FUNCTIONS
 */
-int		echo_builtin(char **cmd, char **env);
-int		exit_builtin(char **cmd, char **env);
-int		pwd_builtin(char **argv, char **env);
-int		env_builtin(char **argv, char **env);
-int		cd_builtin(char **argv, char **env);
+int		builtin_echo(char **cmd, t_list **env);
+int		builtin_exit(char **cmd, t_list **env);
+int		builtin_pwd(char **argv, t_list **env);
+int		builtin_env(char **argv, t_list **env);
+int		builtin_cd(char **argv, t_list **env);
+int		builtin_export(char **av, t_list **env);
+char	**builtin_init_funcames_arr(void);
+void	builtin_init_funcarr(t_binfunc_arr *binfunc_arr);
 /*
 ** ENV
 */
