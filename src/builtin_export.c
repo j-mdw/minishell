@@ -12,6 +12,7 @@ static void
             ft_putstr_fd(env->content, STDOUT_FILENO);
         else
         {
+            ptr++;
             write(STDOUT_FILENO, env->content, ptr - (char *)env->content);
             write(STDOUT_FILENO, "\"", 1);
             ft_putstr_fd(env->content + (ptr - (char *)env->content), STDOUT_FILENO);
