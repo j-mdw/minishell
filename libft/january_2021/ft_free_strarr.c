@@ -1,5 +1,4 @@
-
-#include "minishell.h"
+#include "libft.h"
 
 /*
 ** Free string arr data
@@ -7,7 +6,7 @@
 */
 
 void
-	free_strarr(char ***strarr)
+	ft_free_strarr(char ***strarr)
 {
 	int	i;
 

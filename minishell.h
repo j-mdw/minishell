@@ -72,7 +72,7 @@ int     ft_isblank(int c);
 /*
 ** ERRORS AND FREE
 */
-void    free_strarr(char ***line_split);
+void    ft_free_strarr(char ***line_split);
 int     free_parsing(t_parse *parse_ptr);
 int		reset_close_fds(t_parse *parse_ptr);
 /*

@@ -43,11 +43,11 @@ int
 	free_parsing(t_parse *parse_ptr)
 {
 	if (parse_ptr->control_op_split)
-		free_strarr(&(parse_ptr->control_op_split));
+		ft_free_strarr(&(parse_ptr->control_op_split));
 	if (parse_ptr->pipe_split)
-		free_strarr(&(parse_ptr->pipe_split));
+		ft_free_strarr(&(parse_ptr->pipe_split));
 	if (parse_ptr->cmd_split)
-		free_strarr(&(parse_ptr->cmd_split));
+		ft_free_strarr(&(parse_ptr->cmd_split));
 	return (0);
 }
 
@@ -87,7 +87,7 @@ int
 			// printf("Error: %s | %s\n", strerror(errno), strerror(exitstatus));
 			return (-1);
 		}
-		free_strarr(&(p_ptr->cmd_split));	
+		ft_free_strarr(&(p_ptr->cmd_split));	
 		if (reset_redirections(p_ptr->redir_io_saved_fd) < 0)
 			return (-1);
 		dup2(p_ptr->pipe_fd[0], STDIN_FILENO); 				// Set stdin to pipe[0]
@@ -123,7 +123,7 @@ int
 			return (free_parsing(&parse_data) - 1);
 		if (parse_pipe(&parse_data, builtin_data) < 0)
 			return (free_parsing(&parse_data) + reset_close_fds(&parse_data) - 1);
-		free_strarr(&(parse_data.pipe_split));
+		ft_free_strarr(&(parse_data.pipe_split));
 		i++;
 	}
 	return (free_parsing(&parse_data));

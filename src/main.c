@@ -35,7 +35,7 @@ int
 		free(line);
 	}
 	free(line); // When gnl returns 0, 1 byte is still allocated on the heap
-	ft_freestrarr(builtin_data.builtin_names_arr, 6);
+	ft_free_strnarr(builtin_data.builtin_names_arr, 6);
 	ft_lstclear(&(builtin_data.local_env), free);
 	printf("exit\n");
 	return (0);
