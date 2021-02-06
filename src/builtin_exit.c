@@ -5,6 +5,7 @@ int
 {
     (void)cmd;
     (void)env;
+    
     exit(EXIT_SUCCESS);
     // NEED TO FREE EVERYTHING..
 }

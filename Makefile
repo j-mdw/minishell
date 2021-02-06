@@ -18,10 +18,12 @@ builtin_pwd\
 builtin_env\
 builtin_cd\
 builtin_export\
+builtin_unset\
 builtin_init_names_arr\
 builtin_init_funcarr\
 \
 env_get_val\
+env_get_key\
 env_print\
 env_create_list\
 env_make_arr\

@@ -27,7 +27,7 @@ int
 		if ((file_path = ft_strjoin(BIN_PATH, cmd[0])) == NULL)
 			return (-1);
 		execve(file_path, cmd, env);
-		fprintf(stderr, "From exec builtin: error %d : %s\n", errno, strerror(errno));
+		fprintf(stderr, "From exec bin: error %d : %s\n", errno, strerror(errno));
 		exit(EXIT_FAILURE); // Not so sure how we should set exit status
 	}
 	else
@@ -45,14 +45,14 @@ int
 	int						func_index;
 	char					**env_arr;
 	int						ret;
-	
+
 	if ((func_index = ft_strfind((const char **)builtin_data->builtin_names_arr, cmd[0])) >= 0)
 		ret = builtin_data->buitin_func_arr[func_index](cmd, &(builtin_data->local_env));
 	else
 	{
 		if ((env_arr = env_make_arr(builtin_data->local_env)))
 		{
-			ret = exec_bin(cmd, env_arr);	
+			ret = exec_bin(cmd, env_arr);
 			free(env_arr);
 		}
 		else
