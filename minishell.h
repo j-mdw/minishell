@@ -69,12 +69,14 @@ void    sigexit_handler(int sig_nb);
 int		parse_input(char *line, t_builtin *builtin_data);
 char    *get_filename(char *line);
 int     ft_isblank(int c);
+int		parsing_free(t_parse *parse_ptr);
+int		parsing_reset_close_fds(t_parse *parse_ptr);
 /*
 ** ERRORS AND FREE
 */
 void    ft_free_strarr(char ***line_split);
-int     free_parsing(t_parse *parse_ptr);
-int		reset_close_fds(t_parse *parse_ptr);
+int     parsing_free(t_parse *parse_ptr);
+int		parsing_reset_close_fds(t_parse *parse_ptr);
 /*
 ** BUILTIN FUNCTIONS
 */

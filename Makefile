@@ -26,6 +26,9 @@ env_get_key\
 env_print\
 env_create_list\
 env_make_arr\
+\
+parsing_free\
+parsing_reset_close_fds\
 
 S 		:= src/
 

@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-void
+static void
 	init_parsing_struct(t_parse	*parse_ptr)
 {
 	parse_ptr->control_op_split = NULL;
@@ -12,43 +12,6 @@ void
 	parse_ptr->pipe_io_saved_fd[1] = STDOUT_FILENO;
 	parse_ptr->redir_io_saved_fd[0] = STDIN_FILENO;
 	parse_ptr->redir_io_saved_fd[1] = STDOUT_FILENO;
-}
-
-int
-	reset_close_fds(t_parse *parse_ptr)
-{
-	int	ret;
-
-	ret = 0;
-	if (parse_ptr->pipe_io_saved_fd[0] != STDIN_FILENO)
-		ret += reset_fd(parse_ptr->pipe_io_saved_fd[0], STDIN_FILENO);
-	if (parse_ptr->pipe_io_saved_fd[1] != STDOUT_FILENO)
-		ret += reset_fd(parse_ptr->pipe_io_saved_fd[1], STDOUT_FILENO);
-	if (parse_ptr->pipe_fd[0] >= 0)
-		close(parse_ptr->pipe_fd[0]);
-	if (parse_ptr->pipe_fd[1] >= 0)
-		close(parse_ptr->pipe_fd[1]);
-	if (parse_ptr->redir_io_saved_fd[0] != STDIN_FILENO || \
-	 parse_ptr->redir_io_saved_fd[1] != STDOUT_FILENO)
-	 	ret += reset_redirections(parse_ptr->redir_io_saved_fd);
-	return (ret);
-}
-
-/*
-** Free t_parse arrays if memory was allocated
-** return 0
-*/
-
-int
-	free_parsing(t_parse *parse_ptr)
-{
-	if (parse_ptr->control_op_split)
-		ft_free_strarr(&(parse_ptr->control_op_split));
-	if (parse_ptr->pipe_split)
-		ft_free_strarr(&(parse_ptr->pipe_split));
-	if (parse_ptr->cmd_split)
-		ft_free_strarr(&(parse_ptr->cmd_split));
-	return (0);
 }
 
 int
@@ -120,11 +83,11 @@ int
 	while (parse_data.control_op_split[i])
 	{
 		if (!(parse_data.pipe_split = ft_split(parse_data.control_op_split[i], '|')))
-			return (free_parsing(&parse_data) - 1);
+			return (parsing_free(&parse_data) - 1);
 		if (parse_pipe(&parse_data, builtin_data) < 0)
-			return (free_parsing(&parse_data) + reset_close_fds(&parse_data) - 1);
+			return (parsing_free(&parse_data) + parsing_reset_close_fds(&parse_data) - 1);
 		ft_free_strarr(&(parse_data.pipe_split));
 		i++;
 	}
-	return (free_parsing(&parse_data));
+	return (parsing_free(&parse_data));
 }

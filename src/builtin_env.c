@@ -12,7 +12,7 @@ int
     while (iter)
     {
         if (ft_strchr(iter->content, '='))
-            printf("%s\n", iter->content);
+            printf("%s\n", (char *)iter->content);
         iter = iter->next;
     }
     return (EXIT_SUCCESS);
