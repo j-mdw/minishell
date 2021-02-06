@@ -10,6 +10,7 @@ int
     current_path = getcwd(NULL, 0);
     ft_putstr_fd(current_path, STDOUT_FILENO);
     write(STDOUT_FILENO, "\n", 1);
+    free(current_path);
     return (0);
 }
 
