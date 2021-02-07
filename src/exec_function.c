@@ -9,14 +9,12 @@
 ** The function returns 0 on success
 */
 
-int
-	exec_bin(char **cmd, char **env)
+static int
+	exec_bin(char **cmd, char **env, char *filename)
 {
 	pid_t	child;
 	int		wstatus; //arg to wait
-	char	*file_path;
 
-	file_path = NULL;
 	if ((child = fork()) < 0)
 		return(-1);
 	else if (child == 0)
@@ -24,16 +22,13 @@ int
 		reset_signals(); //All signals are reset to DFL during when execve is called
 						// So depending on what is done here, may not need to call
 						// 'reset_signals()' 
-		if ((file_path = ft_strjoin(BIN_PATH, cmd[0])) == NULL)
-			return (-1);
-		execve(file_path, cmd, env);
+		execve(filename, cmd, env);
 		fprintf(stderr, "From exec bin: error %d : %s\n", errno, strerror(errno));
 		exit(EXIT_FAILURE); // Not so sure how we should set exit status
 	}
 	else
 	{
 		wait(&wstatus); //TBC whether we have to do smth w/ 'wstatus'
-		free(file_path);
 	}
 	return (WEXITSTATUS(wstatus));
 }
@@ -42,9 +37,10 @@ int
 int
 	exec_function(char **cmd, t_builtin *builtin_data)
 {
-	int						func_index;
-	char					**env_arr;
-	int						ret;
+	int		func_index;
+	char	**env_arr;
+	char	*filename;
+	int		ret;
 
 	if ((func_index = ft_strfind((const char **)builtin_data->builtin_names_arr, cmd[0])) >= 0)
 		ret = builtin_data->buitin_func_arr[func_index](cmd, &(builtin_data->local_env));
@@ -52,7 +48,12 @@ int
 	{
 		if ((env_arr = env_make_arr(builtin_data->local_env)))
 		{
-			ret = exec_bin(cmd, env_arr);
+			if ((filename = search_path(env_get_val(builtin_data->local_env, "PATH"), cmd[0])))
+			{
+				printf("filename: %s\n", filename);
+				ret = exec_bin(cmd, env_arr, filename);
+				free(filename);
+			}
 			free(env_arr);
 		}
 		else

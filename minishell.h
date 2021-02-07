@@ -11,7 +11,7 @@
 # include <limits.h>
 # include <signal.h>
 # include <fcntl.h>
-
+# include <dirent.h>
 # include "libft.h"
 
 # define BIN_PATH       "/bin/"
@@ -104,5 +104,9 @@ t_list	*env_create_list(char **env);
 ** @return A malloc-ed array ready to be used by execve for exemple.
 */
 char	**env_make_arr(t_list *local_env_lst);
+/*
+** MISC
+*/
+char	*search_path(char *path, char *bin);
 
 #endif

@@ -29,6 +29,7 @@ env_make_arr\
 \
 parsing_free\
 parsing_reset_close_fds\
+search_path\
 
 S 		:= src/
 
