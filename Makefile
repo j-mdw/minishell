@@ -5,6 +5,7 @@ main\
 signals\
 parse_line\
 exec_function\
+exec_pipes\
 redirections\
 pipe_mng\
 get_filename\

@@ -32,6 +32,8 @@ typedef	int	(*t_binfunc_arr)(char **cmd, t_list **local_env);
 
 typedef struct	s_builtin	{
 		char			**builtin_names_arr;
+		char			**env_arr;
+		char			*filename;	
 		t_binfunc_arr	buitin_func_arr[BUILTIN_COUNT];
 		t_list			*local_env;
 }				t_builtin;
@@ -41,6 +43,8 @@ typedef struct	s_builtin	{
 ** PROCESS MNG
 */
 int		exec_function(char **cmd, t_builtin *builtin_data);
+int
+    exec_pipe(char **pipe_split, int index, int piperead_fildes, t_builtin *builtin_data);
 /*
 ** REDIRECTIONS
 */
