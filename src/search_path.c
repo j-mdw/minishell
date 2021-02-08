@@ -11,55 +11,38 @@
 
 /*
 - Check if '/' in bin : means me have a full path
-    - if yes, check if 1st char is '.':
-        - if yes, replace it with getpwd and return (NOT VERIFYING IF THE FILE EXISTS)
-        - if no, duplicate 'bin' and return
-    if no:
+    - if yes, return strdup(bin)
+    - if no:
         - split path on ':'
-        - search each dir using readir (not sure why I'd check file type)
+        - search each dir using stat, check if file is a regular file, return mallocated filename or NULL
 */
 
-static char
-    *direct_path(char *bin)
-{
-    char    *filename;
-    char    *path;
-    
-    if (bin[0] == '.')
-    {
-        if (!(path = getcwd(NULL, 0)))
-        {
-            printf("error: getcwd: %s\n", strerror(errno));
-            return (NULL);
-        }
-        if (!(filename = ft_strjoin(path, bin + 1)))
-            printf("error: getcwd: %s\n", strerror(errno));
-        free(path);
-        return (filename);
-    }
-    return (ft_strdup(bin));
-}
 
-static int
-    search_dir(char *dir, char *bin)
-{
-    DIR             *dirp;
-    struct dirent   *dirread;
+ static char
+    *search_path2(char *path, char *bin)
+ {
+    char    *filename1;
+    char    *filename2;
+    struct stat statbuf;
+    int k;
 
-    if (!(dirp = opendir(dir)))
+    if (path[ft_strlen(path) - 1] != '/')
     {
-        printf("error: opendir: %s\n", strerror(errno));
-        return (0);
+        if (!(filename1 = ft_strjoin(path, "/")))
+            printf("error: strjoin: %s\n", strerror(errno));
     }
-    errno = 0;
-    while ((dirread = readdir(dirp)))
-        if (!(ft_strcmp(dirread->d_name, bin)))
-            return (1);
-    if (errno != 0)
-        printf("error: readdir: %s\n", strerror(errno));
-    if (closedir(dirp) < 0)
-        printf("error: closedir: %s\n", strerror(errno));
-    return (0);
+    else
+        filename1 = ft_strdup(path);
+    if (!(filename2 = ft_strjoin(filename1, bin)))       //Relies on Null string protection of ft_strjoin
+        printf("error: strjoin: %s\n", strerror(errno));
+    free(filename1);
+    if ((k = stat(filename2, &statbuf)) == 0)
+    {
+        if (statbuf.st_mode & __S_IFREG)
+            return (filename2);
+    }
+    free(filename2);
+    return (NULL);
 }
 
 char
@@ -67,28 +50,23 @@ char
 {
     char    **path_split;
     char    *filename;
-    char    *filename2;
     int     i;
 
     if (ft_strchr(bin, '/'))
-        return (direct_path(bin));
+    {
+        if (!(filename = ft_strdup(bin)))
+            printf("error: strdup: %s\n", strerror(errno));
+        return (filename);
+    }
     if ((!path) || !(path_split = ft_split(path, ':')))
         return (ft_strdup(bin));
     i = 0;
     while (path_split[i])
     {
-        if (search_dir(path_split[i], bin))
+        if ((filename = search_path2(path_split[i], bin)))
         {
-            if (path_split[i][ft_strlen(path_split[i]) - 1] != '/')
-            {
-                if (!(filename = ft_strjoin(path_split[i], "/")))
-                    printf("error: strjoin: %s\n", strerror(errno));
-                ft_free_strarr(&path_split);
-            }
-            if (!(filename2 = ft_strjoin(filename, bin)))       //Relies on Null string protection of ft_strjoin
-                printf("error: strjoin: %s\n", strerror(errno));
-            free(filename);
-            return (filename2);
+            ft_free_strarr(&path_split);
+            return (filename);
         }
         i++;
     }
@@ -97,10 +75,10 @@ char
     return (NULL);
 }
 /*
-gcc search_path.c ../libft/libft.a -I../ -I../libft/
+ gcc search_path.c ../libft/libft.a -I../ -I../libft/
 int main(void)
 {
-    char *path = "/bin/";
+    char *path = "/bin";
     char *bin1 = "/ls";
     char *bin2 = "./ls";
     char *bin3 = "ls";
@@ -109,23 +87,35 @@ int main(void)
     char *bin6 = "//////ls";
     char *bin7 = "/home/user42/ls";
     char *bin8 = "./minishell/src/ls";
+    char *bin9 = "ptd";
 
     char *name = search_path(path, bin1);
     printf("%s\n", name);
+    free(name);
     name = search_path(path, bin2);
     printf("%s\n", name);
+    free(name);
     name = search_path(path, bin3);
     printf("%s\n", name);
+    free(name);
     name = search_path(path, bin4);
     printf("%s\n", name);
+    free(name);
     name = search_path(path, bin5);
     printf("%s\n", name);
+    free(name);
     name = search_path(path, bin6);
     printf("%s\n", name);
+    free(name);
     name = search_path(path, bin7);
     printf("%s\n", name);
+    free(name);
     name = search_path(path, bin8);
     printf("%s\n", name);
+    free(name);
+    name = search_path(path, bin9);
+    printf("%s\n", name);
+    free(name);
     return (0);
 }
 */

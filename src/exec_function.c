@@ -50,7 +50,6 @@ int
 		{
 			if ((filename = search_path(env_get_val(builtin_data->local_env, "PATH"), cmd[0])))
 			{
-				printf("filename: %s\n", filename);
 				ret = exec_bin(cmd, env_arr, filename);
 				free(filename);
 			}
