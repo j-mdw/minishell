@@ -75,7 +75,13 @@ int
 {
 	t_parse	parse_data;
 	int		i;
+	char	err_char;
 
+	if ((err_char = first_read(line)))
+	{
+		printf("minishell: parse error near \'%c\'", err_char);
+		return (1);
+	}
 	init_parsing_struct(&parse_data);
 	if (!(parse_data.control_op_split = ft_split(line, ';')))
 		return (-1);
