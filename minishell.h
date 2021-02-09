@@ -18,6 +18,12 @@
 # define SHELL_MSG      "coquillage$>"
 # define BUILTIN_COUNT	7
 
+typedef struct	s_lit_status {
+		int				quote;
+		int				dquote;
+		int				backs;
+}				t_lit_status;
+
 typedef	struct	s_parse {
 		char			**control_op_split;
 		char			**pipe_split;
@@ -71,6 +77,7 @@ char    *get_filename(char *line);
 int     ft_isblank(int c);
 int		parsing_free(t_parse *parse_ptr);
 int		parsing_reset_close_fds(t_parse *parse_ptr);
+char	**shell_split(char const *s, char c);
 /*
 ** ERRORS AND FREE
 */

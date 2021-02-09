@@ -4,6 +4,7 @@ SRCS	:= \
 main\
 signals\
 parse_line\
+shell_split\
 exec_function\
 redirections\
 pipe_mng\
