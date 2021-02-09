@@ -13,7 +13,7 @@ static void
 	parse_ptr->redir_io_saved_fd[0] = STDIN_FILENO;
 	parse_ptr->redir_io_saved_fd[1] = STDOUT_FILENO;
 }
-
+/*
 int
 	parse_pipe(t_parse *p_ptr, t_builtin *builtin_data)
 {
@@ -62,7 +62,7 @@ int
 		return (-1);
 	p_ptr->pipe_io_saved_fd[0] = STDIN_FILENO;
 	return (0);
-}
+}*/
 /*
 ** Split line on ';' then on '|'
 ** Sends the splited output to 'parse_pipe'
@@ -84,8 +84,10 @@ int
 	{
 		if (!(parse_data.pipe_split = ft_split(parse_data.control_op_split[i], '|')))
 			return (parsing_free(&parse_data) - 1);
-		if (parse_pipe(&parse_data, builtin_data) < 0)
-			return (parsing_free(&parse_data) + parsing_reset_close_fds(&parse_data) - 1);
+		if (exec_pipe(parse_data.pipe_split, 0, STDIN_FILENO, builtin_data) < 0)
+			return (parsing_free(&parse_data) + parsing_reset_close_fds(&parse_data) - 1);	
+		// if (parse_pipe(&parse_data, builtin_data) < 0)
+			// return (parsing_free(&parse_data) + parsing_reset_close_fds(&parse_data) - 1);
 		ft_free_strarr(&(parse_data.pipe_split));
 		i++;
 	}

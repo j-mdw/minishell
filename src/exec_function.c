@@ -43,7 +43,7 @@ int
 	int		ret;
 
 	if ((func_index = ft_strfind((const char **)builtin_data->builtin_names_arr, cmd[0])) >= 0)
-		ret = builtin_data->buitin_func_arr[func_index](cmd, &(builtin_data->local_env));
+		ret = builtin_data->builtin_func_arr[func_index](cmd, &(builtin_data->local_env));
 	else
 	{
 		if ((env_arr = env_make_arr(builtin_data->local_env)))

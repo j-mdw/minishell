@@ -40,7 +40,7 @@ typedef struct	s_builtin	{
 		char			**builtin_names_arr;
 		char			**env_arr;
 		char			*filename;	
-		t_binfunc_arr	buitin_func_arr[BUILTIN_COUNT];
+		t_binfunc_arr	builtin_func_arr[BUILTIN_COUNT];
 		t_list			*local_env;
 }				t_builtin;
 

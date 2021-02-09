@@ -18,7 +18,7 @@ int
 		ft_lstclear(&(builtin_data.local_env), free);
 		return (-1);
 	}
-	builtin_init_funcarr(builtin_data.buitin_func_arr);
+	builtin_init_funcarr(builtin_data.builtin_func_arr);
 	//The below stops looping when a EOF is read - only way to send a EOF through stdin
 	//seems to be through ctrl + D, which is an option we have to handle
 	gnl_ret = 1;
@@ -35,7 +35,7 @@ int
 		free(line);
 	}
 	free(line); // When gnl returns 0, 1 byte is still allocated on the heap
-	ft_free_strnarr(builtin_data.builtin_names_arr, 6);
+	ft_free_strnarr(builtin_data.builtin_names_arr, BUILTIN_COUNT);
 	ft_lstclear(&(builtin_data.local_env), free);
 	printf("exit\n");
 	return (0);
