@@ -11,7 +11,7 @@
 # include <limits.h>
 # include <signal.h>
 # include <fcntl.h>
-
+# include <dirent.h>
 # include "libft.h"
 
 # define BIN_PATH       "/bin/"
@@ -38,6 +38,8 @@ typedef	int	(*t_binfunc_arr)(char **cmd, t_list **local_env);
 
 typedef struct	s_builtin	{
 		char			**builtin_names_arr;
+		char			**env_arr;
+		char			*filename;	
 		t_binfunc_arr	buitin_func_arr[BUILTIN_COUNT];
 		t_list			*local_env;
 }				t_builtin;
@@ -47,6 +49,8 @@ typedef struct	s_builtin	{
 ** PROCESS MNG
 */
 int		exec_function(char **cmd, t_builtin *builtin_data);
+int
+    exec_pipe(char **pipe_split, int index, int piperead_fildes, t_builtin *builtin_data);
 /*
 ** REDIRECTIONS
 */
@@ -111,5 +115,9 @@ t_list	*env_create_list(char **env);
 ** @return A malloc-ed array ready to be used by execve for exemple.
 */
 char	**env_make_arr(t_list *local_env_lst);
+/*
+** MISC
+*/
+char	*search_path(char *path, char *bin);
 
 #endif

@@ -6,6 +6,7 @@ signals\
 parse_line\
 shell_split\
 exec_function\
+exec_pipes\
 redirections\
 pipe_mng\
 get_filename\
@@ -30,6 +31,7 @@ env_make_arr\
 \
 parsing_free\
 parsing_reset_close_fds\
+search_path\
 
 S 		:= src/
 
