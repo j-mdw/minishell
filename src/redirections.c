@@ -26,13 +26,16 @@ static int
         line[i] = ' ';
         i++;
     }														
-    if (!(filename = get_filename(&(line[i]))))	// Parsing of get_filename not final yet
+    if (!(filename = get_filename(&(line[i]))))	                            // Parsing of get_filename not final yet
         return (-1);
-    if ((fd = open(filename, O_RDWR | O_CREAT | append_flag, 0664)) < 0)
-        return (-1);   // Open filename, if it doesn't exist, create it
+    if ((fd = open(filename, O_RDWR | O_CREAT | append_flag, 0664)) < 0)    // Open filename, if it doesn't exist, create it
+    {
+        free(filename);
+        return (-1);
+    }
     while (ft_isblank(line[i]))
         i++;
-    ft_memset(&(line[i]), ' ', ft_strlen(filename));		// overwritting filename with ' ' in line
+    ft_memset(&(line[i]), ' ', ft_strlen(filename));		                // overwritting filename with ' ' in line
     free(filename);
     return (fd);
 }
@@ -55,26 +58,18 @@ static int
     i++;														
     if (!(filename = get_filename(&(line[i]))))	        // Parsing of get_filename not final yet
         return (-1);
-    if ((fd = open(filename, O_RDWR, 0664)) < 0);       // Open filename, if it doesn't exist, should return -1
+    if ((fd = open(filename, O_RDWR, 0664)) < 0)       // Open filename, if it doesn't exist, should return -1
+    {
+        free(filename);
         return (-1);
+    }
     while (ft_isblank(line[i]))
         i++;
     ft_memset(&(line[i]), ' ', ft_strlen(filename));	// overwritting filename with ' ' in line
     free(filename);
     return (fd);
 }
-/*
-** Close_if: close fd specified as arg1
-** if it is different from value in arg2
-** return 0
-*/
-int
-    close_if(int fd1, int diff)
-{
-    if (fd1 != diff)
-        close(fd1);
-    return (0);
-}
+
 
 /*
 ** Search for redirection symbols in *line
@@ -105,7 +100,7 @@ int
             if (redirfd[0] != STDIN_FILENO)
                 close(redirfd[0]);                              // If a file was already opened for an input redir, close it
             if ((redirfd[0] = parse_input_redir(&(line[i]))) < 0)
-                return (close_if(redirfd[1], STDOUT_FILENO));
+                return (close_if(redirfd[1], STDOUT_FILENO) - 1);
         }
 		i++;
 	}

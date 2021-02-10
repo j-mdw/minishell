@@ -27,8 +27,8 @@ void
 void
     set_signals(void)
 {
-	signal(SIGINT, sigint_handler);
-	signal(SIGQUIT, sigquit_handler);
+	//signal(SIGINT, sigint_handler);
+	//signal(SIGQUIT, sigquit_handler);
 }
 
 void

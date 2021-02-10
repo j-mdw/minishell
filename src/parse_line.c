@@ -1,18 +1,18 @@
 #include "minishell.h"
 
-static void
-	init_parsing_struct(t_parse	*parse_ptr)
-{
-	parse_ptr->control_op_split = NULL;
-	parse_ptr->pipe_split = NULL;
-	parse_ptr->cmd_split = NULL;
-	parse_ptr->pipe_fd[0] = -1;
-	parse_ptr->pipe_fd[1] = -1;
-	parse_ptr->pipe_io_saved_fd[0] = STDIN_FILENO;
-	parse_ptr->pipe_io_saved_fd[1] = STDOUT_FILENO;
-	parse_ptr->redir_io_saved_fd[0] = STDIN_FILENO;
-	parse_ptr->redir_io_saved_fd[1] = STDOUT_FILENO;
-}
+// static void
+// 	init_parsing_struct(t_parse	*parse_ptr)
+// {
+// 	parse_ptr->control_op_split = NULL;
+// 	parse_ptr->pipe_split = NULL;
+// 	parse_ptr->cmd_split = NULL;
+// 	parse_ptr->pipe_fd[0] = -1;
+// 	parse_ptr->pipe_fd[1] = -1;
+// 	parse_ptr->pipe_io_saved_fd[0] = STDIN_FILENO;
+// 	parse_ptr->pipe_io_saved_fd[1] = STDOUT_FILENO;
+// 	parse_ptr->redir_io_saved_fd[0] = STDIN_FILENO;
+// 	parse_ptr->redir_io_saved_fd[1] = STDOUT_FILENO;
+// }
 /*
 int
 	parse_pipe(t_parse *p_ptr, t_builtin *builtin_data)
@@ -97,7 +97,7 @@ int
 		if (pipe_split[1])
 			exit_status = exec_pipe(pipe_split, 0, STDIN_FILENO, builtin_data);
 		else
-			return (-1);
+			printf("Pass piped arg\n");
 		ft_free_strarr(&(pipe_split));
 		i++;
 	}

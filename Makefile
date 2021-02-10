@@ -50,7 +50,7 @@ $(addprefix $O, $(addsuffix .o, $(SRCS)))
 
 CC		= gcc
 
-CFLAGS	= -Wall -Werror -Wextra $I -g
+CFLAGS	= -Wall -Werror -Wextra $I -g3 -O0
 
 RM		= rm -f
 	
@@ -59,7 +59,7 @@ all: $(NAME)
 $(NAME): $(O_FILES) $(LIBFT)
 	$(CC) $^ -o $@ 
 
-$O%.o: $S%.c
+$O%.o: $S%.c minishell.h
 	$(CC) $(CFLAGS) -c $< -o $@
 
 $(LIBFT):

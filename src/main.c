@@ -11,8 +11,6 @@ int
 		return (-1);
 	}
 	builtin_init_funcarr(builtin_data->builtin_func_arr);
-	builtin_data->filename = NULL;
-	builtin_data->env_arr = NULL;
 	return (0);
 }
 
