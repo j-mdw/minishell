@@ -73,29 +73,34 @@ int
 int
 	parse_input(char *line, t_builtin *builtin_data)
 {
-	t_parse	parse_data;
 	int		i;
-	char	err_char;
+	int		exit_status;
+	char	**controlop_split;
+	char	**pipe_split;
+	// char	err_char;
 
-	if ((err_char = first_read(line)))
-	{
-		printf("minishell: parse error near \'%c\'", err_char);
-		return (1);
-	}
-	init_parsing_struct(&parse_data);
-	if (!(parse_data.control_op_split = ft_split(line, ';')))
+	// if ((err_char = first_read(line)))
+	// {
+	// 	printf("minishell: parse error near \'%c\'", err_char);
+	// 	return (1);
+	// }
+	if (!(controlop_split = ft_split(line, ';')))
 		return (-1);
 	i = 0;
-	while (parse_data.control_op_split[i])
+	while (controlop_split[i])
 	{
-		if (!(parse_data.pipe_split = ft_split(parse_data.control_op_split[i], '|')))
-			return (parsing_free(&parse_data) - 1);
-		if (exec_pipe(parse_data.pipe_split, 0, STDIN_FILENO, builtin_data) < 0)
-			return (parsing_free(&parse_data) + parsing_reset_close_fds(&parse_data) - 1);	
-		// if (parse_pipe(&parse_data, builtin_data) < 0)
-			// return (parsing_free(&parse_data) + parsing_reset_close_fds(&parse_data) - 1);
-		ft_free_strarr(&(parse_data.pipe_split));
+		if (!(pipe_split = ft_split(controlop_split[i], '|')))
+		{
+			ft_free_strarr(&controlop_split);
+			return (-1);
+		}
+		if (pipe_split[1])
+			exit_status = exec_pipe(pipe_split, 0, STDIN_FILENO, builtin_data);
+		else
+			return (-1);
+		ft_free_strarr(&(pipe_split));
 		i++;
 	}
-	return (parsing_free(&parse_data));
+	ft_free_strarr(&controlop_split);
+	return (exit_status);
 }

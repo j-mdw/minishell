@@ -39,9 +39,13 @@ typedef	int	(*t_binfunc_arr)(char **cmd, t_list **local_env);
 typedef struct	s_builtin	{
 		char			**builtin_names_arr;
 		char			**env_arr;
-		char			*filename;	
-		t_binfunc_arr	builtin_func_arr[BUILTIN_COUNT];
+		char			**cmd;
+		char			*filename;
 		t_list			*local_env;
+		int				redirfd[2];
+		// int				pipefd[2];
+		t_binfunc_arr	builtin_func_arr[BUILTIN_COUNT];
+		int				builtin_index;
 }				t_builtin;
 
 
@@ -56,7 +60,7 @@ int
 */
 int     redir_input(char **cmd, char *filename);
 int     redir_output(char **cmd, char *filename, int append_flag);
-int     parse_set_redirections(char *line, int redir_io_saved_fd[2]);
+int     parse_redirections(char *line, int redirfd[2]);
 int     reset_redirections(int redir_io_saved_fd[2]);
 int     reset_fd(int save_fd, int reset_fd);
 int     set_fd(int oldfd, int newfd);
@@ -82,6 +86,8 @@ int     ft_isblank(int c);
 int		parsing_free(t_parse *parse_ptr);
 int		parsing_reset_close_fds(t_parse *parse_ptr);
 char	**shell_split(char const *s, char c);
+char	first_read(const char *str);
+int		is_lit(char c, t_lit_status *lit_status);
 /*
 ** ERRORS AND FREE
 */
@@ -119,5 +125,5 @@ char	**env_make_arr(t_list *local_env_lst);
 ** MISC
 */
 char	*search_path(char *path, char *bin);
-
+int		close_if(int fd1, int diff);
 #endif

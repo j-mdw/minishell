@@ -1,113 +1,150 @@
 #include "minishell.h"
 
-/*
+// int
+//     exec_builtin(t_builtin *builtin_data)
+// {
+//     int func_index;
 
-IF pipe (= if pipe_split + 1 != NULL):
-- call pipe recursive function which will run until split[i] is NULL (arg are index and split)
-- Waitpid after recursive call
-- Pipe fds management? 
-ELSE
-classic function call
+//     if ((func_index = ft_strfind((const char **)builtin_data->builtin_names_arr, builtin_data->cmd[0])) >= 0)
+// 	    return(builtin_data->builtin_func_arr[func_index](builtin_data->cmd, &(builtin_data->local_env)));
+//     return (-1);
+// }
 
-Main diff is that builtins are called in subprocess with pipes -> need a subrposses routine to check 'cmd name' and if not found call execve
-*/
+// int
+//     exec_bin(t_builtin *builtin_data)
+// {
 
-int
-    exec_builtin(t_builtin *builtin_data, char **cmd)
+    // if ((builtin_data->env_arr = env_make_arr(builtin_data->local_env)))
+    // {
+    //     if ((builtin_data->filename = search_path(env_get_val(builtin_data->local_env, "PATH"), builtin_data->cmd[0])))
+    //         execve(builtin_data->filename, builtin_data->cmd, builtin_data->env_arr); // Filename and env_var not freed if execve is executed
+    // }
+    // fprintf(stderr, "From exec bin: error %d : %s\n", errno, strerror(errno));
+    // return (EXIT_FAILURE);
+// }
+
+static int
+    pipe_fd_mng(int *stdin_cpy, int piperead_fildes, int pipefd[2], char *next_cmd)
 {
-    int func_index;
-    int ret = 0;
-    if ((func_index = ft_strfind((const char **)builtin_data->builtin_names_arr, cmd[0])) >= 0)
+    if ((*stdin_cpy = dup(STDIN_FILENO)) < 0)
+        return (-1);       
+    if (dup2(piperead_fildes, STDIN_FILENO) < 0)
+        return (-1);
+    if (piperead_fildes != 0)
+        close(piperead_fildes);
+    if (next_cmd)
     {
-        // printf("Found it! %d\n", func_index);
-	    ret = (builtin_data->builtin_func_arr[func_index](cmd, &(builtin_data->local_env)));
-        return (ret);
-        // printf("Builtin ret: %d\n", ret);
-
+        if (pipe(pipefd) < 0)
+            return (-1);
     }
-    return (-1);
+    else
+    {
+        pipefd[0] = STDIN_FILENO;
+        pipefd[1] = STDOUT_FILENO;
+    }
+    return (0);
+}
+
+static void
+    exec_child(char *cmd_line, int pipefd[2], t_builtin *builtin_data)
+{
+    reset_signals();
+    if (pipefd[0] != 0)
+        close(pipefd[0]);
+    dup2(pipefd[1], STDOUT_FILENO);
+    if (pipefd[1] != 1)
+        close(pipefd[1]);
+    // Set redir
+    if (builtin_data->builtin_index >= 0)
+        exit((builtin_data->builtin_func_arr[builtin_data->builtin_index]
+        (builtin_data->cmd, &(builtin_data->local_env))));
+    else
+    {
+        execve(builtin_data->filename, builtin_data->cmd, builtin_data->env_arr);
+        dprintf(STDERR_FILENO, "Error: %s", strerror(errno));
+        exit(EXIT_FAILURE);
+    }
+}
+
+char
+    **parse_argv(char *cmd_line)
+{
+    char **argv;
+
+    argv = ft_split(cmd_line, ' ');
+    return (argv);
+}
+
+char
+    *set_cmd_filename(char *cmd, t_builtin *builtin_data)
+{
+    builtin_data->filename = NULL;
+    if ((builtin_data->builtin_index = ft_strfind((const char **)builtin_data->builtin_names_arr, builtin_data->cmd[0])) >= 0)
+        return (0);
+    if (!(builtin_data->filename = search_path(env_get_val(builtin_data->local_env, "PATH"), cmd)))
+        return (-1);
+    return (0);
 }
 
 int
-    exec_bin(char **cmd, t_builtin *data)
+    close_exec_data(t_builtin *builtin_data)
 {
-
-    if ((data->env_arr = env_make_arr(data->local_env)))
-    {
-        if ((data->filename = search_path(env_get_val(data->local_env, "PATH"), cmd[0])))
-        {
-            execve(data->filename, cmd, data->env_arr); // Filename and env_var not freed if execve is executed
-            free(data->filename);
-        }
-        free(data->env_arr);
-    }
-    fprintf(stderr, "From exec bin: error %d : %s\n", errno, strerror(errno));
-    return (EXIT_FAILURE);
+    close_if(builtin_data->redirfd[0], STDIN_FILENO);
+    close_if(builtin_data->redirfd[1], STDOUT_FILENO);
+    // close_if(builtin_data->pipefd[0], STDIN_FILENO);
+    // close_if(builtin_data->pipefd[1], STDOUT_FILENO);
+    if (builtin_data->cmd)
+        ft_free_strarr(&(builtin_data->cmd));
+    if (builtin_data->filename)
+        free(builtin_data->filename);
+    if (builtin_data->env_arr)
+        ft_free_strarr(&(builtin_data->env_arr));
 }
 
+int
+    init_exec_data(t_builtin *builtin_data, char *cmd_line)
+{
+
+    builtin_data->env_arr = NULL;
+    builtin_data->cmd = NULL;
+    builtin_data->filename = NULL;
+    // builtin_data->pipefd[0] = STDIN_FILENO;
+    // builtin_data->pipefd[1] = STDOUT_FILENO;
+    if (parse_redirections(cmd_line, builtin_data->redirfd) < 0)
+        return (-1);    // should print error message as well
+    if (!(builtin_data->cmd = parse_argv(cmd_line)))
+        return (close_exec_data(builtin_data) -1);
+    if (set_cmd_filename(builtin_data->cmd[0], builtin_data) < 0)
+        return (close_exec_data(builtin_data) -1);
+    if (!(builtin_data->env_arr = env_make_arr(builtin_data->local_env)))
+        return (close_exec_data(builtin_data) -1);
+}
 int
     exec_pipe(char **pipe_split, int index, int piperead_fildes, t_builtin *builtin_data)
 {
     int     stdin_copy;
-    int     pipefd[2];
-    char    **cmd;
     int     wstatus;
+    int     pipefd[2];
     pid_t   child;
 
-    // printf("Pipe split: |%s|%s|\n", pipe_split[0], pipe_split[1]);
-    // printf("Func inputs: index: |%d| piperead_fildes: |%d|\n", index, piperead_fildes);
     if (pipe_split[index] == NULL)
         return(EXIT_SUCCESS);
-    builtin_data->env_arr = NULL;
-    builtin_data->filename = NULL;
-    stdin_copy = dup(STDIN_FILENO);         //  STDIN, STDOUT, STDIN_CPY, piperead_fildes
-    dup2(piperead_fildes, STDIN_FILENO);    //  close(STDIN) - STDOUT, STDIN_CPY, piperead_fildes, piperead_fildes_copy (=0)
-    if (piperead_fildes != 0)
-        close(piperead_fildes);             // close piperead_fildes - STDOUT, STDIN_CPY, piperead_fildes_copy (=0)
-    if (pipe_split[index + 1])
-        pipe(pipefd);                       // + pipe - STDOUT, STDIN_CPY, piperead_fildes_copy (=0), pipe[0], pipe[1]
-    else
-    {
-        pipefd[0] = 0;
-        pipefd[1] = 1;
-    }
-    // printf("cmd split\n");
-    cmd = ft_split(pipe_split[index], ' '); // do in child as redir have to be done before this?
-    // printf("cmd split: |%s|%s|\n", cmd[0], cmd[1]);
+    if (init_exec_data(builtin_data, pipe_split[index]) < 0)
+        return (-1);
+    if (pipe_fd_mng(&stdin_copy, piperead_fildes, pipefd, pipe_split[index + 1]) < 0)
+        return (close_exec_data(builtin_data) - 1);
     if ((child = fork()) < 0)
-		return(-1);
+    	return(close_exec_data(builtin_data) + close_if(pipefd[0], 0) + close_if(pipefd[1], 1) + close(stdin_copy) - 1);
 	else if (child == 0)
-    {
-        if (pipefd[0] != 0)
-            close(pipefd[0]);
-        // printf("Inside childs\n");
-        reset_signals();
-        dup2(pipefd[1], STDOUT_FILENO);     // + pipe[1]_cpy, close STDOUT - STDIN_CPY, piperead_fildes_copy (=0), pipe[0], pipe[1], pipe[1]_cpy (=1)
-        if (pipefd[1] != 1)
-            close(pipefd[1]);               // close pipe[1] - STDIN_CPY, piperead_fildes_copy (=0), pipe[0], pipe[1]_cpy (=1)
-        // set redir < >
-        // cmd = parse_cmd(pipe_split[index]);
-        if (exec_builtin(builtin_data, cmd) >= 0)
-            exit(EXIT_SUCCESS);             //
-        else
-        {
-            exec_bin(cmd, builtin_data);
-            exit(EXIT_FAILURE);
-        }
-    }
+        exec_child(pipe_split[index], pipefd, builtin_data);
     else
     {
-        close(pipefd[1]);
+        close_if(pipefd[1], STDOUT_FILENO);
         exec_pipe(pipe_split, index + 1, pipefd[0], builtin_data);
-        // printf("Before waitpid\n");
         waitpid(child, &wstatus, 0);
-        // printf("After waitpid\n");
         dup2(stdin_copy, STDIN_FILENO);
         close(stdin_copy);
-        free(builtin_data->filename);
-        ft_free_strarr(&cmd);
-        if (builtin_data->env_arr)
-            ft_free_strarr(&(builtin_data->env_arr));
+        close_exec_data(builtin_data);
     }
     return(WEXITSTATUS(wstatus));
 }

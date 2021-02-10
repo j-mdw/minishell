@@ -28,7 +28,8 @@ static int
     }														
     if (!(filename = get_filename(&(line[i]))))	// Parsing of get_filename not final yet
         return (-1);
-    fd = open(filename, O_RDWR | O_CREAT | append_flag, 0664);   // Open filename, if it doesn't exist, create it
+    if ((fd = open(filename, O_RDWR | O_CREAT | append_flag, 0664)) < 0)
+        return (-1);   // Open filename, if it doesn't exist, create it
     while (ft_isblank(line[i]))
         i++;
     ft_memset(&(line[i]), ' ', ft_strlen(filename));		// overwritting filename with ' ' in line
@@ -54,8 +55,8 @@ static int
     i++;														
     if (!(filename = get_filename(&(line[i]))))	        // Parsing of get_filename not final yet
         return (-1);
-    fd = open(filename, O_RDWR, 0664);                  // Open filename, if it doesn't exist, should return -1
-
+    if ((fd = open(filename, O_RDWR, 0664)) < 0);       // Open filename, if it doesn't exist, should return -1
+        return (-1);
     while (ft_isblank(line[i]))
         i++;
     ft_memset(&(line[i]), ' ', ft_strlen(filename));	// overwritting filename with ' ' in line
@@ -83,34 +84,34 @@ int
 ** Sets saved_fd_redir to saved stdin/stdout fds
 */
 int
-	parse_set_redirections(char *line, int redir_io_saved_fd[2])
+	parse_redirections(char *line, int redirfd[2])
 {
 	int	i;
-    int in_redir_fd;
-    int out_redir_fd;
 
 	i = 0;
-	in_redir_fd = STDIN_FILENO;
-	out_redir_fd = STDOUT_FILENO;
+	redirfd[0] = STDIN_FILENO;
+	redirfd[1] = STDOUT_FILENO;
 	while (line[i])
 	{
 		if (line[i] == '>')
 		{
-            if (out_redir_fd != STDOUT_FILENO)
-                close(out_redir_fd);                              // If a file was already opened for an output redir, close it
-            if ((out_redir_fd = parse_output_redir(&(line[i]))) < 0)
-                return (close_if(in_redir_fd, STDIN_FILENO) - 1);   // Closes input_redir file if one was open before returning
+            if (redirfd[1] != STDOUT_FILENO)
+                close(redirfd[1]);                              // If a file was already opened for an output redir, close it
+            if ((redirfd[1] = parse_output_redir(&(line[i]))) < 0)
+                return (close_if(redirfd[0], STDIN_FILENO) - 1);   // Closes input_redir file if one was open before returning
 		}
         else if (line[i] == '<')
         {
-            if (in_redir_fd != STDIN_FILENO)
-                close(in_redir_fd);                              // If a file was already opened for an input redir, close it
-            if ((in_redir_fd = parse_input_redir(&(line[i]))) < 0)
-                return (close_if(out_redir_fd, STDOUT_FILENO));
+            if (redirfd[0] != STDIN_FILENO)
+                close(redirfd[0]);                              // If a file was already opened for an input redir, close it
+            if ((redirfd[0] = parse_input_redir(&(line[i]))) < 0)
+                return (close_if(redirfd[1], STDOUT_FILENO));
         }
 		i++;
 	}
-    i = 0;
+    return (0);
+}
+/*    i = 0;
     if (in_redir_fd != STDIN_FILENO)
 	{
         i += ((redir_io_saved_fd[0] = set_fd(in_redir_fd, STDIN_FILENO)) < 0);
@@ -123,7 +124,7 @@ int
     }
     return (i * -1);
 }
-
+*/
 /*
 ** Close redir files
 ** Set STDIN and STDOUT to redir_io_saved_fd

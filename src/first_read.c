@@ -34,6 +34,7 @@ char		first_read(const char *str)
 		}
 		++i;
 	}
-	if (lit_status.quote || lit_status.dquote ||)
-	return (0);
+	if (lit_status.quote || lit_status.dquote || lit_status.backs)
+		return (0);
+	return (1);
 }
