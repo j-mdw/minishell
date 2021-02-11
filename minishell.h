@@ -56,8 +56,11 @@ typedef struct  s_cmd_data {
 ** PROCESS MNG
 */
 int		exec_function(char **cmd, t_builtin *builtin_data);
-int
-    exec_pipe(char **pipe_split, int index, int piperead_fildes, t_builtin *builtin_data);
+int		exec_pipe(char **pipe_split, int index, int piperead_fildes, t_builtin *builtin_data);
+void	exec_set_redir(int redirfd[2]);
+int		init_cmd_data(t_cmd_data *cmd_data, t_builtin *builtin_data, char *cmd_line);
+int		close_cmd_data(t_cmd_data *cmd_data);
+int		set_cmd_filename(char *cmd, t_cmd_data *cmd_data);
 /*
 ** REDIRECTIONS
 */
@@ -91,6 +94,7 @@ int		parsing_reset_close_fds(t_parse *parse_ptr);
 char	**shell_split(char const *s, char c);
 char	first_read(const char *str);
 int		is_lit(char c, t_lit_status *lit_status);
+char	**parse_argv(char *cmd_line);
 /*
 ** ERRORS AND FREE
 */

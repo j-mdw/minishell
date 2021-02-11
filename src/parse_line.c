@@ -94,10 +94,11 @@ int
 			ft_free_strarr(&controlop_split);
 			return (-1);
 		}
-		if (pipe_split[1])
+		// if (pipe_split[1])
+		// {
 			exit_status = exec_pipe(pipe_split, 0, STDIN_FILENO, builtin_data);
-		else
-			printf("Pass piped arg\n");
+		// else
+		// 	printf("Pass piped arg\n");
 		ft_free_strarr(&(pipe_split));
 		i++;
 	}

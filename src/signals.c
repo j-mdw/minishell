@@ -10,7 +10,8 @@ void
 	sigint_handler(int sig_nb)
 {
 	sig_nb++;
-	write(1, "\nCoquillage(sigint)$>", 21);
+	write(1, "\n", 1);
+	// write(1, "\nCoquillage(sigint)$>", 21);
 }
 
 /*
@@ -27,8 +28,8 @@ void
 void
     set_signals(void)
 {
-	//signal(SIGINT, sigint_handler);
-	//signal(SIGQUIT, sigquit_handler);
+	signal(SIGINT, sigint_handler);
+	signal(SIGQUIT, sigquit_handler);
 }
 
 void

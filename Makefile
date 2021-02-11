@@ -3,10 +3,7 @@ NAME	= minishell
 SRCS	:= \
 main\
 signals\
-parse_line\
 shell_split\
-exec_function\
-exec_pipes\
 redirections\
 pipe_mng\
 get_filename\
@@ -31,10 +28,19 @@ env_make_arr\
 \
 parsing_free\
 parsing_reset_close_fds\
+parse_line\
+parse_argv\
 search_path\
 first_read\
 is_lit\
 close_if\
+\
+exec_function\
+exec_pipes\
+exec_set_redir\
+exec_init_cmd_data\
+exec_close_cmd_data\
+exec_set_cmd_filename\
 
 S 		:= src/
 
