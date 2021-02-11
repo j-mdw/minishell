@@ -21,6 +21,8 @@ void
 	ft_lstclear(&(builtin_data->local_env), free);
 }
 
+// int	g_minishell_exit_status;
+
 int
 	main(int ac, char **av, char **env)
 {
@@ -46,6 +48,7 @@ int
 		{
 			if ((exit_status = parse_input(line, &builtin_data)) < 0)
 				printf("Error: %s\n", strerror(errno));
+			printf("Exit status: %d\n", g_minishell_exit_status);
 		}
 		free(line);
 	}

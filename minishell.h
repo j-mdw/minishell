@@ -41,6 +41,7 @@ typedef struct  s_cmd_data {
     int     			builtin_index;
 	t_builtin			*builtin_data;
 }               t_cmd_data;
+int	g_minishell_exit_status;
 
 /*
 ** PROCESS MNG
@@ -79,8 +80,8 @@ void    sigexit_handler(int sig_nb);
 int		parse_input(char *line, t_builtin *builtin_data);
 char    *get_filename(char *line);
 int     ft_isblank(int c);
-int		parsing_free(t_parse *parse_ptr);
-int		parsing_reset_close_fds(t_parse *parse_ptr);
+// int		parsing_free(t_parse *parse_ptr);
+// int		parsing_reset_close_fds(t_parse *parse_ptr);
 char	**shell_split(char const *s, char c);
 char	first_read(const char *str);
 int		is_lit(char c, t_lit_status *lit_status);
@@ -89,8 +90,8 @@ char	**parse_argv(char *cmd_line);
 ** ERRORS AND FREE
 */
 void    ft_free_strarr(char ***line_split);
-int     parsing_free(t_parse *parse_ptr);
-int		parsing_reset_close_fds(t_parse *parse_ptr);
+// int     parsing_free(t_parse *parse_ptr);
+// int		parsing_reset_close_fds(t_parse *parse_ptr);
 /*
 ** BUILTIN FUNCTIONS
 */
