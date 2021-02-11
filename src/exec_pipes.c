@@ -86,6 +86,7 @@ int
         return(EXIT_SUCCESS);
     if (init_cmd_data(&cmd_data, builtin_data, pipe_split[index]) < 0)
         return (-1);
+    // printf("Cmd split: %s|%s\n", cmd_data.cmd_split[0], cmd_data.cmd_split[1]);
     if (!pipe_split[1] && cmd_data.builtin_index >= 0)
         return (exec_builtin(&cmd_data));
     if (pipe_fd_mng(&stdin_copy, piperead_fildes, pipefd, pipe_split[index + 1]) < 0)
