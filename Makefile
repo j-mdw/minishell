@@ -5,10 +5,7 @@ main\
 signals\
 shell_split\
 redirections\
-pipe_mng\
 get_filename\
-set_fd\
-reset_fd\
 \
 builtin_echo\
 builtin_exit\
@@ -26,8 +23,6 @@ env_print\
 env_create_list\
 env_make_arr\
 \
-parsing_free\
-parsing_reset_close_fds\
 parse_line\
 parse_argv\
 search_path\
@@ -35,7 +30,6 @@ first_read\
 is_lit\
 close_if\
 \
-exec_function\
 exec_pipes\
 exec_set_redir\
 exec_init_cmd_data\
