@@ -1,7 +1,7 @@
 #include "minishell.h"
 
 int
-    set_cmd_filename(char *cmd, t_cmd_data *cmd_data)
+    exec_set_cmd_filename(char *cmd, t_cmd_data *cmd_data)
 {
     cmd_data->filename = NULL;
     if ((cmd_data->builtin_index = ft_strfind((const char **)

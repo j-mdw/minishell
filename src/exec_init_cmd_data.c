@@ -1,7 +1,7 @@
 #include "minishell.h"
 
 int
-    init_cmd_data(t_cmd_data *cmd_data, t_builtin *builtin_data, char *cmd_line)
+    exec_init_cmd_data(t_cmd_data *cmd_data, t_builtin *builtin_data, char *cmd_line)
 {
 
     cmd_data->env_arr = NULL;

@@ -24,16 +24,6 @@ typedef struct	s_lit_status {
 		int				backs;
 }				t_lit_status;
 
-typedef	struct	s_parse {
-		char			**control_op_split;
-		char			**pipe_split;
-		char			**cmd_split;
-		int				redir_io_saved_fd[2];
-		int				redir_file_fd[2];
-		int				pipe_fd[2];
-		int				pipe_io_saved_fd[2];
-}			    t_parse;
-
 typedef	int	(*t_binfunc_arr)(char **cmd, t_list **local_env);
 
 typedef struct	s_builtin	{
@@ -43,13 +33,13 @@ typedef struct	s_builtin	{
 }				t_builtin;
 
 typedef struct  s_cmd_data {
-    int     pipefd[2];
-    int     redirfd[2];
-    char    *filename;
-    char    **env_arr;
-    char    **cmd_split;
-    int     builtin_index;
-	t_builtin	*builtin_data;
+    int     			pipefd[2];
+    int     			redirfd[2];
+    char    			*filename;
+    char    			**env_arr;
+    char    			**cmd_split;
+    int     			builtin_index;
+	t_builtin			*builtin_data;
 }               t_cmd_data;
 
 /*
@@ -58,9 +48,9 @@ typedef struct  s_cmd_data {
 int		exec_function(char **cmd, t_builtin *builtin_data);
 int		exec_pipe(char **pipe_split, int index, int piperead_fildes, t_builtin *builtin_data);
 void	exec_set_redir(int redirfd[2]);
-int		init_cmd_data(t_cmd_data *cmd_data, t_builtin *builtin_data, char *cmd_line);
-int		close_cmd_data(t_cmd_data *cmd_data);
-int		set_cmd_filename(char *cmd, t_cmd_data *cmd_data);
+int		exec_init_cmd_data(t_cmd_data *cmd_data, t_builtin *builtin_data, char *cmd_line);
+int		exec_close_cmd_data(t_cmd_data *cmd_data);
+int		exec_set_cmd_filename(char *cmd, t_cmd_data *cmd_data);
 /*
 ** REDIRECTIONS
 */

@@ -1,7 +1,7 @@
 #include "minishell.h"
 
 int
-    close_cmd_data(t_cmd_data *cmd_data)
+    exec_close_cmd_data(t_cmd_data *cmd_data)
 {
     close_if(cmd_data->redirfd[0], STDIN_FILENO);
     close_if(cmd_data->redirfd[1], STDOUT_FILENO);
