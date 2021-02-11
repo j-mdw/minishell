@@ -82,6 +82,8 @@ int     ft_isblank(int c);
 int		parsing_free(t_parse *parse_ptr);
 int		parsing_reset_close_fds(t_parse *parse_ptr);
 char	**shell_split(char const *s, char c);
+char	first_read(const char *str);
+int		is_lit(char c, t_lit_status *lit_status);
 /*
 ** ERRORS AND FREE
 */

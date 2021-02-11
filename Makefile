@@ -4,6 +4,8 @@ SRCS	:= \
 main\
 signals\
 parse_line\
+first_read\
+is_lit\
 shell_split\
 exec_function\
 exec_pipes\

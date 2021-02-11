@@ -3,29 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   shell_split.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: clkuznie <clkuznie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/29 16:27:53 by clkuznie          #+#    #+#             */
-/*   Updated: 2021/01/29 16:27:54 by clkuznie         ###   ########.fr       */
+/*   Updated: 2021/02/09 14:42:51 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static int	is_lit(char c, t_lit_status *lit_status)
-{
-	if (!lit_status->quote && !lit_status->dquote && !lit_status->backs)
-	{
-		lit_status->quote = (c == '\'');
-		lit_status->dquote = (c == '\"');
-		lit_status->backs = (c == '\\');
-		return (0);
-	}
-	lit_status->quote -= ((c == '\'') && lit_status->quote);
-	lit_status->dquote -= ((c == '\"') && lit_status->dquote);
-	lit_status->backs = 0;
-	return (1);
-}
 
 static int	count_strs(char const *s, char c, t_lit_status *lit_status)
 {

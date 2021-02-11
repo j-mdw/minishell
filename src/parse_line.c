@@ -75,14 +75,21 @@ int
 {
 	t_parse	parse_data;
 	int		i;
+	char	err_char;
 
+	if ((err_char = first_read(line)))
+	{
+		ft_printf("minishell: parse error near \'%c\'\n", err_char);
+		return (-1);
+	}
+	printf("first_read return = %d\n", err_char);
 	init_parsing_struct(&parse_data);
-	if (!(parse_data.control_op_split = ft_split(line, ';')))
+	if (!(parse_data.control_op_split = shell_split(line, ';')))
 		return (-1);
 	i = 0;
 	while (parse_data.control_op_split[i])
 	{
-		if (!(parse_data.pipe_split = ft_split(parse_data.control_op_split[i], '|')))
+		if (!(parse_data.pipe_split = shell_split(parse_data.control_op_split[i], '|')))
 			return (parsing_free(&parse_data) - 1);
 		if (parse_pipe(&parse_data, builtin_data) < 0)
 			return (parsing_free(&parse_data) + parsing_reset_close_fds(&parse_data) - 1);

@@ -1,0 +1,11 @@
+a.out
+libft
+main.c
+Makefile
+minishell
+minishell.h
+obj
+src
+test
+todo.txt
+toto.txt
