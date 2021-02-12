@@ -40,11 +40,11 @@ int
 	//seems to be through ctrl + D, which is an option we have to handle
 	gnl_ret = 1;
 	while ((write(STDIN_FILENO, SHELL_MSG, ft_strlen(SHELL_MSG))
-		&& (gnl_ret = get_next_line(STDIN_FILENO, &line)) != 0))
+		&& (gnl_ret = get_next_line(STDIN_FILENO, &line)) > 0))
 	{
-		if (gnl_ret < 0)
-			fprintf(stderr, "GNL error: %s\n", strerror(errno));		
-		else if (*line != 0)
+		// if (gnl_ret < 0)
+		// 	fprintf(stderr, "GNL error: %s\n", strerror(errno));		
+		if (*line != 0)
 		{
 			if ((exit_status = parse_input(line, &builtin_data)) < 0)
 				printf("Error: %s\n", strerror(errno));
@@ -53,7 +53,6 @@ int
 		free(line);
 	}
 	free(line); // When gnl returns 0, 1 byte is still allocated on the heap
-	printf("before free data struct\n");
 	free_builtin_data_struct(&builtin_data);
 	printf("exit\n");
 	return (0);

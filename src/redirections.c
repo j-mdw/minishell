@@ -74,9 +74,7 @@ static int
 /*
 ** Search for redirection symbols in *line
 ** Open/Create redirection files if they don't exist
-** Set STDIN/STDOUT to redirection files fd if redirections are found
 ** Replaces redirections char and filenames in *line with blank spaces
-** Sets saved_fd_redir to saved stdin/stdout fds
 */
 int
 	parse_redirections(char *line, int redirfd[2])

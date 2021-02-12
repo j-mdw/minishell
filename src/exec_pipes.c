@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/11 11:59:09 by user42            #+#    #+#             */
-/*   Updated: 2021/02/11 16:58:02 by user42           ###   ########.fr       */
+/*   Updated: 2021/02/12 10:03:05 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,6 @@ int
         return(EXIT_SUCCESS);
     if (exec_init_cmd_data(&cmd_data, builtin_data, pipe_split[index]) < 0)
         return (-1);
-    // printf("Cmd split: %s|%s\n", cmd_data.cmd_split[0], cmd_data.cmd_split[1]);
     if (!pipe_split[1] && cmd_data.builtin_index >= 0)
         return (exec_builtin(&cmd_data));
     if (pipe_open_if(pipefd, pipe_split[index + 1]) < 0)

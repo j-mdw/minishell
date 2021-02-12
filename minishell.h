@@ -11,10 +11,8 @@
 # include <limits.h>
 # include <signal.h>
 # include <fcntl.h>
-# include <dirent.h>
 # include "libft.h"
 
-# define BIN_PATH       "/bin/"
 # define SHELL_MSG      "coquillage$>"
 # define BUILTIN_COUNT	7
 
@@ -46,7 +44,6 @@ int	g_minishell_exit_status;
 /*
 ** PROCESS MNG
 */
-int		exec_function(char **cmd, t_builtin *builtin_data);
 int		exec_pipe(char **pipe_split, int index, int piperead_fildes, t_builtin *builtin_data);
 void	exec_set_redir(int redirfd[2]);
 int		exec_init_cmd_data(t_cmd_data *cmd_data, t_builtin *builtin_data, char *cmd_line);
@@ -58,15 +55,6 @@ int		exec_set_cmd_filename(char *cmd, t_cmd_data *cmd_data);
 int     redir_input(char **cmd, char *filename);
 int     redir_output(char **cmd, char *filename, int append_flag);
 int     parse_redirections(char *line, int redirfd[2]);
-int     reset_redirections(int redir_io_saved_fd[2]);
-int     reset_fd(int save_fd, int reset_fd);
-int     set_fd(int oldfd, int newfd);
-/*
-** PIPES
-*/
-char    **parse_open_pipe(char *line, int pipe_fd[2], int pipe_io_saved_fd[2]);
-int     set_pipe(int pipe_fd[2], int stdio_fd_cp[2]);
-int     close_pipe(int pipe_fd[2], int stdio_fd_cp[2]);
 /*
 ** SIGNALS MNG
 */
@@ -80,8 +68,6 @@ void    sigexit_handler(int sig_nb);
 int		parse_input(char *line, t_builtin *builtin_data);
 char    *get_filename(char *line);
 int     ft_isblank(int c);
-// int		parsing_free(t_parse *parse_ptr);
-// int		parsing_reset_close_fds(t_parse *parse_ptr);
 char	**shell_split(char const *s, char c);
 char	first_read(const char *str);
 int		is_lit(char c, t_lit_status *lit_status);
@@ -90,8 +76,6 @@ char	**parse_argv(char *cmd_line);
 ** ERRORS AND FREE
 */
 void    ft_free_strarr(char ***line_split);
-// int     parsing_free(t_parse *parse_ptr);
-// int		parsing_reset_close_fds(t_parse *parse_ptr);
 /*
 ** BUILTIN FUNCTIONS
 */

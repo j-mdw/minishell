@@ -1,4 +1,4 @@
 - Exit builtin: free
 - sigint (ctrl + c): not working properly
 - Error handling builtin: what to return on malloc or similar errors? Call strerror and return EXIT_FAILURE?
-- Return value: errr values 
+- Return value: errr values
