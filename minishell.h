@@ -62,6 +62,8 @@ void    set_signals(void);
 void    reset_signals(void);
 void    sigint_handler(int sig_nb);
 void    sigexit_handler(int sig_nb);
+void	set_child_signals(void);
+void	sigint_parent_handler(int sig_nb);
 /*
 ** PARSING
 */

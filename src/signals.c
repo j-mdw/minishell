@@ -10,8 +10,14 @@ void
 	sigint_handler(int sig_nb)
 {
 	sig_nb++;
-	write(1, "\n", 1);
-	// write(1, "\nCoquillage(sigint)$>", 21);
+	// write(1, "\n", 1);
+	write(1, "\nCoquillage(sigint)$>", 21);
+}
+
+void
+	sigint_parent_handler(int sig_nb)
+{
+	(void)sig_nb;
 }
 
 /*
@@ -26,10 +32,25 @@ void
 }
 
 void
+	sigint_child_handler(int sig_nb)
+{
+	(void)sig_nb;
+	exit(EXIT_FAILURE);
+}
+
+void
     set_signals(void)
 {
 	signal(SIGINT, sigint_handler);
 	signal(SIGQUIT, sigquit_handler);
+}
+
+void
+	set_child_signals(void)
+{
+	signal(SIGINT, sigint_child_handler);
+	signal(SIGQUIT, SIG_DFL);	
+	// signal(SIGQUIT, sigquit_child_handler);
 }
 
 void

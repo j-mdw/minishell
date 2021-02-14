@@ -6,7 +6,7 @@
 /*   By: jmaydew <jmaydew@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/14 12:50:31 by jmaydew           #+#    #+#             */
-/*   Updated: 2021/02/14 12:50:32 by jmaydew          ###   ########.fr       */
+/*   Updated: 2021/02/14 14:34:42 by jmaydew          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,6 @@ void
 	ft_free_strnarr(builtin_data->builtin_names_arr, BUILTIN_COUNT);
 	ft_lstclear(&(builtin_data->local_env), free);
 }
-
-// int	g_minishell_exit_status;
 
 int
 	main(int ac, char **av, char **env)
