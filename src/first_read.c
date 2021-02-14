@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/09 14:38:35 by user42            #+#    #+#             */
-/*   Updated: 2021/02/11 14:12:44 by user42           ###   ########.fr       */
+/*   Updated: 2021/02/14 10:59:21 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,16 @@ char		*first_read(char *str)
 	pipe = 0;
 	while (str[++i])
 	{
-		non_blank += !ft_isblank(str[i]);
-		if (!(lit = is_lit(str[i], &lit_status)))
+		if (!ft_isblank(str[i]) && ++non_blank)
+		{
+			if (is_lit(str[i], &lit_status) && (pipe = 0) <= unused_op)
+				unused_op = 0;
+			else if (str[i] == '|' || str[i] == ';' && (++unused_op > 1))
+				return (&(str[i]) + (str[i + i] = '\0'));
+			else if ((pipe = 0) <= unused_op)
+				unused_op = 0;
+		}
+		if (!(lit = is_lit(str[i], &lit_status)) && )
 		{
 			if ((str[i] == '|' || str[i] == ';') && (++unused_op > 1))
 				return (&(str[i]) + (str[i + 1] = '\0'));
@@ -73,8 +81,6 @@ char		*first_read(char *str)
 			else if (str[i] == '|')
 				pipe = 1;
 		}
-		else if (!ft_isblank(str[i]) && ((pipe = 0) < unused_op))
-			unused_op = 0;
 	}
 	if (non_blank && (lit_status.quote || lit_status.dquote || pipe))
 		return ("newline");
