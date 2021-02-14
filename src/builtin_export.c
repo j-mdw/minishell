@@ -1,13 +1,13 @@
 /* ************************************************************************** */
-/*																			  */
-/*														  :::	   ::::::::   */
-/*	 builtin_export.c									:+:		 :+:	:+:   */
-/*													  +:+ +:+		  +:+	  */
-/*	 By: jmaydew <jmaydew@student.42.fr>			+#+  +:+	   +#+		  */
-/*												  +#+#+#+#+#+	+#+			  */
-/*	 Created: 2021/02/12 10:16:18 by jmaydew		   #+#	  #+#			  */
-/*	 Updated: 2021/02/12 10:16:20 by jmaydew		  ###	########.fr		  */
-/*																			  */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   builtin_export.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jmaydew <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/02/14 13:27:28 by jmaydew           #+#    #+#             */
+/*   Updated: 2021/02/14 14:03:44 by jmaydew          ###   ########.fr       */
+/*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
@@ -63,6 +63,7 @@ static	int
 	}
 	return (i);
 }
+
 /*
 ** - No arg: print env
 ** - Arg:
@@ -73,6 +74,7 @@ static	int
 **			- if key exists: free it, dup arg1 in content
 **			- if key doesn't exist: create new elem, dup arg1 in content
 */
+
 int
 	builtin_export(char **av, t_list **env)
 {
