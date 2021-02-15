@@ -1,0 +1,1 @@
+Why a write call within a signal is not read by gnl call?
