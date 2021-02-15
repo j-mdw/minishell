@@ -9,33 +9,30 @@
 void
 	sigint_handler(int sig_nb)
 {
-	sig_nb++;
-	// write(1, "\n", 1);
 	write(1, "\nCoquillage(sigint)$>", 21);
+	g_minishell_exit_status = 128 + sig_nb;
 }
 
 void
 	sigint_parent_handler(int sig_nb)
 {
-	(void)sig_nb;
+	g_minishell_exit_status = 128 + sig_nb;
 }
 
 /*
 ** In bash, ctrl + \ (SIGQUIT) does not do anything
-** ^\ does not even get written to stdin, don't know
-** yet how to do this
 */
 void
 	sigquit_handler(int sig_nb)
 {
-	sig_nb++;
+	(void)sig_nb;
 }
 
 void
-	sigint_child_handler(int sig_nb)
+	sigquit_parent_handler(int sig_nb)
 {
-	(void)sig_nb;
-	exit(EXIT_FAILURE);
+	// write(STDIN_FILENO, "Quit (core dumped)\n", 19);
+	g_minishell_exit_status = 128 + sig_nb;
 }
 
 void
@@ -46,16 +43,15 @@ void
 }
 
 void
-	set_child_signals(void)
+	set_parent_signals(void)
 {
-	signal(SIGINT, sigint_child_handler);
-	signal(SIGQUIT, SIG_DFL);	
-	// signal(SIGQUIT, sigquit_child_handler);
+	signal(SIGINT, sigint_parent_handler);
+	signal(SIGQUIT, sigquit_parent_handler);
 }
 
 void
-	reset_signals(void)
+	set_child_signals(void)
 {
 	signal(SIGINT, SIG_DFL);
-	signal(SIGQUIT, SIG_DFL);
+	signal(SIGQUIT, SIG_DFL);	
 }

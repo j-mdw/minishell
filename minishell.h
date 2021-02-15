@@ -59,11 +59,8 @@ int     parse_redirections(char *line, int redirfd[2]);
 ** SIGNALS MNG
 */
 void    set_signals(void);
-void    reset_signals(void);
-void    sigint_handler(int sig_nb);
-void    sigexit_handler(int sig_nb);
 void	set_child_signals(void);
-void	sigint_parent_handler(int sig_nb);
+void	set_parent_signals(void);
 /*
 ** PARSING
 */

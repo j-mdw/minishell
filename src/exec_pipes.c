@@ -6,7 +6,7 @@
 /*   By: jmaydew <jmaydew@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/14 14:17:10 by jmaydew           #+#    #+#             */
-/*   Updated: 2021/02/14 14:54:29 by jmaydew          ###   ########.fr       */
+/*   Updated: 2021/02/15 17:13:18 by jmaydew          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ static int
 static void
 	exec_child(int pipefd[2], int readfd, t_cmd_data *cmd_data)
 {
-	reset_signals();
 	// set_child_signals();
 	if (pipefd[0] != 0)
 		close(pipefd[0]);
@@ -108,12 +107,12 @@ int
 		exec_child(pipefd, piperead_fildes, &cmd_data);
 	else
 	{
-		signal(SIGINT, sigint_parent_handler);
+		set_parent_signals();
 		close_if(piperead_fildes, 0);
 		close_if(pipefd[1], STDOUT_FILENO);
 		exec_pipe(pipe_split, index + 1, pipefd[0], builtin_data);
 		waitpid(child, &wstatus, 0);
-		signal(SIGINT, sigint_handler);
+		set_signals();
 		exec_close_cmd_data(&cmd_data);
 		if (!pipe_split[index + 1])
 			g_minishell_exit_status = WEXITSTATUS(wstatus);

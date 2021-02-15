@@ -6,7 +6,7 @@
 /*   By: jmaydew <jmaydew@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/14 12:50:31 by jmaydew           #+#    #+#             */
-/*   Updated: 2021/02/14 14:34:42 by jmaydew          ###   ########.fr       */
+/*   Updated: 2021/02/15 15:57:38 by jmaydew          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ int
 {
 	char			*line;
 	int				gnl_ret;
-	int				exit_status;
 	t_builtin		builtin_data;
 
 	(void)ac;
@@ -51,13 +50,16 @@ int
 	gnl_ret = 1;
 	while ((write(STDIN_FILENO, SHELL_MSG, ft_strlen(SHELL_MSG))
 		&& (gnl_ret = get_next_line(STDIN_FILENO, &line)) > 0))
-	{
-		// if (gnl_ret < 0)
-		// 	fprintf(stderr, "GNL error: %s\n", strerror(errno));		
+	{		
 		if (*line != 0)
 		{
-			if ((exit_status = parse_input(line, &builtin_data)) < 0)
-				printf("Error: %s\n", strerror(errno));
+			errno = 0;
+			if (parse_input(line, &builtin_data) < 0)
+			{
+				if (errno != 0)
+					dprintf(STDERR_FILENO, "Error: %s\n", strerror(errno));
+				g_minishell_exit_status = 127;
+			}
 			printf("Exit status: %d\n", g_minishell_exit_status);
 		}
 		free(line);
