@@ -12,9 +12,23 @@ int main (){
 
 	entry = strdup("a|");
 	c = first_read(entry);
-
 	printf("%s\n", c);
 	free(entry);
-	system("leaks ./a.out");
+
+	entry = strdup("|");
+	c = first_read(entry);
+	printf("%s\n", c);
+	free(entry);
+
+	entry = strdup("");
+	c = first_read(entry);
+	printf("%s\n", c);
+	free(entry);
+
+	entry = strdup("a|a");
+	c = first_read(entry);
+	printf("%s\n", c);
+	free(entry);
+
 	return 0;
 }
