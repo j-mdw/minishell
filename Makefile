@@ -5,6 +5,7 @@ main\
 signals\
 parse_line\
 first_read\
+lit_status_init\
 is_lit\
 shell_split\
 exec_function\

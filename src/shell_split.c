@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/29 16:27:53 by clkuznie          #+#    #+#             */
-/*   Updated: 2021/02/09 14:42:51 by user42           ###   ########.fr       */
+/*   Updated: 2021/02/16 14:16:07 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,9 +56,7 @@ static int	duplicate(char const *s, char c, char **strs, int s_nbr)
 	int				j;
 	t_lit_status	lit_status;
 
-	lit_status.quote = 0;
-	lit_status.dquote = 0;
-	lit_status.backs = 0;
+	lit_status_init(&lit_status);
 	i = 0;
 	while (i < s_nbr)
 	{
@@ -84,9 +82,7 @@ char		**
 	int				s_nbr;
 	t_lit_status	lit_status;
 
-	lit_status.quote = 0;
-	lit_status.dquote = 0;
-	lit_status.backs = 0;
+	lit_status_init(&lit_status);
 	if (s)
 		s_nbr = count_strs(s, c, &lit_status);
 	if (!(strs = malloc((s_nbr + 1) * sizeof(s))))
