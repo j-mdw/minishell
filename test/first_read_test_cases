@@ -1,0 +1,16 @@
+;
+ls | a
+ls ||
+ls | |
+ls | a |
+ls | a >
+>
+ls >
+ls > > a
+ls > a
+ls >> a
+ls < a
+ls | a <
+ls | a <<
+ls | > a
+
