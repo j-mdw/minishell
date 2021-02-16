@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmaydew <jmaydew@student.42.fr>            +#+  +:+       +#+        */
+/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/14 12:50:31 by jmaydew           #+#    #+#             */
-/*   Updated: 2021/02/14 12:50:32 by jmaydew          ###   ########.fr       */
+/*   Updated: 2021/02/16 15:40:56 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ int
 	int				gnl_ret;
 	int				exit_status;
 	t_builtin		builtin_data;
+	char	*err_string;
 
 	(void)ac;
 	(void)av;
@@ -58,7 +59,9 @@ int
 		// 	fprintf(stderr, "GNL error: %s\n", strerror(errno));		
 		if (*line != 0)
 		{
-			if ((exit_status = parse_input(line, &builtin_data)) < 0)
+			if ((err_string = first_read(line)))
+				printf("minishell: syntax error near unexpected token `%s\'\n", err_string);
+			else if ((exit_status = parse_input(line, &builtin_data)) < 0)
 				printf("Error: %s\n", strerror(errno));
 			printf("Exit status: %d\n", g_minishell_exit_status);
 		}

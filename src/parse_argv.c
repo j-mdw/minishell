@@ -5,6 +5,6 @@ char
 {
     char **argv;
 
-    argv = ft_split(cmd_line, ' ');
+    argv = shell_split(cmd_line, ' ');
     return (argv);
 }

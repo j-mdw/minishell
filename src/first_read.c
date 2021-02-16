@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/09 14:38:35 by user42            #+#    #+#             */
-/*   Updated: 2021/02/16 14:29:05 by user42           ###   ########.fr       */
+/*   Updated: 2021/02/16 15:47:58 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static int	is_operator_repeted(t_lit_status *lit_status, char *s, int *i)
 {
 	if (((++(lit_status->unused_op) > 1) && s[*i] != '<' && s[*i] != '>')
 		|| ((s[*i] == '<' || s[*i] == '>')
-			&& (lit_status->pipe || lit_status->redir)))
+			&& (lit_status->redir)))
 		return (1);
 	if ((s[*i] == '|' || s[*i] == '<' || s[*i] == '>'))
 	{

@@ -27,6 +27,7 @@ parse_line\
 parse_argv\
 search_path\
 first_read\
+ft_isblank\
 lit_status_init\
 is_lit\
 close_if\
