@@ -1,7 +1,3 @@
-- Exit builtin: free
 - sigint (ctrl + c): not working properly
 - Error handling builtin: what to return on malloc or similar errors? Call strerror and return EXIT_FAILURE?
-- Return value: implement global (or static?)
-- Process launch: recursive call
-- cd within pipe : called inside child??
-- 
+- Return value: errr values

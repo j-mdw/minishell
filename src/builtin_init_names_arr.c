@@ -1,27 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   builtin_init_names_arr.c                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jmaydew <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/02/14 13:29:48 by jmaydew           #+#    #+#             */
+/*   Updated: 2021/02/14 13:29:51 by jmaydew          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-char
-	**builtin_init_names_arr(void)
+static char
+	**builtin_init_names_arr2(char **arr)
 {
-	char **arr;
-	
-	if (!(arr = (char **)malloc(sizeof(char *) * BUILTIN_COUNT + 1)))
-		return (NULL);
-	if (!(arr[0] = ft_strdup("echo")))
-	{
-		free(arr);
-		return (NULL);
-	}
-	if (!(arr[1] = ft_strdup("exit")))
-	{
-		ft_free_strnarr(arr, 1);
-		return (NULL);
-	}
-	if (!(arr[2] = ft_strdup("pwd")))
-	{
-		ft_free_strnarr(arr, 2);
-		return (NULL);
-	}
 	if (!(arr[3] = ft_strdup("env")))
 	{
 		ft_free_strnarr(arr, 3);
@@ -44,4 +37,29 @@ char
 	}
 	arr[7] = NULL;
 	return (arr);
+}
+
+char
+	**builtin_init_names_arr(void)
+{
+	char **arr;
+
+	if (!(arr = (char **)malloc(sizeof(char *) * BUILTIN_COUNT + 1)))
+		return (NULL);
+	if (!(arr[0] = ft_strdup("echo")))
+	{
+		free(arr);
+		return (NULL);
+	}
+	if (!(arr[1] = ft_strdup("exit")))
+	{
+		ft_free_strnarr(arr, 1);
+		return (NULL);
+	}
+	if (!(arr[2] = ft_strdup("pwd")))
+	{
+		ft_free_strnarr(arr, 2);
+		return (NULL);
+	}
+	return (builtin_init_names_arr2(arr));
 }

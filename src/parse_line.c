@@ -1,68 +1,5 @@
 #include "minishell.h"
 
-static void
-	init_parsing_struct(t_parse	*parse_ptr)
-{
-	parse_ptr->control_op_split = NULL;
-	parse_ptr->pipe_split = NULL;
-	parse_ptr->cmd_split = NULL;
-	parse_ptr->pipe_fd[0] = -1;
-	parse_ptr->pipe_fd[1] = -1;
-	parse_ptr->pipe_io_saved_fd[0] = STDIN_FILENO;
-	parse_ptr->pipe_io_saved_fd[1] = STDOUT_FILENO;
-	parse_ptr->redir_io_saved_fd[0] = STDIN_FILENO;
-	parse_ptr->redir_io_saved_fd[1] = STDOUT_FILENO;
-}
-
-int
-	parse_pipe(t_parse *p_ptr, t_builtin *builtin_data)
-{
-	int	i;
-	int	exitstatus;
-
-	i = 0;
-	p_ptr->pipe_io_saved_fd[0] = dup(STDIN_FILENO);				// Save copy of stdin
-	p_ptr->pipe_io_saved_fd[1] = dup(STDOUT_FILENO);			// Save copy of stdout
-	while (p_ptr->pipe_split[i])
-	{
-		if (p_ptr->pipe_split[i + 1])
-		{
-			if (pipe(p_ptr->pipe_fd) < 0)
-				return (-1);
-			if (dup2(p_ptr->pipe_fd[1], STDOUT_FILENO) < 0)		// Set stdout to pipi[1]
-				return (- 1);
-			close(p_ptr->pipe_fd[1]); 							// close pipe_fd[1] - copy saved in fd=1
-			p_ptr->pipe_fd[1] = -1;
-		}
-		else
-		{
-			if (reset_fd(p_ptr->pipe_io_saved_fd[1], STDOUT_FILENO) < 0)	// If last command, reset stdout
-				return (-1);
-			p_ptr->pipe_io_saved_fd[1] = STDOUT_FILENO;
-		}
-		if (parse_set_redirections(p_ptr->pipe_split[i], p_ptr->redir_io_saved_fd) < 0)	// Set up redirections
-			return (-1);
-		if (!(p_ptr->cmd_split = ft_split(p_ptr->pipe_split[i], ' ')))
-			return (-1);
-		if ((exitstatus = exec_function(p_ptr->cmd_split, builtin_data)) < 0)
-		{
-			// printf("Exit status: %d | errno: %d\n", exitstatus, errno);
-			// printf("Error: %s | %s\n", strerror(errno), strerror(exitstatus));
-			return (-1);
-		}
-		ft_free_strarr(&(p_ptr->cmd_split));	
-		if (reset_redirections(p_ptr->redir_io_saved_fd) < 0)
-			return (-1);
-		dup2(p_ptr->pipe_fd[0], STDIN_FILENO); 				// Set stdin to pipe[0]
-		close(p_ptr->pipe_fd[0]); 							// Close initial pipe[0] fd as a duplicate is now in fd=0
-		p_ptr->pipe_fd[0] = -1;
-		i++;
-	}			
-	if (reset_fd(p_ptr->pipe_io_saved_fd[0], STDIN_FILENO) < 0)
-		return (-1);
-	p_ptr->pipe_io_saved_fd[0] = STDIN_FILENO;
-	return (0);
-}
 /*
 ** Split line on ';' then on '|'
 ** Sends the splited output to 'parse_pipe'
@@ -73,8 +10,10 @@ int
 int
 	parse_input(char *line, t_builtin *builtin_data)
 {
-	t_parse	parse_data;
 	int		i;
+	int		exit_status;
+	char	**controlop_split;
+	char	**pipe_split;
 	char	*err_string;
 
 	if ((err_string = first_read(line)))
@@ -82,18 +21,24 @@ int
 		ft_printf("minishell: parse error near \'%s\'\n", err_string);
 		return (-1);
 	}
-	init_parsing_struct(&parse_data);
-	if (!(parse_data.control_op_split = shell_split(line, ';')))
+	if (!(controlop_split = ft_split(line, ';')))
 		return (-1);
 	i = 0;
-	while (parse_data.control_op_split[i])
+	while (controlop_split[i])
 	{
-		if (!(parse_data.pipe_split = shell_split(parse_data.control_op_split[i], '|')))
-			return (parsing_free(&parse_data) - 1);
-		if (parse_pipe(&parse_data, builtin_data) < 0)
-			return (parsing_free(&parse_data) + parsing_reset_close_fds(&parse_data) - 1);
-		ft_free_strarr(&(parse_data.pipe_split));
+		if (!(pipe_split = ft_split(controlop_split[i], '|')))
+		{
+			ft_free_strarr(&controlop_split);
+			return (-1);
+		}
+		// if (pipe_split[1])
+		// {
+			exit_status = exec_pipe(pipe_split, 0, STDIN_FILENO, builtin_data);
+		// else
+		// 	printf("Pass piped arg\n");
+		ft_free_strarr(&(pipe_split));
 		i++;
 	}
-	return (parsing_free(&parse_data));
+	ft_free_strarr(&controlop_split);
+	return (exit_status);
 }

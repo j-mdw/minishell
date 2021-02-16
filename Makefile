@@ -3,18 +3,9 @@ NAME	= minishell
 SRCS	:= \
 main\
 signals\
-parse_line\
-first_read\
-lit_status_init\
-is_lit\
 shell_split\
-exec_function\
-exec_pipes\
 redirections\
-pipe_mng\
 get_filename\
-set_fd\
-reset_fd\
 \
 builtin_echo\
 builtin_exit\
@@ -32,9 +23,19 @@ env_print\
 env_create_list\
 env_make_arr\
 \
-parsing_free\
-parsing_reset_close_fds\
+parse_line\
+parse_argv\
 search_path\
+first_read\
+lit_status_init\
+is_lit\
+close_if\
+\
+exec_pipes\
+exec_set_redir\
+exec_init_cmd_data\
+exec_close_cmd_data\
+exec_set_cmd_filename\
 
 S 		:= src/
 
@@ -50,7 +51,7 @@ $(addprefix $O, $(addsuffix .o, $(SRCS)))
 
 CC		= gcc
 
-CFLAGS	= -Wall -Werror -Wextra $I -g
+CFLAGS	= -Wall -Werror -Wextra $I -g3 -O0
 
 RM		= rm -f
 	
@@ -59,7 +60,7 @@ all: $(NAME)
 $(NAME): $(O_FILES) $(LIBFT)
 	$(CC) $^ -o $@ 
 
-$O%.o: $S%.c
+$O%.o: $S%.c minishell.h
 	$(CC) $(CFLAGS) -c $< -o $@
 
 $(LIBFT):

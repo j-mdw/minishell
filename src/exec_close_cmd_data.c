@@ -1,31 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_pwd.c                                      :+:      :+:    :+:   */
+/*   exec_close_cmd_data.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jmaydew <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/02/14 14:02:31 by jmaydew           #+#    #+#             */
-/*   Updated: 2021/02/14 14:02:39 by jmaydew          ###   ########.fr       */
+/*   Created: 2021/02/14 14:15:32 by jmaydew           #+#    #+#             */
+/*   Updated: 2021/02/14 14:15:51 by jmaydew          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 int
-	builtin_pwd(char **argv, t_list **env)
+	exec_close_cmd_data(t_cmd_data *cmd_data)
 {
-	char *current_path;
-
-	(void)argv;
-	(void)env;
-	if (!(current_path = getcwd(NULL, 0)))
-	{
-		printf("error: pwd: %s\n", strerror(errno));
-		return (EXIT_FAILURE);
-	}
-	ft_putstr_fd(current_path, STDOUT_FILENO);
-	write(STDOUT_FILENO, "\n", 1);
-	free(current_path);
-	return (EXIT_SUCCESS);
+	close_if(cmd_data->redirfd[0], STDIN_FILENO);
+	close_if(cmd_data->redirfd[1], STDOUT_FILENO);
+	if (cmd_data->cmd_split)
+		ft_free_strarr(&(cmd_data->cmd_split));
+	if (cmd_data->filename)
+		free(cmd_data->filename);
+	if (cmd_data->env_arr)
+		free(cmd_data->env_arr);
+	return (0);
 }
