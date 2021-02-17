@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/10 13:10:06 by user42            #+#    #+#             */
-/*   Updated: 2021/02/10 13:15:37 by user42           ###   ########.fr       */
+/*   Updated: 2021/02/17 15:05:19 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,3 +26,12 @@ int		is_lit(char c, t_lit_status *lit_status)
 	lit_status->backs = 0;
 	return (1);
 }
+
+
+
+uasuhaoeuao
+$ONEUOEU = strs len ret "53"
+ uaeu 
+ $AOEUOE
+  
+$OEUOEU
