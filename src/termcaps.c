@@ -38,13 +38,18 @@ void
 {
     int     i;
 
-    i = 0;
     buf[0] = '\x1b';
-    while (!ft_isalpha(buf[i]))
+    i = 1;
+    if (read(STDIN_FILENO, &buf[i], 1) < 0)
+        fatal("read");
+    if (buf[i] == '[')
     {
-        i++;
-        if (read(STDIN_FILENO, &buf[i], 1) < 0)
-            fatal("read");
+        while (!ft_isalpha(buf[i]))
+        {
+            i++;
+            if (read(STDIN_FILENO, &buf[i], 1) < 0)
+                fatal("read");
+        }
     }
 }
 
@@ -77,7 +82,27 @@ void
         write(STDIN_FILENO, symbol, symbol_len);
 }
 
-#define READ_BUF_SIZE 4096
+
+
+void
+    tty_echo_del(t_cursor_pos *cursor_pos, char *read_buf)
+{
+    int row_index;
+    int i;
+
+    row_index = cursor_pos->row - cursor_pos->start_row;
+    ft_memmove(&read_buf[row_index - 1], &read_buf[row_index], \
+    ft_strlen(&read_buf[row_index]));
+    read_buf[cursor_pos->max_row - cursor_pos->start_row - 1] = '\0';
+    write(STDIN_FILENO, ARROW_LEFT, 3);
+    cursor_pos->row--;
+    cursor_pos->max_row--;
+    i = cursor_pos->max_row - cursor_pos->row;
+    write(STDIN_FILENO, &read_buf[row_index - 1], i + 1);
+    write(STDIN_FILENO, " ", 1);
+    write(STDIN_FILENO, "\x1b[J", 3);
+    tty_echo_rep(ARROW_LEFT, i + 1);
+}
 
 void
     tty_read_echo(t_cursor_pos *cursor_pos)
@@ -108,7 +133,8 @@ void
             }
             else if (cursor_pos->row < cursor_pos->max_row)
             {
-                ft_memmove(&read_buf[row_index + 1], &read_buf[row_index], cursor_pos->max_row - cursor_pos->row + 1);
+                ft_memmove(&read_buf[row_index + 1], &read_buf[row_index], \
+                ft_strlen(&read_buf[row_index]));
                 read_buf[row_index] = c;
                 i = cursor_pos->max_row - cursor_pos->row + 1;
                 write(STDIN_FILENO, &read_buf[row_index], i);
@@ -117,6 +143,8 @@ void
             cursor_pos->row++;
             cursor_pos->max_row++;
         }
+        else if (c == 127 && row_index)
+            tty_echo_del(cursor_pos, read_buf);
 
     }
 }

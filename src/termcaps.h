@@ -12,6 +12,9 @@
 #define ARROW_RIGHT "\x1b[C"
 #define ARROW_LEFT "\x1b[D"
 
+#define READ_BUF_SIZE 4096
+#define TAB_SIZE 4
+
 typedef struct  s_cursor_pos {
     int start_row;
     int start_col;
