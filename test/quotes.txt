@@ -1,0 +1,86 @@
+user42@salty-VirtualBox:~/Documents/minishell$ echo -e \t
+t
+user42@salty-VirtualBox:~/Documents/minishell$ echo -e t
+t
+user42@salty-VirtualBox:~/Documents/minishell$ echo -e \\t
+	
+user42@salty-VirtualBox:~/Documents/minishell$ echo \\t | cat -e
+\t$
+user42@salty-VirtualBox:~/Documents/minishell$ echo \\t
+\t
+user42@salty-VirtualBox:~/Documents/minishell$ echo -e \\t
+	
+user42@salty-VirtualBox:~/Documents/minishell$ echo -n \\t
+user42@salty-VirtualBox:~/Documents/minishell$ echo -e "\t"
+	
+user42@salty-VirtualBox:~/Documents/minishell$ echo -e '\t'
+	
+user42@salty-VirtualBox:~/Documents/minishell$ echo '\t'
+\t
+user42@salty-VirtualBox:~/Documents/minishell$ echo "\t"
+\t
+user42@salty-VirtualBox:~/Documents/minishell$ echo -e "\\t"
+	
+user42@salty-VirtualBox:~/Documents/minishell$ echo -e '\\t'
+\t
+user42@salty-VirtualBox:~/Documents/minishell$ echo \x24
+x24
+user42@salty-VirtualBox:~/Documents/minishell$ echo "\x24"
+\x24
+user42@salty-VirtualBox:~/Documents/minishell$ echo "\\x24"
+\x24
+user42@salty-VirtualBox:~/Documents/minishell$ echo -e "\\x24"
+$
+user42@salty-VirtualBox:~/Documents/minishell$ echo -e "\\x20"
+ 
+user42@salty-VirtualBox:~/Documents/minishell$ echo -e "\\x21"
+!
+user42@salty-VirtualBox:~/Documents/minishell$ echo -e "\\x30"
+0
+user42@salty-VirtualBox:~/Documents/minishell$ echo -e "\\x30"
+user42@salty-VirtualBox:~/Documents/minishell/src$ echo $TYTY
+
+user42@salty-VirtualBox:~/Documents/minishell/src$ export TYTY
+user42@salty-VirtualBox:~/Documents/minishell/src$ echo $TYTY
+
+user42@salty-VirtualBox:~/Documents/minishell/src$ echo $TYTY | cat -e
+$
+user42@salty-VirtualBox:~/Documents/minishell/src$ echo $TYTP | cat -e
+$
+user42@salty-VirtualBox:~/Documents/minishell/src$ echo $TYTPa | cat -e
+$
+user42@salty-VirtualBox:~/Documents/minishell/src$ echo $aTYTPa | cat -e
+$
+user42@salty-VirtualBox:~/Documents/minishell/src$ echo $123aTYTPa | cat -e
+23aTYTPa$
+user42@salty-VirtualBox:~/Documents/minishell/src$ echo $23aTYTPa | cat -e
+3aTYTPa$
+user42@salty-VirtualBox:~/Documents/minishell/src$ echo $\23aTYTPa | cat -e
+$23aTYTPa$
+user42@salty-VirtualBox:~/Documents/minishell/src$ echo $_aTYTPa | cat -e
+$
+user42@salty-VirtualBox:~/Documents/minishell/src$ export 43ds
+bash: export: `43ds': not a valid identifier
+user42@salty-VirtualBox:~/Documents/minishell/src$ echo "Bonjoour $PWD"
+Bonjoour /home/user42/Documents/minishell/src
+user42@salty-VirtualBox:~/Documents/minishell/src$ echo "Bonjoour $PWD hoho"
+Bonjoour /home/user42/Documents/minishell/src hoho
+user42@salty-VirtualBox:~/Documents/minishell/src$ echo "Bonjoour $PWDZ hoho"
+Bonjoour  hoho
+user42@salty-VirtualBox:~/Documents/minishell/src$ echo "Bonjoour "$PWDZ" hoho"
+Bonjoour  hoho
+user42@salty-VirtualBox:~/Documents/minishell/src$ echo "Bonjoour "$PWD" hoho"
+Bonjoour /home/user42/Documents/minishell/src hoho
+user42@salty-VirtualBox:~/Documents/minishell/src$ echo "Bonjoour "$P\WD" hoho"
+Bonjoour WD hoho
+user42@salty-VirtualBox:~/Documents/minishell/src$ echo "Bonjoour "$1P\WD" hoho"
+Bonjoour PWD hoho
+user42@salty-VirtualBox:~/Documents/minishell/src$ echo "Bonjoour "$a1P\WD" hoho"
+Bonjoour WD hoho
+user42@salty-VirtualBox:~/Documents/minishell/src$ echo "Bonjoour "$-a1P\WD" hoho"
+Bonjoour himBHsa1PWD hoho
+user42@salty-VirtualBox:~/Documents/minishell/src$ echo "Bonjoour "$^CP\WD" hoho"
+user42@salty-VirtualBox:~/Documents/minishell/src$ echo "Bonjoour "$aP\WD" hoho"
+Bonjoour WD hoho
+user42@salty-VirtualBox:~/Documents/minishell/src$ 
+
