@@ -13,7 +13,7 @@
 #define ARROW_LEFT "\x1b[D"
 
 #define READ_BUF_SIZE 4096
-#define TAB_SIZE 4
+#define SHELL_MSG "coquillage"
 
 typedef struct  s_cursor_pos {
     int start_row;
@@ -29,5 +29,15 @@ struct termios g_origin_termios;
 void    tty_init_cursor_pos(t_cursor_pos *cursor_pos);
 void    tty_get_cursor_pos(t_cursor_pos *cursor_pos);
 void    fatal(char *err_msg);
+void    tty_echo_del(t_cursor_pos *cursor_pos, char *read_buf);
+void    tty_move_left(int n);
+void    tty_newline(t_cursor_pos *cursor_pos);
+int     tty_set_raw_mode(struct termios *raw_termios);
+int     *tty_get_line(char **line);
+
+
+void    get_escape_seq(char *buf);
+void    tty_echo_esc(t_cursor_pos *cursor_pos);
+void    tty_write_over(char *read_buf, char c);
 
 #endif
