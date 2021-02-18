@@ -6,83 +6,71 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/16 14:42:27 by user42            #+#    #+#             */
-/*   Updated: 2021/02/17 16:03:26 by user42           ###   ########.fr       */
+/*   Updated: 2021/02/18 14:02:13 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// #include <stdlib.h>
-// #include <stdio.h>
-// #include <string.h>
-
-char	get_env_toto()
+static char *get_env_toto(void)
 {
-	return ('|');
+	return ("LOGNAME");
 }
 
-char	*param_expand(char *raw_param, char *final_param, int total_len)
+static char		*
+	param_expand(char *raw_param, char *final_param, int total_len)
 {
 	int			i;
+	char		*value_str;
+	char		*sub_param;
 
 	i = 0;
-	if (raw_param[i] == '$')
+	value_str = NULL;
+	if (*raw_param == '$')
 	{
-		i++;
-		while (ft_is_alnum(raw_param[i]) || raw_param[i] == '_')
-			i++;
-		printf("%c\n", get_env_toto());
+		sub_param = raw_param++;
+		while (ft_isalnum(*raw_param) || *raw_param == '_')
+			raw_param++;
+		value_str = get_env_toto();
+		i = ft_strlen(value_str);
 	}
 	else
 	{
-		while (raw_param[i] && raw_param[i] != '$')
-			i++;
+		while (*raw_param && *raw_param != '$' && ++i)
+			raw_param++;
 	}
-	if (!raw_param[i])
+	if (*raw_param)
+		final_param = param_expand(raw_param, final_param, total_len + i);
+	else
 	{
-		if (!(final_param = malloc(total_len + 1)))
+		if (!(final_param = malloc(total_len + i + 1)))
 			printf("Malloc error\n");
-		final_param[total_len] = '\0';
-		while (i >= 0)
-		{
-			final_param[total_len] = raw_param[i];
-			total_len--;
-			raw_param--;
-		}
+		final_param[total_len + i] = '\0';
+		final_param = &final_param[total_len + i];
 	}
-	else
-		param_expand(&raw_param[i], )
-}
-
-/*
-** Move all the characters  within a string by one to the left
-** The first character gets discarded and the last char is replaced by a
-** a null terminating char '\0'
-** INPUT: address of the string to shift
-** OUTPUT: nothing
-*/
-void	*strshift_one_left(char *str)
-{
-	int				i;
-	
-	i = 0;
-	if (!str || !str[0])
-		return ;
-	while (str[i++])
-		str[i - 1] = str[i];
-}
-
-char	*param_trim(char *raw_param)
-{
-	int				i;
-	t_lit_status	lit_status;
-
-	i = 0;
-	lit_status_init(&lit_status);
-	// if (raw_param[0] == '"' || raw_param[0] == '\'');
-	while (raw_param[i])
+	while (i-- > 0)
 	{
-		if (!(!is_lit(raw_param[i], &lit_status) && raw_param[i] == '$'))
-			continue ;
+		final_param--;
+		raw_param--;
+		if (!value_str)
+			*final_param = *raw_param;
+		else
+			*final_param = value_str[i];
 	}
+	return (final_param);
+}
+
+// static void
+// 	quote_trim(char *raw_param)
+// {
+// 	if (*raw_param == '\'' || );
+// }
+
+char		*
+	param_trim(char *raw_param)
+{
+	char		*final_format;
+
+	final_format = param_expand(raw_param, NULL, 0);
+	return (final_format);
 }
