@@ -1,16 +1,18 @@
 #include "termcaps.h"
 
-void
+int
     tty_init_cursor_pos(t_cursor_pos *cursor_pos)
 {
-    tty_get_cursor_pos(cursor_pos);
+    if (tty_get_cursor_pos(cursor_pos) < 0)
+        return (-1);
     cursor_pos->start_col = cursor_pos->col;
     cursor_pos->start_row = cursor_pos->row;
     cursor_pos->max_col = cursor_pos->col;
     cursor_pos->max_row = cursor_pos->row;
+    return (0);
 }
 
-void
+int
     tty_get_cursor_pos(t_cursor_pos *cursor_pos)
 {
     char    buf[32];
@@ -19,13 +21,17 @@ void
 
     write(STDIN_FILENO, "\x1b[6n", 4);
     if ((read_ret = read(STDIN_FILENO, buf, 32)) <= 0)
-        fatal("read error");
+        return(tty_error("read error"));
     buf[read_ret] = '\0';
     cursor_pos->row = ft_atoi(&buf[2]);
     i = 2;
     while (buf[i] != ';' && buf[i])
         i++;
     if (!buf[i])
-        fatal("no cursor column provided");
+    {
+        dprintf(STDERR_FILENO, "no cursor column provided");
+        return (-1);
+    }
     cursor_pos->col = ft_atoi(&buf[i + 1]);
+    return (0);
 }

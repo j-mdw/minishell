@@ -1,12 +1,12 @@
 #include "termcaps.h"
 
-void
+int
     tty_move_left(int n)
 {
     char *rep;
 
     if (!(rep = ft_itoa(n)))
-        fatal("move left: itoa");
+        return(tty_error("move left: itoa"));
     write(STDIN_FILENO, "\x1b[", 2);
     write(STDIN_FILENO, rep, ft_strlen(rep));
     free(rep);

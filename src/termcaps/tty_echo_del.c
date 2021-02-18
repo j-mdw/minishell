@@ -1,6 +1,6 @@
 #include "termcaps.h"
 
-void
+int
     tty_echo_del(t_cursor_pos *cursor_pos, char *read_buf)
 {
     int row_index;
@@ -17,5 +17,7 @@ void
     write(STDIN_FILENO, &read_buf[row_index - 1], i + 1);
     write(STDIN_FILENO, " ", 1);
     write(STDIN_FILENO, "\x1b[J", 3);
-    tty_move_left(i + 1);
+    if (tty_move_left(i + 1) < 0)
+        return (-1);
+    return (0);
 }

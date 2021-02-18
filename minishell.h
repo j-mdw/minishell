@@ -87,6 +87,8 @@ int		builtin_export(char **av, t_list **env);
 int		builtin_unset(char **av, t_list **env);
 char	**builtin_init_names_arr(void);
 void	builtin_init_funcarr(t_binfunc_arr *binfunc_arr);
+int		builtin_init_data_struct(t_builtin *builtin_data, char **env);
+void	builtin_free_data_struct(t_builtin *builtin_data);
 /*
 ** ENV
 */

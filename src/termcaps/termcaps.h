@@ -26,18 +26,19 @@ typedef struct  s_cursor_pos {
 
 struct termios g_origin_termios;
 
-void    tty_init_cursor_pos(t_cursor_pos *cursor_pos);
-void    tty_get_cursor_pos(t_cursor_pos *cursor_pos);
-void    fatal(char *err_msg);
-void    tty_echo_del(t_cursor_pos *cursor_pos, char *read_buf);
-void    tty_move_left(int n);
-void    tty_newline(t_cursor_pos *cursor_pos);
+int     tty_init_cursor_pos(t_cursor_pos *cursor_pos);
+int     tty_get_cursor_pos(t_cursor_pos *cursor_pos);
+int     tty_echo_del(t_cursor_pos *cursor_pos, char *read_buf);
+int     tty_move_left(int n);
+int     tty_newline(t_cursor_pos *cursor_pos);
 int     tty_set_raw_mode(struct termios *raw_termios);
-int     *tty_get_line(char **line);
-
-
-void    get_escape_seq(char *buf);
-void    tty_echo_esc(t_cursor_pos *cursor_pos);
-void    tty_write_over(char *read_buf, char c);
+int     tty_get_line(char **line);
+int     get_escape_seq(char *buf);
+int     tty_echo_esc(t_cursor_pos *cursor_pos);
+int     tty_write_over(char *read_buf, char c);
+int     tty_error(char *error_msg);
+int     tty_read_echo(t_cursor_pos *cursor_pos, char **line);
+int     tty_echo_char(t_cursor_pos *cursor_pos, char *read_buf, int index,\
+ char c);
 
 #endif

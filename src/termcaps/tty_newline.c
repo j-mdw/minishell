@@ -1,6 +1,6 @@
 #include "termcaps.h"
 
-void
+int
     tty_newline(t_cursor_pos *cursor_pos)
 {
     char *path;
@@ -25,5 +25,6 @@ void
     write(STDIN_FILENO, "\x1b[1;32m", 7);
     write(1, "$>", 2);
     write(STDIN_FILENO, "\x1b[0m", 4);
-    tty_init_cursor_pos(cursor_pos);
+    if (tty_init_cursor_pos(cursor_pos) < 0)
+        return (0);
 }

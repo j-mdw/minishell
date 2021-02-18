@@ -16,6 +16,8 @@ builtin_export\
 builtin_unset\
 builtin_init_names_arr\
 builtin_init_funcarr\
+builtin_init_data_struct\
+builtin_free_data_struct\
 \
 env_get_val\
 env_get_key\

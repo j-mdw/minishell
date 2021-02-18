@@ -1,6 +1,9 @@
 #include "termcaps.h"
 
-void
+/*
+** Only gets escape sequences starting with [ and ending with a char
+*/
+int
     get_escape_seq(char *buf)
 {
     int     i;
@@ -8,25 +11,27 @@ void
     buf[0] = '\x1b';
     i = 1;
     if (read(STDIN_FILENO, &buf[i], 1) < 0)
-        fatal("read");
+        return(tty_error("read"));
     if (buf[i] == '[')
     {
         while (!ft_isalpha(buf[i]))
         {
             i++;
             if (read(STDIN_FILENO, &buf[i], 1) < 0)
-                fatal("read");
+                return(tty_error("read"));
         }
     }
+    return (0);
 }
 
-void
+int
     tty_echo_esc(t_cursor_pos *cursor_pos)
 {
     char    esc_buf[32];
 
     ft_bzero(esc_buf, 32);
-    get_escape_seq(esc_buf);
+    if (get_escape_seq(esc_buf) < 0)
+        return (-1);
     if (!ft_strcmp(esc_buf, ARROW_RIGHT) && (cursor_pos->row < \
     cursor_pos->max_row))
     {
@@ -39,4 +44,5 @@ void
         cursor_pos->row--;
         write(STDIN_FILENO, esc_buf, 3);
     }
+    return (0);
 }

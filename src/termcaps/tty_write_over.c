@@ -1,6 +1,6 @@
 #include "termcaps.h"
 
-void
+int
     tty_write_over(char *read_buf, char c)
 {
     int len;
@@ -10,5 +10,7 @@ void
     read_buf[len + 1] = '\0';
     *read_buf = c;
     write(STDIN_FILENO, read_buf, len + 1);
-    tty_move_left(len);
+    if (tty_move_left(len) < 0)
+        return (-1);
+    return (0);
 }
