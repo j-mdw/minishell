@@ -9,7 +9,7 @@
 */
 
 static int
-    parse_output_redir(char *line)
+    parse_output_redir(char *line, t_list *local_env)
 {
     int     i;
     int     append_flag;
@@ -21,7 +21,7 @@ static int
     append_flag = O_TRUNC;
     if (line[i] == '>' && (append_flag = O_APPEND))
         line[i++] = ' ';								
-    if (!(filename = get_filename(&(line[i]))))	                            // Parsing of get_filename not final yet
+    if (!(filename = get_filename(&(line[i]), local_env)))	                            // Parsing of get_filename not final yet
         return (-1);
     if ((fd = open(filename, O_RDWR | O_CREAT | append_flag, 0664)) < 0)    // Open filename, if it doesn't exist, create it
     {
@@ -42,7 +42,7 @@ static int
 */
 
 static int
-    parse_input_redir(char *line)
+    parse_input_redir(char *line, t_list *local_env)
 {
     int     i;
     int     fd;
@@ -51,7 +51,7 @@ static int
     i = 0;
     line[i] = ' ';			                            // Overwritting redirection symbol
     i++;														
-    if (!(filename = get_filename(&(line[i]))))	        // Parsing of get_filename not final yet
+    if (!(filename = get_filename(&(line[i]), local_env)))	        // Parsing of get_filename not final yet
         return (-1);
     if ((fd = open(filename, O_RDWR, 0664)) < 0)       // Open filename, if it doesn't exist, should return -1
     {
@@ -72,7 +72,7 @@ static int
 ** Replaces redirections char and filenames in *line with blank spaces
 */
 int
-	parse_redirections(char *line, int redirfd[2], t_lit_status *lit_status)
+	parse_redirections(char *line, int redirfd[2], t_lit_status *lit_status, t_list *local_env)
 {
 	int	i;
 
@@ -85,14 +85,14 @@ int
 		{
             if (redirfd[1] != STDOUT_FILENO)
                 close(redirfd[1]);                              // If a file was already opened for an output redir, close it
-            if ((redirfd[1] = parse_output_redir(&(line[i]))) < 0)
+            if ((redirfd[1] = parse_output_redir(&(line[i]), local_env)) < 0)
                 return (close_if(redirfd[0], STDIN_FILENO) - 1);   // Closes input_redir file if one was open before returning
 		}
         else if (line[i] == '<')
         {
             if (redirfd[0] != STDIN_FILENO)
                 close(redirfd[0]);                              // If a file was already opened for an input redir, close it
-            if ((redirfd[0] = parse_input_redir(&(line[i]))) < 0)
+            if ((redirfd[0] = parse_input_redir(&(line[i]), local_env)) < 0)
                 return (close_if(redirfd[1], STDOUT_FILENO) - 1);
         }
         i++;

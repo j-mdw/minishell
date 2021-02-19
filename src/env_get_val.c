@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_get_val.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmaydew <jmaydew@student.42.fr>            +#+  +:+       +#+        */
+/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/14 12:50:39 by jmaydew           #+#    #+#             */
-/*   Updated: 2021/02/14 12:50:40 by jmaydew          ###   ########.fr       */
+/*   Updated: 2021/02/19 15:11:48 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ char
 {
 	char *value;
 
+	if (!key)
+		return (NULL);
 	while (env)
 	{
 		if ((value = ft_strchr(env->content, '=')))

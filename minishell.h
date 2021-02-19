@@ -42,6 +42,7 @@ typedef struct  s_cmd_data {
     int     			builtin_index;
 	t_builtin			*builtin_data;
 }               t_cmd_data;
+
 int	g_minishell_exit_status;
 
 /*
@@ -57,7 +58,7 @@ int		exec_set_cmd_filename(char *cmd, t_cmd_data *cmd_data);
 */
 int     redir_input(char **cmd, char *filename);
 int     redir_output(char **cmd, char *filename, int append_flag);
-int     parse_redirections(char *line, int redirfd[2]);
+int     parse_redirections(char *line, int redirfd[2], t_lit_status *lit_status, t_list *local_env);
 /*
 ** SIGNALS MNG
 */
@@ -69,14 +70,15 @@ void    sigexit_handler(int sig_nb);
 ** PARSING
 */
 int		parse_input(char *line, t_builtin *builtin_data);
-char    *get_filename(char *line);
+char    *get_filename(char *line, t_list *local_env);
 int     ft_isblank(int c);
 int		is_operator(char c);
 char	**shell_split(char const *s, char c);
 char	*first_read(char *s);
 int		is_lit(char c, t_lit_status *lit_status);
 void	lit_status_init(t_lit_status *lit_status);
-char	**parse_argv(char *cmd_line);
+char	**parse_argv(char *cmd_line, t_list *local_env);
+char	*param_trim(char *raw_param, t_list *local_env);
 /*
 ** ERRORS AND FREE
 */

@@ -6,14 +6,14 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/18 15:42:49 by user42            #+#    #+#             */
-/*   Updated: 2021/02/18 16:11:48 by user42           ###   ########.fr       */
+/*   Updated: 2021/02/19 14:33:42 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 char
-	**parse_argv(char *cmd_line)
+	**parse_argv(char *cmd_line, t_list *local_env)
 {
 	char	**params;
 	char 	*trimmed_param;
@@ -24,7 +24,7 @@ char
 	i = 0;
 	while (params[i])
 	{
-		if ((trimmed_param = param_trim(params[i])))
+		if ((trimmed_param = param_trim(params[i], local_env)))
 		{
 			free(params[i]);
 			params[i] = trimmed_param;

@@ -32,6 +32,7 @@ lit_status_init\
 is_lit\
 is_operator\
 close_if\
+param_trim\
 \
 exec_pipes\
 exec_set_redir\

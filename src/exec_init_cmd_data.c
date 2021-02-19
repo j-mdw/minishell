@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/14 14:16:29 by jmaydew           #+#    #+#             */
-/*   Updated: 2021/02/18 14:37:29 by user42           ###   ########.fr       */
+/*   Updated: 2021/02/19 14:36:17 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,9 @@ int
 	cmd_data->cmd_split = NULL;
 	cmd_data->filename = NULL;
 	cmd_data->builtin_data = builtin_data;
-	if (parse_redirections(cmd_line, cmd_data->redirfd) < 0, &lit_status)
+	if (parse_redirections(cmd_line, cmd_data->redirfd, &lit_status, builtin_data->local_env) < 0)
 		return (-1);	// should print error message as well
-	if (!(cmd_data->cmd_split = parse_argv(cmd_line)))
+	if (!(cmd_data->cmd_split = parse_argv(cmd_line, builtin_data->local_env)))
 		return (exec_close_cmd_data(cmd_data) - 1);
 	if (exec_set_cmd_filename(cmd_data->cmd_split[0], cmd_data) < 0)
 		return (exec_close_cmd_data(cmd_data) - 1);
