@@ -25,9 +25,12 @@ int
 }
 
 int
-    tty_echo_esc(t_cursor_pos *cursor_pos)
+    tty_echo_esc(t_tty_param *tty_param)
 {
     char    esc_buf[32];
+    t_cursor_pos *cursor_pos;
+
+    cursor_pos = tty_param->cursor_pos;
 
     ft_bzero(esc_buf, 32);
     if (get_escape_seq(esc_buf) < 0)
@@ -47,6 +50,7 @@ int
     if (!ft_strcmp(esc_buf, ARROW_UP) && (cursor_pos->row > \
     (cursor_pos->start_row)))
     {
+        // if ()
         // cursor_pos->row--;
         // write(STDIN_FILENO, esc_buf, 3);
     }

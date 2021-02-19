@@ -14,9 +14,11 @@ Gestion curseur:
 
 */
 
+
 int
     tty_get_line(char **line)
 {
+    static char     line_hist[HIST_SIZE][READ_BUF_SIZE];
     struct termios  raw_termios;
     t_cursor_pos    cursor_pos;
     int             ret;
@@ -29,7 +31,7 @@ int
         return (-1);
     if (tty_newline(&cursor_pos) < 0)
         return (-1);
-    if ((ret = tty_read_echo(&cursor_pos, line)) < 0)
+    if ((ret = tty_read_echo(&cursor_pos, line_hist, HIST_SIZE, *line)) < 0)
     {
         free(*line);
         *line = NULL;

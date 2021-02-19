@@ -15,6 +15,7 @@
 #define ARROW_DOWN "\x1b[B"
 
 #define READ_BUF_SIZE 4096
+#define HIST_SIZE 100
 #define SHELL_MSG "coquillage"
 
 typedef struct  s_cursor_pos {
@@ -26,6 +27,13 @@ typedef struct  s_cursor_pos {
     int col;
 }               t_cursor_pos;
 
+typedef struct  s_tty_param {
+    t_cursor_pos    *cursor_pos;
+    char            **line_hist;
+    int             hist_size;
+    int             line_index;
+}               t_tty_param;
+
 struct termios g_origin_termios;
 
 int     tty_init_cursor_pos(t_cursor_pos *cursor_pos);
@@ -36,11 +44,14 @@ int     tty_newline(t_cursor_pos *cursor_pos);
 int     tty_set_raw_mode(struct termios *raw_termios);
 int     tty_get_line(char **line);
 int     get_escape_seq(char *buf);
-int     tty_echo_esc(t_cursor_pos *cursor_pos);
+int     tty_echo_esc(t_tty_param *tty_param);
 int     tty_write_over(char *read_buf, char c);
 int     tty_error(char *error_msg);
-int     tty_read_echo(t_cursor_pos *cursor_pos, char **line);
+int     tty_read_echo(t_cursor_pos *cursor_pos, char **line_hist, \
+        int hist_size, char *line);
 int     tty_echo_char(t_cursor_pos *cursor_pos, char *read_buf, int index,\
- char c);
+        char c);
+int     tty_hist_next_line(char **arr, int arr_size);
+int     dynamic_get_next_free(char **arr, int arr_size);
 
 #endif
