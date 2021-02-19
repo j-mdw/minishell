@@ -11,7 +11,7 @@ static  int
         write(STDIN_FILENO, "\r\n", 2);
         if (tty_newline(cursor_pos) < 0)
             return (-1);
-    }
+    } 
     else if (c == 4 && !read_buf[0])
         return (-1);
     else if (c == '\r')

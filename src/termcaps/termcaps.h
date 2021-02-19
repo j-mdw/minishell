@@ -11,6 +11,8 @@
 
 #define ARROW_RIGHT "\x1b[C"
 #define ARROW_LEFT "\x1b[D"
+#define ARROW_UP "\x1b[A"
+#define ARROW_DOWN "\x1b[B"
 
 #define READ_BUF_SIZE 4096
 #define SHELL_MSG "coquillage"

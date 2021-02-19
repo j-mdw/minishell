@@ -44,5 +44,17 @@ int
         cursor_pos->row--;
         write(STDIN_FILENO, esc_buf, 3);
     }
+    if (!ft_strcmp(esc_buf, ARROW_UP) && (cursor_pos->row > \
+    (cursor_pos->start_row)))
+    {
+        // cursor_pos->row--;
+        // write(STDIN_FILENO, esc_buf, 3);
+    }
+    if (!ft_strcmp(esc_buf, ARROW_DOWN) && (cursor_pos->row > \
+    (cursor_pos->start_row)))
+    {
+        // cursor_pos->row--;
+        // write(STDIN_FILENO, esc_buf, 3);
+    }
     return (0);
 }
