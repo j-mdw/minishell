@@ -16,14 +16,14 @@ Gestion curseur:
 
 
 int
-    tty_get_line(char **line)
+    tty_get_line(char *hist[], char *newline)
 {
-    static char     line_hist[HIST_SIZE][READ_BUF_SIZE];
+    // static char     line_hist[HIST_SIZE][READ_BUF_SIZE];
     struct termios  raw_termios;
     t_cursor_pos    cursor_pos;
     int             ret;
 
-    *line = NULL;
+    newline = NULL;
     if (tcgetattr(STDIN_FILENO, &g_origin_termios) < 0)
         return(tty_error("tcgetattr"));
     raw_termios = g_origin_termios;
@@ -31,10 +31,10 @@ int
         return (-1);
     if (tty_newline(&cursor_pos) < 0)
         return (-1);
-    if ((ret = tty_read_echo(&cursor_pos, line_hist, HIST_SIZE, *line)) < 0)
+    if ((ret = tty_read_echo(&cursor_pos, hist, HIST_SIZE, newline)) < 0)
     {
-        free(*line);
-        *line = NULL;
+        // free(*line);
+        newline = NULL;
     }
     if (tcsetattr(STDIN_FILENO, TCSANOW, &g_origin_termios) < 0)
         return (tty_error("tty reset failed"));
@@ -44,13 +44,15 @@ int
 int
     main(void)
 {
-    char *line;
+    char *hist[10];
+    char line[4096];
     int  ret;
     
-    while ((ret = tty_get_line(&line)) >= 0)
+    hist[0] = line;
+    while ((ret = tty_get_line(hist, line)) >= 0)
     {
-        printf("line: %s| Ret: %d\n", line, ret);
-        free(line);
+        printf("line: %s| Ret: %d\n", hist[0], ret);
+        // free(line);
     }
     return (0);
 }

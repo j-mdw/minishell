@@ -33,7 +33,7 @@ char
 
     if ((index = dynamic_get_next_free(arr, arr_size)) < 0)
     {
-        dynamic_overwrite_first(arr, arr_size);
+        dynamic_overwrite_first(arr, arr_size, str_size);
         return (arr[arr_size -1]);
     }
     else

@@ -22,10 +22,10 @@ static  int
 static void
     set_line(char **line, char *read_buf)
 {
-
+return;
 }
 int
-    tty_read_echo(t_cursor_pos *cursor_pos, char **line_hist, int hist_size, char **line)
+    tty_read_echo(t_cursor_pos *cursor_pos, char **hist, int hist_size, char *line)
 {
     t_tty_param tty_param;
     char    *read_buf;
@@ -34,16 +34,16 @@ int
     int     ret;
 
     tty_param.cursor_pos = cursor_pos;
-    tty_param.line_hist = line_hist;
+    tty_param.line_hist = hist;
     tty_param.hist_size = hist_size;
-    read_buf = dynamic_next_line(line_hist, hist_size);
-    tty_param.line_index = dynamic_get_next_free(line_hist, hist_size);
+    tty_param.line_index = dynamic_get_next_free(hist, hist_size);
+    read_buf = line;
     while (1)
     {
         row_index = cursor_pos->row - cursor_pos->start_row;
         if ((read(STDIN_FILENO, &c, 1)) < 0)
             return(tty_error("read"));
-        if (c == '\x1b' && (tty_echo_esc(tty_param) < 0))
+        if (c == '\x1b' && (tty_echo_esc(&tty_param) < 0))
             return (-1);
         else if (ft_isprint(c) && \
         (tty_echo_char(cursor_pos, read_buf, row_index, c) < 0))
@@ -52,7 +52,7 @@ int
         {
             if ((ret = tty_read_echo_2(&tty_param, read_buf, row_index, c)) != 0)
             {
-                set_line(line, buffer) = ft_strdup(read_buf);
+                // set_line(line, buffer) = ft_strdup(read_buf);
                 return (ret);
             }
         }

@@ -11,7 +11,8 @@ tty_escape.c\
 tty_write_over.c\
 tty_error.c\
 tty_read_echo.c\
-tty_echo_char.c
+tty_echo_char.c\
+tty_dynamic_array.c\
 
 O_FILES = ${SRCS:c=o}
 

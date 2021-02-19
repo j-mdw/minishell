@@ -25,6 +25,12 @@ int
 }
 
 int
+    tty_del_line(void)
+{
+    write(STDIN_FILENO, "\x1b[2J", 4);
+}
+
+int
     tty_echo_esc(t_tty_param *tty_param)
 {
     char    esc_buf[32];
@@ -50,6 +56,7 @@ int
     if (!ft_strcmp(esc_buf, ARROW_UP) && (cursor_pos->row > \
     (cursor_pos->start_row)))
     {
+        tty_del_line();
         // if ()
         // cursor_pos->row--;
         // write(STDIN_FILENO, esc_buf, 3);
