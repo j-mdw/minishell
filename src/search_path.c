@@ -71,7 +71,7 @@ char
         i++;
     }
     ft_free_strarr(&path_split);
-    printf("minishell: command not found: %s\n", bin);
+    // printf("minishell: command not found: %s\n", bin);
     return (NULL);
 }
 /*

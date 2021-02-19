@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_pipes.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmaydew <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: jmaydew <jmaydew@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/14 14:17:10 by jmaydew           #+#    #+#             */
-/*   Updated: 2021/02/14 14:20:19 by jmaydew          ###   ########.fr       */
+/*   Updated: 2021/02/19 10:45:29 by jmaydew          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,11 @@ static int
 static void
 	exec_child(int pipefd[2], int readfd, t_cmd_data *cmd_data)
 {
+	if (!cmd_data->filename && cmd_data->builtin_index < 0)
+	{
+		dprintf(STDERR_FILENO, "minishell: command not found: %s\n", cmd_data->cmd_split[0]);
+		exit(EXIT_FAILURE);
+	}
 	reset_signals();
 	if (pipefd[0] != 0)
 		close(pipefd[0]);
