@@ -9,6 +9,7 @@ void
     while (i < arr_size)
     {
         free(arr[i]);
+        arr[i] = NULL;
         i++;
     }
     free(arr);

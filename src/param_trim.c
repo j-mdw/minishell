@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/16 14:42:27 by user42            #+#    #+#             */
-/*   Updated: 2021/02/18 14:02:13 by user42           ###   ########.fr       */
+/*   Updated: 2021/02/18 15:38:49 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,8 @@ char		*
 {
 	char		*final_format;
 
+	if (!raw_param)
+		return (NULL);
 	final_format = param_expand(raw_param, NULL, 0);
 	return (final_format);
 }

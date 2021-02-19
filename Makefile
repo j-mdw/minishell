@@ -30,6 +30,7 @@ first_read\
 ft_isblank\
 lit_status_init\
 is_lit\
+is_operator\
 close_if\
 \
 exec_pipes\

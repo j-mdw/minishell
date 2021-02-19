@@ -6,16 +6,11 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/09 14:38:35 by user42            #+#    #+#             */
-/*   Updated: 2021/02/16 15:47:58 by user42           ###   ########.fr       */
+/*   Updated: 2021/02/18 14:49:07 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static int	is_operator(char c)
-{
-	return (c == '|' || c == ';' || c == '<' || c == '>');
-}
 
 static void	set_operators_as_used(t_lit_status *lit_status)
 {

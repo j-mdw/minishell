@@ -17,15 +17,10 @@ static int
     char    *filename;
 
     i = 0;
-    line[i] = ' ';			// Overwritting redirection symbol
-    i++;
+    line[i++] = ' ';			// Overwritting redirection symbol
     append_flag = O_TRUNC;
-    if (line[i] == '>')
-    {
-        append_flag = O_APPEND;
-        line[i] = ' ';
-        i++;
-    }														
+    if (line[i] == '>' && (append_flag = O_APPEND))
+        line[i++] = ' ';								
     if (!(filename = get_filename(&(line[i]))))	                            // Parsing of get_filename not final yet
         return (-1);
     if ((fd = open(filename, O_RDWR | O_CREAT | append_flag, 0664)) < 0)    // Open filename, if it doesn't exist, create it
@@ -77,14 +72,14 @@ static int
 ** Replaces redirections char and filenames in *line with blank spaces
 */
 int
-	parse_redirections(char *line, int redirfd[2])
+	parse_redirections(char *line, int redirfd[2], t_lit_status *lit_status)
 {
 	int	i;
 
 	i = 0;
 	redirfd[0] = STDIN_FILENO;
 	redirfd[1] = STDOUT_FILENO;
-	while (line[i])
+	while (line[i] && !is_lit(line[i], lit_status))
 	{
 		if (line[i] == '>')
 		{
@@ -100,7 +95,7 @@ int
             if ((redirfd[0] = parse_input_redir(&(line[i]))) < 0)
                 return (close_if(redirfd[1], STDOUT_FILENO) - 1);
         }
-		i++;
+        i++;
 	}
     return (0);
 }

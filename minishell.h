@@ -71,6 +71,7 @@ void    sigexit_handler(int sig_nb);
 int		parse_input(char *line, t_builtin *builtin_data);
 char    *get_filename(char *line);
 int     ft_isblank(int c);
+int		is_operator(char c);
 char	**shell_split(char const *s, char c);
 char	*first_read(char *s);
 int		is_lit(char c, t_lit_status *lit_status);
