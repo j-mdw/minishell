@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/14 12:50:39 by jmaydew           #+#    #+#             */
-/*   Updated: 2021/02/19 15:11:48 by user42           ###   ########.fr       */
+/*   Updated: 2021/02/20 16:44:34 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ char
 	{
 		if ((value = ft_strchr(env->content, '=')))
 		{
-			if (!(ft_strncmp(key, env->content, value - (char *)env->content)))
+			if (!(ft_strncmp(key, env->content, value - (char *)env->content))) 
 				return (value + 1);
 		}
 		env = env->next;
