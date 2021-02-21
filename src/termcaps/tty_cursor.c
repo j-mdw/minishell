@@ -1,18 +1,6 @@
 #include "termcaps.h"
 
 int
-    tty_init_cursor_pos(t_cursor_pos *cursor_pos)
-{
-    if (tty_get_cursor_pos(cursor_pos) < 0)
-        return (-1);
-    cursor_pos->start_col = cursor_pos->col;
-    cursor_pos->start_row = cursor_pos->row;
-    cursor_pos->max_col = cursor_pos->col;
-    cursor_pos->max_row = cursor_pos->row;
-    return (0);
-}
-
-int
     tty_get_cursor_pos(t_cursor_pos *cursor_pos)
 {
     char    buf[32];
@@ -35,3 +23,16 @@ int
     cursor_pos->col = ft_atoi(&buf[i + 1]);
     return (0);
 }
+
+int
+    tty_init_cursor_pos(t_cursor_pos *cursor_pos)
+{
+    if (tty_get_cursor_pos(cursor_pos) < 0)
+        return (-1);
+    cursor_pos->start_col = cursor_pos->col;
+    cursor_pos->start_row = cursor_pos->row;
+    cursor_pos->max_col = cursor_pos->col;
+    cursor_pos->max_row = cursor_pos->row;
+    return (0);
+}
+

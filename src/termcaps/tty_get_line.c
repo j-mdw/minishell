@@ -16,14 +16,12 @@ Gestion curseur:
 
 
 int
-    tty_get_line(char *hist[], char *newline)
+    tty_get_line(char *hist[], int hist_size)
 {
-    // static char     line_hist[HIST_SIZE][READ_BUF_SIZE];
     struct termios  raw_termios;
     t_cursor_pos    cursor_pos;
     int             ret;
 
-    newline = NULL;
     if (tcgetattr(STDIN_FILENO, &g_origin_termios) < 0)
         return(tty_error("tcgetattr"));
     raw_termios = g_origin_termios;
@@ -31,11 +29,13 @@ int
         return (-1);
     if (tty_newline(&cursor_pos) < 0)
         return (-1);
-    if ((ret = tty_read_echo(&cursor_pos, hist, HIST_SIZE, newline)) < 0)
-    {
-        // free(*line);
-        newline = NULL;
-    }
+    write(1, "bibi\r\n", 6);
+    if ((ret = tty_read_echo(&cursor_pos, hist, HIST_SIZE)) < 0)
+    (int)ret;
+    // {
+    //     free(hist[]);
+    //     newline = NULL;
+    // }
     if (tcsetattr(STDIN_FILENO, TCSANOW, &g_origin_termios) < 0)
         return (tty_error("tty reset failed"));
     return(ret);
@@ -44,12 +44,18 @@ int
 int
     main(void)
 {
-    char *hist[10];
-    char line[4096];
+    char *(hist[HIST_SIZE]);
     int  ret;
-    
-    hist[0] = line;
-    while ((ret = tty_get_line(hist, line)) >= 0)
+    int     i;
+
+    i = 0;
+    while (i < HIST_SIZE)
+    {
+        hist[i] = NULL;
+        i++;
+    }
+    printf("Hum?\n");
+    while ((ret = tty_get_line(hist, HIST_SIZE)) >= 0)
     {
         printf("line: %s| Ret: %d\n", hist[0], ret);
         // free(line);

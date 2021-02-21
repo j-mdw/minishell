@@ -25,10 +25,22 @@ int
 }
 
 int
-    tty_del_line(void)
+    tty_move_cursor(int row, int col)
 {
-    write(STDIN_FILENO, "\x1b[2J", 4);
+    unsigned char row_c;
+    unsigned char col_c;
+
+    row_c = row;
+    col_c = col;
+    write(STDIN_FILENO, "\x1b[Y", 4);
+    write(STDIN_FILENO, &row_c, 1);
+    write(STDIN_FILENO, &col_c, 1);  
 }
+
+// int
+//     tty_del_line(t_tty_param *tty_param)
+// {
+// }
 
 int
     tty_echo_esc(t_tty_param *tty_param)
@@ -56,7 +68,8 @@ int
     if (!ft_strcmp(esc_buf, ARROW_UP) && (cursor_pos->row > \
     (cursor_pos->start_row)))
     {
-        tty_del_line();
+        tty_move_cursor(cursor_pos->start_row, cursor_pos->start_col);
+        // tty_del_line();
         // if ()
         // cursor_pos->row--;
         // write(STDIN_FILENO, esc_buf, 3);
