@@ -29,7 +29,7 @@ int
         return (-1);
     if (tty_newline(&cursor_pos) < 0)
         return (-1);
-    write(1, "bibi\r\n", 6);
+    // write(1, "bibi\r\n", 6);
     if ((ret = tty_read_echo(&cursor_pos, hist, HIST_SIZE)) < 0)
     (int)ret;
     // {
@@ -54,11 +54,14 @@ int
         hist[i] = NULL;
         i++;
     }
-    printf("Hum?\n");
+    // printf("Hum?\n");
     while ((ret = tty_get_line(hist, HIST_SIZE)) >= 0)
     {
         printf("line: %s| Ret: %d\n", hist[0], ret);
         // free(line);
     }
+    i = 0;
+    while (hist[i])
+        free(hist[i]);
     return (0);
 }

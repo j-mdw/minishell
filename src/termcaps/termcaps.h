@@ -51,5 +51,7 @@ int     tty_read_echo(t_cursor_pos *cursor_pos, char **hist, int hist_size);
 int     tty_echo_char(t_cursor_pos *cursor_pos, char *read_buf, int index, char c);
 int     dynamic_next_line(char **arr, int arr_size, int str_size);
 int     dynamic_get_next_free(char **arr, int arr_size);
+int     tty_move_cursor(int row, int col, t_cursor_pos *cursor_pos);
+void    tty_erase_from_crusor(t_cursor_pos *cursor_pos);
 
 #endif

@@ -13,6 +13,8 @@ tty_error.c\
 tty_read_echo.c\
 tty_echo_char.c\
 tty_dynamic_array.c\
+tty_move_cursor.c\
+tty_erase_from_crusor.c\
 
 O_FILES = ${SRCS:c=o}
 

@@ -48,9 +48,9 @@ int
         else if (ft_isprint(c) && \
         (tty_echo_char(cursor_pos, read_buf, col_index, c) < 0))
             return (-1);
-        else
+        else if ((ret = tty_read_echo_2(&tty_param, read_buf, col_index, c)) != 0)
         {
-            if ((ret = tty_read_echo_2(&tty_param, read_buf, col_index, c)) == 1)
+            if (ret == 1)
                 tty_param.line_hist[tty_param.newline_index] = ft_strdup(read_buf);
             return (ret);
         }
