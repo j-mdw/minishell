@@ -29,23 +29,17 @@ int
         return (-1);
     if (tty_newline(&cursor_pos) < 0)
         return (-1);
-    // write(1, "bibi\r\n", 6);
-    if ((ret = tty_read_echo(&cursor_pos, hist, HIST_SIZE)) < 0)
-    (int)ret;
-    // {
-    //     free(hist[]);
-    //     newline = NULL;
-    // }
+    ret = tty_read_echo(&cursor_pos, hist, HIST_SIZE);
     if (tcsetattr(STDIN_FILENO, TCSANOW, &g_origin_termios) < 0)
         return (tty_error("tty reset failed"));
-    return(ret);
+    return (ret);
 }
 
 int
     main(void)
 {
-    char *(hist[HIST_SIZE]);
-    int  ret;
+    char    *hist[HIST_SIZE];
+    int     ret;
     int     i;
 
     i = 0;
@@ -54,14 +48,26 @@ int
         hist[i] = NULL;
         i++;
     }
-    // printf("Hum?\n");
+    i = 0;
+    // while (i < HIST_SIZE)
+    // {
+    //     printf("fuck you");
+    //     dprintf(STDERR_FILENO, "HISTSIZE: %d|%p\n", i, hist[i]);
+    //     // free(hist[i]);
+    //     i++;
+    // }
     while ((ret = tty_get_line(hist, HIST_SIZE)) >= 0)
     {
-        printf("line: %s| Ret: %d\n", hist[0], ret);
+        (void)ret;
+        // printf("line: %s| Ret: %d\n", hist[0], ret);
         // free(line);
     }
     i = 0;
     while (hist[i])
+    {
+        printf("%s\n", hist[i]);
         free(hist[i]);
+        i++;
+    }
     return (0);
 }

@@ -2,20 +2,21 @@
 
 
 static void
-    dynamic_overwrite_first(char **arr, int arr_size, int str_size)
+    dynamic_overwrite_first(char **arr, int arr_size)
 {
     int i;
+
+    free(arr[0]);
+    i = 0;
     while (i < arr_size - 1)
     {
         arr[i] = arr[i + 1];
         i++;
     }
-    free(arr[arr_size - 1]);
-    arr[arr_size - 1] = NULL;
-    // ft_bzero(arr[arr_size - 1], str_size);
+    arr[i] = NULL;
 }
 
-int
+static int
     dynamic_get_next_free(char **arr, int arr_size)
 {   
     int index;
@@ -29,13 +30,13 @@ int
 }
 
 int
-    dynamic_next_line(char **arr, int arr_size, int str_size)
+    dynamic_next_line(char **arr, int arr_size)
 {
     int index;
 
     if ((index = dynamic_get_next_free(arr, arr_size)) < 0)
     {
-        dynamic_overwrite_first(arr, arr_size, str_size);
+        dynamic_overwrite_first(arr, arr_size);
         return (arr_size -1);
     }
     return (index);

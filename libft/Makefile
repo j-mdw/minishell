@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: clkuznie <clkuznie@student.42.fr>          +#+  +:+       +#+         #
+#    By: jmaydew <jmaydew@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/10/13 19:53:29 by clkuznie          #+#    #+#              #
-#    Updated: 2021/01/30 12:07:07 by clkuznie         ###   ########.fr        #
+#    Updated: 2021/02/22 17:16:01 by jmaydew          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -60,6 +60,7 @@ ft_putstrarr.c\
 ft_free_strnarr.c\
 ft_list_remove_if.c\
 ft_free_strarr.c\
+ft_isblank.c
 
 FILES			:= \
 $(addprefix libc/, $(LIBC))\

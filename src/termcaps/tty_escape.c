@@ -25,8 +25,19 @@ int
     return (tty_error("Unknown escape sequence"));
 }
 
+void
+    tty_move_next_word(t_cursor_pos *cursor_pos, char *read_buf)
+{
+    int     cursor_i;
+
+    cursor_i = cursor_pos->col - 1;
+    while (!ft_isblank(read_buf[cursor_i]) && cursor_i < cursor_pos->max_col)
+        cursor_i++;
+    return (cursor_i);
+}
+
 int
-    tty_echo_esc(t_tty_param *tty_param)
+    tty_echo_esc(t_tty_param *tty_param, char *read_buf)
 {
     char    esc_buf[32];
     t_cursor_pos *cursor_pos;
@@ -47,17 +58,16 @@ int
         cursor_pos->col--;
         write(STDIN_FILENO, esc_buf, 3);
     }
-    if (!ft_strcmp(esc_buf, ARROW_UP))
-    {
-        if ((tty_move_cursor(cursor_pos->start_row, cursor_pos->start_col, cursor_pos)) < 0)
-            return (-1);
-        tty_erase_from_crusor(cursor_pos);
-    }
+    if (!ft_strcmp(esc_buf, ARROW_UP) && (tty_iter_hist(tty_param, read_buf, HIST_UP) < 0))
+        return (-1);
     if (!ft_strcmp(esc_buf, ARROW_DOWN) && (cursor_pos->col > \
-    (cursor_pos->start_col)))
-    {
-        // cursor_pos->col--;
-        // write(STDIN_FILENO, esc_buf, 3);
-    }
+    (cursor_pos->start_col)) && (tty_iter_hist(tty_param, read_buf, HIST_DOWN) < 0))
+        return (-1);
+    if (!ft_strcmp(esc_buf, MOVE_END) && 
+    (tty_move_cursor(cursor_pos->max_row, cursor_pos->max_col, cursor_pos) < 0))
+        return (-1);
+    if (!ft_strcmp(esc_buf, MOVE_START) && 
+    (tty_move_cursor(cursor_pos->start_row, cursor_pos->start_col, cursor_pos) < 0))
+        return (-1);
     return (0);
 }

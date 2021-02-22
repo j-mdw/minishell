@@ -14,17 +14,18 @@ tty_read_echo.c\
 tty_echo_char.c\
 tty_dynamic_array.c\
 tty_move_cursor.c\
-tty_erase_from_crusor.c\
+tty_erase_from_cursor.c\
+tty_iter_hist.c\
 
 O_FILES = ${SRCS:c=o}
 
-ROOT_PATH := /home/user42/Documents/minishell/minishell
+ROOT_PATH := /home/user42/Documents/minishell
 
 LIBFT_PATH = $(ROOT_PATH)/libft
 
 LIBFT = $(LIBFT_PATH)/libft.a
 
-TTYLIB = ttylib.a
+# TTYLIB = ttylib.a
 
 CC = gcc
 

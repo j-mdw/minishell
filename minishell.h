@@ -66,7 +66,6 @@ void	set_parent_signals(void);
 */
 int		parse_input(char *line, t_builtin *builtin_data);
 char    *get_filename(char *line);
-int     ft_isblank(int c);
 char	**shell_split(char const *s, char c);
 char	first_read(const char *str);
 int		is_lit(char c, t_lit_status *lit_status);
