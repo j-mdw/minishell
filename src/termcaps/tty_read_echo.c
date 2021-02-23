@@ -50,12 +50,6 @@ int
 
     init_tty_param(&tty_param, cursor_pos, hist, hist_size);
     ft_bzero(read_buf, READ_BUF_SIZE);
-    // int i = 0;
-    // while (hist[i])
-    // {
-    //     printf("%s\n", hist[i]);
-    //     i++;
-    // }
     while (1)
     {
         col_index = cursor_pos->col - cursor_pos->start_col;

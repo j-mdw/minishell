@@ -29,11 +29,34 @@ void
     tty_move_next_word(t_cursor_pos *cursor_pos, char *read_buf)
 {
     int     cursor_i;
+    int     max_i;
 
-    cursor_i = cursor_pos->col - 1;
-    while (!ft_isblank(read_buf[cursor_i]) && cursor_i < cursor_pos->max_col)
+    cursor_i = cursor_pos->col - cursor_pos->start_col;
+    max_i = cursor_pos->max_col - cursor_pos->start_col;
+    while (cursor_i < max_i && !ft_isblank(read_buf[cursor_i]))
         cursor_i++;
-    return (cursor_i);
+    while (cursor_i < max_i && ft_isblank(read_buf[cursor_i]))
+        cursor_i++;
+    // if (cursor_i != max_i)
+    //     cursor_i++;
+    tty_move_cursor(cursor_pos->row, cursor_pos->start_col + cursor_i, cursor_pos);
+}
+
+void
+    tty_move_previous_word(t_cursor_pos *cursor_pos, char *read_buf)
+{
+    int     cursor_i;
+
+    cursor_i = cursor_pos->col - cursor_pos->start_col;
+    if (cursor_i > 0)
+        cursor_i--;
+    while (cursor_i > 0 && ft_isblank(read_buf[cursor_i]))
+        cursor_i--;
+    while (cursor_i > 0 && !ft_isblank(read_buf[cursor_i]))
+        cursor_i--;
+    if (cursor_i != 0)
+        cursor_i++;
+    tty_move_cursor(cursor_pos->row, cursor_pos->start_col + cursor_i, cursor_pos);
 }
 
 int
@@ -69,5 +92,9 @@ int
     if (!ft_strcmp(esc_buf, MOVE_START) && 
     (tty_move_cursor(cursor_pos->start_row, cursor_pos->start_col, cursor_pos) < 0))
         return (-1);
-    return (0);
+    if (!ft_strcmp(esc_buf, CTRL_RIGHT) && (cursor_pos->col < cursor_pos->max_col))
+        tty_move_next_word(tty_param->cursor_pos, read_buf);
+    if (!ft_strcmp(esc_buf, CTRL_LEFT) && (cursor_pos->col > cursor_pos->start_col))
+        tty_move_previous_word(tty_param->cursor_pos, read_buf);
+        return (0);
 }
