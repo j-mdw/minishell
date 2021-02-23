@@ -70,3 +70,55 @@ toto la string = |
 
 Exit status: 0
 
+______________________________________________________________-
+
+coquillage$>$seOTHUAO
+||
+minishell: command not found: 
+Error: No such file or directory
+Exit status: 0
+coquillage$>BASH
+|BASH|
+minishell: command not found: BASH
+Error: No such file or directory
+Exit status: 0
+coquillage$>bash
+|bash|
+user42@salty-VirtualBox:~/Documents/minishell$ echo $HOME | $SOEUTHOEU | echo $HOME
+/home/user42
+user42@salty-VirtualBox:~/Documents/minishell$ echo $HOME | $SOEUTHOEU | echo $HOME
+/home/user42
+user42@salty-VirtualBox:~/Documents/minishell$ ./minishell 
+coquillage$>echo $HOME | $OESNTUHOETSNU | echo $HOME
+|echo|
+||
+minishell: command not found: 
+Exit status: 0
+coquillage$>exet           
+|exet|
+minishell: command not found: exet
+Error: No such file or directory
+Exit status: 0
+coquillage$>exit
+|exit|
+Exit status: 0
+exit
+user42@salty-VirtualBox:~/Documents/minishell$ echo $HOME | "" | echo $HOME
+/home/user42
+
+Command '' not found, but can be installed with:
+
+sudo apt install libpam-mount      
+sudo apt install openssh-server    
+sudo apt install openvswitch-common
+sudo apt install openvswitch-switch
+sudo apt install php-common        
+sudo apt install bpfcc-tools       
+sudo apt install burp              
+sudo apt install cryptmount        
+sudo apt install dolphin-emu       
+sudo apt install mailutils-mh      
+sudo apt install mmh               
+sudo apt install nmh               
+
+

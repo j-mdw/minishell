@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_echo.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmaydew <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/14 13:26:24 by jmaydew           #+#    #+#             */
-/*   Updated: 2021/02/14 13:26:28 by jmaydew          ###   ########.fr       */
+/*   Updated: 2021/02/23 16:22:52 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int
 
 	(void)env;
 	n_flag = 0;
-	if (!(ft_strcmp(arg[1], "-n")))
+	if (arg[1] && !(ft_strcmp(arg[1], "-n")))
 		n_flag = 1;
 	i = 1 + n_flag;
 	while (arg[i])

@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/18 15:42:49 by user42            #+#    #+#             */
-/*   Updated: 2021/02/22 15:13:30 by user42           ###   ########.fr       */
+/*   Updated: 2021/02/23 16:48:04 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,14 +25,19 @@ static char
 		{
 			j = i;
 			free(params[i]);
-			while (params[j++])
-				params[j - 1] = params[j];
+			while (params[j])
+			{
+				params[j] = params[j + 1];
+				j++;
+			}
 		}
 		i++;
 	}
-	// if (params[0]) TODO see if anything remains
+	if (params[0])
 		return (params);
-	// return (NULL);
+	if (!(params[0] = ft_strdup("")))
+		return (NULL);
+	return (params);
 }
 
 char
@@ -44,7 +49,8 @@ char
 
 // check if the programm leaks if shell_split returns a pointer to a NULL pointer
 // DO THE EMPTY EXPANSION SHIT
-	params = shell_split(cmd_line, ' ');
+	if (!(params = shell_split(cmd_line, ' ')))
+		return (NULL);
 	i = 0;
 	while (params[i])
 	{
@@ -60,7 +66,7 @@ char
 			ft_free_strnarr(params, i);
 			free(params);
 			params = NULL;
-			return (params);
+			return (NULL);
 		}
 		i++;
 	}
