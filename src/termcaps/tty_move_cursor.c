@@ -1,7 +1,7 @@
 #include "termcaps.h"
 
 int
-    tty_move_cursor(int row, int col, t_cursor_pos *cursor_pos)
+    tty_move_cursor(int row, int col, t_cursor *cursor)
 {
 
     char    *row_s;
@@ -21,7 +21,7 @@ int
     write(STDIN_FILENO, "H", 1);
     free(row_s);
     free(col_s);
-    cursor_pos->row = row;
-    cursor_pos->col = col;
+    cursor->row = row;
+    cursor->col = col;
     return (0);  
 }

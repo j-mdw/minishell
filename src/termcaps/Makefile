@@ -7,7 +7,7 @@ tty_echo_del.c\
 tty_move_left.c\
 tty_newline.c\
 tty_set_raw_mode.c\
-tty_escape.c\
+tty_echo_escape.c\
 tty_write_over.c\
 tty_error.c\
 tty_read_echo.c\
@@ -16,6 +16,9 @@ tty_dynamic_array.c\
 tty_move_cursor.c\
 tty_erase_from_cursor.c\
 tty_iter_hist.c\
+tty_main.c\
+tty_move_word.c\
+tty_get_escape_seq.c\
 
 O_FILES = ${SRCS:c=o}
 

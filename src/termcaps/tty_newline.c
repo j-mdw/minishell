@@ -1,7 +1,7 @@
 #include "termcaps.h"
 
 int
-    tty_newline(t_cursor_pos *cursor_pos)
+    tty_newline(t_cursor *cursor)
 {
     char *path;
     char *dir_name;
@@ -25,6 +25,6 @@ int
     write(STDIN_FILENO, "\x1b[1;32m", 7);
     write(1, "$>", 2);
     write(STDIN_FILENO, "\x1b[0m", 4);
-    if (tty_init_cursor_pos(cursor_pos) < 0)
+    if (tty_init_cursor(cursor) < 0)
         return (0);
 }

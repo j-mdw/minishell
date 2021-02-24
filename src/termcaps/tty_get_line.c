@@ -19,7 +19,7 @@ int
     tty_get_line(char *hist[], int hist_size)
 {
     struct termios  raw_termios;
-    t_cursor_pos    cursor_pos;
+    t_cursor    cursor;
     int             ret;
 
     if (tcgetattr(STDIN_FILENO, &g_origin_termios) < 0)
@@ -27,47 +27,10 @@ int
     raw_termios = g_origin_termios;
     if (tty_set_raw_mode(&raw_termios) < 0)
         return (-1);
-    if (tty_newline(&cursor_pos) < 0)
+    if (tty_newline(&cursor) < 0)
         return (-1);
-    ret = tty_read_echo(&cursor_pos, hist, HIST_SIZE);
+    ret = tty_read_echo(&cursor, hist, HIST_SIZE);
     if (tcsetattr(STDIN_FILENO, TCSANOW, &g_origin_termios) < 0)
         return (tty_error("tty reset failed"));
     return (ret);
-}
-
-int
-    main(void)
-{
-    char    *hist[HIST_SIZE];
-    int     ret;
-    int     i;
-
-    i = 0;
-    while (i < HIST_SIZE)
-    {
-        hist[i] = NULL;
-        i++;
-    }
-    i = 0;
-    // while (i < HIST_SIZE)
-    // {
-    //     printf("fuck you");
-    //     dprintf(STDERR_FILENO, "HISTSIZE: %d|%p\n", i, hist[i]);
-    //     // free(hist[i]);
-    //     i++;
-    // }
-    while ((ret = tty_get_line(hist, HIST_SIZE)) >= 0)
-    {
-        (void)ret;
-        // printf("line: %s| Ret: %d\n", hist[0], ret);
-        // free(line);
-    }
-    i = 0;
-    while (hist[i])
-    {
-        printf("%s\n", hist[i]);
-        free(hist[i]);
-        i++;
-    }
-    return (0);
 }
