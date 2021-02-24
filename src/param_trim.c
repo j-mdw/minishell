@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/16 14:42:27 by user42            #+#    #+#             */
-/*   Updated: 2021/02/23 16:12:17 by user42           ###   ########.fr       */
+/*   Updated: 2021/02/24 00:04:36 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ typedef struct	s_exp_utils
 {
 	t_lit_status	*lit_status;
 	t_list			*local_env;
-	char			*string_to_free;
+	char			*exit_status;
 	char 			*raw_param;
 	char			*final_param;
 	int				char_is_lit;
@@ -40,8 +40,13 @@ static int
 		*value_str = env_get_val(utils->local_env, sub_param);
 		free(sub_param);
 	}
-	else
+	else if (*utils->raw_param != '?')
 		*value_str = "$";
+	else
+	{
+		*value_str = utils->exit_status;
+		utils->raw_param++;
+	}
 	if (*value_str)
 		i = ft_strlen(*value_str);
 	return (i);
@@ -50,6 +55,8 @@ static int
 static char		*
 	part_write(t_exp_utils *utils, char *value_str, int i)
 {
+	if (!utils->final_param)
+		return (NULL);
 	while (i-- > 0)
 	{
 		utils->final_param--;
@@ -62,27 +69,58 @@ static char		*
 	return (utils->final_param);
 }
 
+static int
+	param_expand(t_exp_utils *utils, char **value_str)
+{
+	int				i;
+	
+	if (!*utils->raw_param)
+		return (0);
+	if (*utils->raw_param == '$')
+		return (dollar_expansion(utils, value_str));
+	if (*utils->raw_param == '\\')
+	{
+		utils->raw_param += 2;
+		return (1);
+	}
+	i = 0;
+	;
+	;
+	;
+	;
+	;
+	;
+	;
+	;
+	;
+	;
+	;
+	;
+	return (i);
+}
+
 static char		*
-	param_expand(t_exp_utils utils, int total_len)
+	param_segment(t_exp_utils utils, int total_len)
 {
 	int				i;
 	char			*value_str;
 
 	i = 0;
 	value_str = NULL;
-	while (*utils.raw_param && ((utils.char_is_lit = is_lit(*utils.raw_param, utils.lit_status))
-		|| (*utils.raw_param != '\\' && *utils.raw_param != '"'
-			&& *utils.raw_param != '\'' && *utils.raw_param != '$')))
+	if (!(*utils.raw_param != '\\' && *utils.raw_param != '"'
+			&& *utils.raw_param != '\'' && *utils.raw_param != '$'))
+		i = param_expand(&utils, &value_str);
+	else
 	{
-		utils.raw_param++;
-		i++;
+		while (*utils.raw_param != '\\' && *utils.raw_param != '"'
+			&& *utils.raw_param != '\'' && *utils.raw_param != '$')
+		{
+			utils.raw_param++;
+			i++;
+		}
 	}
-	if (!i && *utils.raw_param == '$')
-		i = dollar_expansion(&utils, &value_str);
-	// else if (!i)
-	// 	skipped_char_expansion(&utils, &value_str);
 	if (*utils.raw_param)
-		utils.final_param = param_expand(utils, total_len + i);
+		utils.final_param = param_segment(utils, total_len + i);
 	else
 	{
 		if (!(utils.final_param = malloc(total_len + i + 1)))
@@ -102,14 +140,15 @@ char		*
 
 	if (!raw_param)
 		return (NULL);
-	// printf("%s\n", raw_param);
 	lit_status_init(&lit_status);
 	utils.raw_param = raw_param;
 	utils.char_is_lit = 0;
 	utils.final_param = NULL;
 	utils.local_env = local_env;
-	utils.string_to_free = NULL;
+	if (!(utils.exit_status = ft_itoa(g_minishell_exit_status)))
+		return (NULL);
 	utils.lit_status = &lit_status;
-	final_format = param_expand(utils, 0);
+	final_format = param_segment(utils, 0);
+	free(utils.exit_status);
 	return (final_format);
 }
