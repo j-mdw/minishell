@@ -29,8 +29,12 @@ parse_line\
 parse_argv\
 search_path\
 first_read\
+ft_isblank\
+lit_status_init\
 is_lit\
+is_operator\
 close_if\
+param_trim\
 \
 exec_pipes\
 exec_set_redir\

@@ -1,0 +1,124 @@
+coquillage$>echo toto $ ot
+toto $ ot
+Exit status: 0
+coquillage$>echo toto $ot
+toto 
+Exit status: 0
+coquillage$>echo toto $HOME
+toto /home/user42
+Exit status: 0
+coquillage$>echo toto $ot | cat -e
+toto $
+Exit status: 0
+coquillage$>exit
+Exit status: 0
+exit
+➜  minishell git:(develop) ✗ bash
+eco user42@salty-VirtualBox:~/Documents/minishell$ echo toto $ot | cat -e
+toto$
+user42@salty-VirtualBox:~/Documents/minishell$ echo toto $ oe
+toto $ oe
+user42@salty-VirtualBox:~/Documents/minishell$ echo toto $HOME
+toto /home/user42
+user42@salty-VirtualBox:~/Documents/minishell$ echo toto         $HOME
+toto /home/user42
+user42@salty-VirtualBox:~/Documents/minishell$ ./minishell 
+coquillage$>echo toto $auoeua
+toto 
+Exit status: 0
+coquillage$>echo toto $asoeutha o
+toto  o
+Exit status: 0
+coquillage$>exit
+Exit status: 0
+exit
+user42@salty-VirtualBox:~/Documents/minishell$ echo taoeutaoeu $ateou $uaoe
+taoeutaoeu
+user42@salty-VirtualBox:~/Documents/minishell$ echo taoeutaoeu $ateou oeu
+taoeutaoeu oeu
+user42@salty-VirtualBox:~/Documents/minishell$ ls $eouae
+a.out  libft  lol  Makefile  minishell  minishell.h  obj  src  test  todo.txt
+user42@salty-VirtualBox:~/Documents/minishell$ make
+gcc -Wall -Werror -Wextra -I . -I libft/ -g3 -O0 -c src/param_trim.c -o obj/param_trim.o
+gcc obj/main.o obj/signals.o obj/shell_split.o obj/redirections.o obj/get_filename.o obj/builtin_echo.o obj/builtin_exit.o obj/builtin_pwd.o obj/builtin_env.o obj/builtin_cd.o obj/builtin_export.o obj/builtin_unset.o obj/builtin_init_names_arr.o obj/builtin_init_funcarr.o obj/env_get_val.o obj/env_get_key.o obj/env_print.o obj/env_create_list.o obj/env_make_arr.o obj/parse_line.o obj/parse_argv.o obj/search_path.o obj/first_read.o obj/ft_isblank.o obj/lit_status_init.o obj/is_lit.o obj/is_operator.o obj/close_if.o obj/param_trim.o obj/exec_pipes.o obj/exec_set_redir.o obj/exec_init_cmd_data.o obj/exec_close_cmd_data.o obj/exec_set_cmd_filename.o libft/libft.a -o minishell 
+user42@salty-VirtualBox:~/Documents/minishell$ ./minishell 
+coquillage$>ls $atoeua
+toto
+toto
+ls: cannot access '': No such file or directory
+Exit status: 2
+coquillage$>.xit    
+toto
+minishell: command not found: .xit
+Error: No such file or directory
+Exit status: 2
+coquillage$>exit
+toto
+Exit status: 0
+exit
+user42@salty-VirtualBox:~/Documents/minishell$ echo "aoeu $oeau ouaoeu"
+aoeu  ouaoeu
+user42@salty-VirtualBox:~/Documents/minishell$ make
+gcc -Wall -Werror -Wextra -I . -I libft/ -g3 -O0 -c src/parse_argv.c -o obj/parse_argv.o
+gcc obj/main.o obj/signals.o obj/shell_split.o obj/redirections.o obj/get_filename.o obj/builtin_echo.o obj/builtin_exit.o obj/builtin_pwd.o obj/builtin_env.o obj/builtin_cd.o obj/builtin_export.o obj/builtin_unset.o obj/builtin_init_names_arr.o obj/builtin_init_funcarr.o obj/env_get_val.o obj/env_get_key.o obj/env_print.o obj/env_create_list.o obj/env_make_arr.o obj/parse_line.o obj/parse_argv.o obj/search_path.o obj/first_read.o obj/ft_isblank.o obj/lit_status_init.o obj/is_lit.o obj/is_operator.o obj/close_if.o obj/param_trim.o obj/exec_pipes.o obj/exec_set_redir.o obj/exec_init_cmd_data.o obj/exec_close_cmd_data.o obj/exec_set_cmd_filename.o libft/libft.a -o minishell 
+user42@salty-VirtualBox:~/Documents/minishell$ ./minishell 
+coquillage$>echo $eaueoua
+toto
+toto la string = echo|
+toto
+toto la string = |
+
+Exit status: 0
+
+______________________________________________________________-
+
+coquillage$>$seOTHUAO
+||
+minishell: command not found: 
+Error: No such file or directory
+Exit status: 0
+coquillage$>BASH
+|BASH|
+minishell: command not found: BASH
+Error: No such file or directory
+Exit status: 0
+coquillage$>bash
+|bash|
+user42@salty-VirtualBox:~/Documents/minishell$ echo $HOME | $SOEUTHOEU | echo $HOME
+/home/user42
+user42@salty-VirtualBox:~/Documents/minishell$ echo $HOME | $SOEUTHOEU | echo $HOME
+/home/user42
+user42@salty-VirtualBox:~/Documents/minishell$ ./minishell 
+coquillage$>echo $HOME | $OESNTUHOETSNU | echo $HOME
+|echo|
+||
+minishell: command not found: 
+Exit status: 0
+coquillage$>exet           
+|exet|
+minishell: command not found: exet
+Error: No such file or directory
+Exit status: 0
+coquillage$>exit
+|exit|
+Exit status: 0
+exit
+user42@salty-VirtualBox:~/Documents/minishell$ echo $HOME | "" | echo $HOME
+/home/user42
+
+Command '' not found, but can be installed with:
+
+sudo apt install libpam-mount      
+sudo apt install openssh-server    
+sudo apt install openvswitch-common
+sudo apt install openvswitch-switch
+sudo apt install php-common        
+sudo apt install bpfcc-tools       
+sudo apt install burp              
+sudo apt install cryptmount        
+sudo apt install dolphin-emu       
+sudo apt install mailutils-mh      
+sudo apt install mmh               
+sudo apt install nmh               
+
+

@@ -14,19 +14,13 @@ int
 	int		exit_status;
 	char	**controlop_split;
 	char	**pipe_split;
-	// char	err_char;
 
-	// if ((err_char = first_read(line)))
-	// {
-	// 	printf("minishell: parse error near \'%c\'", err_char);
-	// 	return (1);
-	// }
-	if (!(controlop_split = ft_split(line, ';')))
+	if (!(controlop_split = shell_split(line, ';')))
 		return (-1);
 	i = 0;
 	while (controlop_split[i])
 	{
-		if (!(pipe_split = ft_split(controlop_split[i], '|')))
+		if (!(pipe_split = shell_split(controlop_split[i], '|')))
 		{
 			ft_free_strarr(&controlop_split);
 			return (-1);

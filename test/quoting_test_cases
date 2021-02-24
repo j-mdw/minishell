@@ -1,0 +1,32 @@
+coquillage$>echo "toetoto"'totot''t"toto'
+toetoto"'totot''t"toto
+Exit status: 0
+coquillage$>bash
+user42@salty-VirtualBox:~/Documents/minishell$ echo "tototeua"'tot''to"toto'
+tototeuatotto"toto
+user42@salty-VirtualBox:~/Documents/minishell$ echo aeouaoeu ao uaoe ao
+aeouaoeu ao uaoe ao
+user42@salty-VirtualBox:~/Documents/minishell$ exit
+exit
+Exit status: 0
+coquillage$>aoeut aoeus aeou aoeu
+minishell: command not found: aoeut
+Error: No such file or directory
+Exit status: 0
+coquillage$>echo aoentuhao eaoe usaoeu
+aoentuhao eaoe usaoeu
+Exit status: 0
+coquillage$>bash
+user42@salty-VirtualBox:~/Documents/minishell$ mkdir "aoeu"
+user42@salty-VirtualBox:~/Documents/minishell$ ls
+aoeu  a.out  libft  main.c  Makefile  minishell  minishell.h  obj  src  test  todo.txt  toto.txt
+user42@salty-VirtualBox:~/Documents/minishell$ rm -rf aoeu
+user42@salty-VirtualBox:~/Documents/minishell$ mkdir "aoeu""touoaeu""oeuaoeu"
+user42@salty-VirtualBox:~/Documents/minishell$ ls
+aoeutouoaeuoeuaoeu  a.out  libft  main.c  Makefile  minishell  minishell.h  obj  src  test  todo.txt  toto.txt
+user42@salty-VirtualBox:~/Documents/minishell$ mkdir "aoeu" "touoaeu" "oeuaoeu"
+user42@salty-VirtualBox:~/Documents/minishell$ ls
+aoeu  aoeutouoaeuoeuaoeu  a.out  libft  main.c  Makefile  minishell  minishell.h  obj  oeuaoeu  src  test  todo.txt  toto.txt  touoaeu
+user42@salty-VirtualBox:~/Documents/minishell$ echo "toetoto"'totot''t"toto'
+toetotototott"toto
+

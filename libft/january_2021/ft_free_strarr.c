@@ -14,6 +14,7 @@ void
 	while ((*strarr)[i])
 	{
 		free((*strarr)[i]);
+		(*strarr)[i] = NULL;
 		i++;
 	}
 	free(*strarr);
