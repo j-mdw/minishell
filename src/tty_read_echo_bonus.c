@@ -68,11 +68,9 @@ int
 			return (-1);
 		else if ((ret = tty_read_echo_2(&tty_param, buf, col_i, c)) != 0)
 		{
-			if (ret == 1 && buf[0])
-			{
-				tty_param.line_hist[tty_param.newline_index] = ft_strdup(buf);
+			if (ret == 1 && buf[0] &&
+			(tty_param.line_hist[tty_param.newline_index] = ft_strdup(buf)))
 				return (tty_param.newline_index);
-			}
 			return (ret);
 		}
 	}

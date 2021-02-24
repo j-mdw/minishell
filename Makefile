@@ -112,9 +112,6 @@ $(LIBFT):
 bonus:
 	$(MAKE) WITH_BONUS=1 all
 
-# $(O_BONUS_FILES) $(LIBFT)
-	# $(CC) $^ -o $(NAME)
-
 clean:
 	$(RM) $(OBJ_FILES)
 	make --directory=libft clean

@@ -15,8 +15,9 @@
 int
 	builtin_exit(char **cmd, t_list **env)
 {
-	(void)cmd;
 	(void)env;
 	close(STDIN_FILENO);
+	if (cmd[1])
+		return (ft_atoi(cmd[1]));
 	return (EXIT_SUCCESS);
 }

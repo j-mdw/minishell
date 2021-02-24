@@ -32,6 +32,11 @@ static void
 	exec_child(int pipefd[2], int readfd, t_cmd_data *cmd_data)
 {
 	// set_child_signals();
+	if (!cmd_data->filename && cmd_data->builtin_index < 0)
+	{
+		printf("minishell: command not found: %s\n", cmd_data->cmd_split[0]);
+		exit(EXIT_FAILURE);
+	}
 	if (pipefd[0] != 0)
 		close(pipefd[0]);
 	if (dup2(readfd, STDIN_FILENO) < 0)
@@ -82,6 +87,7 @@ static int
 	g_minishell_exit_status = ret;
 	return (0);
 }
+    // printf("minishell: command not found: %s\n", bin);
 
 int
 	exec_pipe(char **pipe_split, int index, int piperead_fildes,
