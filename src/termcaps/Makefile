@@ -21,7 +21,7 @@ O_FILES = ${SRCS:c=o}
 
 ROOT_PATH := /home/user42/Documents/minishell
 
-LIBFT_PATH = $(ROOT_PATH)/libft
+LIBFT_PATH = ../../libft
 
 LIBFT = $(LIBFT_PATH)/libft.a
 
