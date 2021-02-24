@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/18 15:42:49 by user42            #+#    #+#             */
-/*   Updated: 2021/02/23 16:48:04 by user42           ###   ########.fr       */
+/*   Updated: 2021/02/23 18:36:44 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,8 @@ static char
 				j++;
 			}
 		}
-		i++;
+		else
+			i++;
 	}
 	if (params[0])
 		return (params);
@@ -47,8 +48,6 @@ char
 	char 	*trimmed_param;
 	int		i;
 
-// check if the programm leaks if shell_split returns a pointer to a NULL pointer
-// DO THE EMPTY EXPANSION SHIT
 	if (!(params = shell_split(cmd_line, ' ')))
 		return (NULL);
 	i = 0;

@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/29 16:27:53 by clkuznie          #+#    #+#             */
-/*   Updated: 2021/02/16 14:16:07 by user42           ###   ########.fr       */
+/*   Updated: 2021/02/24 14:26:41 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,11 @@ static int	count_strs(char const *s, char c, t_lit_status *lit_status)
 		return ((s[i]) ? s_nbr + 1 : s_nbr);
 	while (s[i])
 	{
-		if (is_lit(s[i], lit_status) || s[i] != c)
+		if (is_lit(s[i], lit_status) || s[i] != c || lit_status->dquote)
 		{
 			++s_nbr;
 			++i;
-			while (s[i] && (is_lit(s[i], lit_status) || s[i] != c))
+			while (s[i] && (is_lit(s[i], lit_status) || s[i] != c || lit_status->dquote))
 				++i;
 			continue ;
 		}
@@ -61,11 +61,11 @@ static int	duplicate(char const *s, char c, char **strs, int s_nbr)
 	while (i < s_nbr)
 	{
 		j = 0;
-		while (!is_lit(s[j], &lit_status) && s[j] == c)
+		while (!is_lit(s[j], &lit_status) && s[j] == c && !lit_status.dquote)
 			++j;
 		s += j;
 		j = 1;
-		while (s[j] && (is_lit(s[j], &lit_status) || s[j] != c))
+		while (s[j] && (is_lit(s[j], &lit_status) || s[j] != c || lit_status.dquote))
 			++j;
 		if (!(strs[i] = ft_strndup(s, j)))
 			return (0);
