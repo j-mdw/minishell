@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/16 14:42:27 by user42            #+#    #+#             */
-/*   Updated: 2021/02/24 00:04:36 by user42           ###   ########.fr       */
+/*   Updated: 2021/02/24 16:12:26 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static int
 
 	i = 0;
 	sub_param = (utils->raw_param)++;
-	while (ft_isalnum(*utils->raw_param) || *utils->raw_param == '_')
+	while (!utils->char_is_lit && (ft_isalnum(*utils->raw_param) || *utils->raw_param == '_'))
 		(utils->raw_param)++;
 	if (utils->raw_param != sub_param + 1)
 	{
@@ -40,7 +40,7 @@ static int
 		*value_str = env_get_val(utils->local_env, sub_param);
 		free(sub_param);
 	}
-	else if (*utils->raw_param != '?')
+	else if (utils->char_is_lit || *utils->raw_param != '?')
 		*value_str = "$";
 	else
 	{
@@ -74,28 +74,22 @@ static int
 {
 	int				i;
 	
+	utils->char_is_lit = is_lit(*utils->raw_param, utils->lit_status);
 	if (!*utils->raw_param)
 		return (0);
 	if (*utils->raw_param == '$')
 		return (dollar_expansion(utils, value_str));
-	if (*utils->raw_param == '\\')
+	if (*utils->raw_param == '\\' && utils->raw_param++)
 	{
-		utils->raw_param += 2;
+		utils->char_is_lit = is_lit(*utils->raw_param, utils->lit_status);
+		utils->raw_param++;
 		return (1);
 	}
 	i = 0;
-	;
-	;
-	;
-	;
-	;
-	;
-	;
-	;
-	;
-	;
-	;
-	;
+	utils->raw_param++;
+	while (*utils->raw_param && (utils->char_is_lit || (*utils->raw_param != '\\' && *utils->raw_param != '"'
+		&& *utils->raw_param != '\'' && *utils->raw_param != '$')) && ++i)
+		utils->raw_param++;
 	return (i);
 }
 
@@ -107,17 +101,14 @@ static char		*
 
 	i = 0;
 	value_str = NULL;
-	if (!(*utils.raw_param != '\\' && *utils.raw_param != '"'
-			&& *utils.raw_param != '\'' && *utils.raw_param != '$'))
+	if ((*utils.raw_param == '\\' || *utils.raw_param == '"'
+			|| *utils.raw_param == '\'' || *utils.raw_param == '$'))
 		i = param_expand(&utils, &value_str);
 	else
 	{
-		while (*utils.raw_param != '\\' && *utils.raw_param != '"'
-			&& *utils.raw_param != '\'' && *utils.raw_param != '$')
-		{
+		while (*utils.raw_param && *utils.raw_param != '\\' && *utils.raw_param != '"'
+			&& *utils.raw_param != '\'' && *utils.raw_param != '$' && ++i)
 			utils.raw_param++;
-			i++;
-		}
 	}
 	if (*utils.raw_param)
 		utils.final_param = param_segment(utils, total_len + i);
