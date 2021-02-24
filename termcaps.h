@@ -6,7 +6,7 @@
 /*   By: jmaydew <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/24 12:03:39 by jmaydew           #+#    #+#             */
-/*   Updated: 2021/02/24 12:03:42 by jmaydew          ###   ########.fr       */
+/*   Updated: 2021/02/24 14:02:34 by jmaydew          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ typedef struct	s_cursor {
 }				t_cursor;
 
 typedef struct	s_tty_param {
-	t_cursor	*cursor;
+	t_cursor		*cursor;
 	char			**line_hist;
 	int				hist_size;
 	int				newline_index;
@@ -80,9 +80,9 @@ void			tty_erase_from_crusor(t_cursor *cursor);
 int				tty_iter_hist(t_tty_param *tty_param, char *read_buf,
 				int direction);
 int				tty_get_line(char *hist[], int hist_size);
-void            tty_move_next_word(t_cursor *cursor, char *read_buf);
-void            tty_move_previous_word(t_cursor *cursor,
-                char *read_buf);
-int             tty_get_escape_seq(char *buf);
+void			tty_move_next_word(t_cursor *cursor, char *read_buf);
+void			tty_move_previous_word(t_cursor *cursor,
+				char *read_buf);
+int				tty_get_escape_seq(char *buf);
 
 #endif
