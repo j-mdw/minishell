@@ -6,11 +6,27 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/18 15:42:49 by user42            #+#    #+#             */
-/*   Updated: 2021/02/25 12:41:34 by user42           ###   ########.fr       */
+/*   Updated: 2021/02/25 21:45:50 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static char
+	**recon_params(void)
+{
+	char	**empty;
+
+	if (!(empty = malloc(2 * sizeof(char *))))
+		return (NULL);
+	empty[1] = NULL;
+	if (!(empty[0] = ft_strdup("")))
+	{
+		free(empty);
+		return (NULL);
+	}
+	return (empty);
+}
 
 static char
 	**remove_empty_param(char **params)
@@ -36,7 +52,7 @@ static char
 	}
 	if (params[0])
 		return (params);
-	if (!(params[0] = ft_strdup("")))
+	if (!(params = recon_params()))
 		return (NULL);
 	return (params);
 }
