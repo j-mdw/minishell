@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/16 14:42:27 by user42            #+#    #+#             */
-/*   Updated: 2021/02/25 12:52:58 by user42           ###   ########.fr       */
+/*   Updated: 2021/02/25 14:36:51 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,19 +15,19 @@
 static int
 	dollar_expansion(t_exp_utils *utils, char **value_str)
 {
-	char		*sub_param;
+	char		*subparam;
 	int			i;
 
 	i = 0;
-	sub_param = (utils->raw_param)++;
+	subparam = (utils->raw_param)++;
 	while (!utils->char_is_lit
 		&& (ft_isalnum(*utils->raw_param) || *utils->raw_param == '_'))
 		(utils->raw_param)++;
-	if (utils->raw_param != sub_param + 1)
+	if (utils->raw_param != subparam + 1)
 	{
-		sub_param = ft_strndup(sub_param + 1, utils->raw_param - sub_param);
-		*value_str = env_get_val(utils->local_env, sub_param);
-		free(sub_param);
+		subparam = ft_strndup(subparam + 1, utils->raw_param - subparam - 1);
+		*value_str = env_get_val(utils->local_env, subparam);
+		free(subparam);
 	}
 	else if (utils->char_is_lit || *utils->raw_param != '?')
 		*value_str = "$";
