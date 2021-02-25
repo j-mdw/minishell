@@ -39,9 +39,6 @@ static int
 		free(filename);
 		return (-1);
 	}
-	while (ft_isblank(line[i]))
-		i++;
-	ft_memset(&(line[i]), ' ', ft_strlen(filename));
 	free(filename);
 	return (fd);
 }
@@ -69,9 +66,6 @@ static int
 		free(filename);
 		return (-1);
 	}
-	while (ft_isblank(line[i]))
-		i++;
-	ft_memset(&(line[i]), ' ', ft_strlen(filename));
 	free(filename);
 	return (fd);
 }

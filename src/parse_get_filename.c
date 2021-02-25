@@ -32,6 +32,7 @@ char
 	}
 	raw_filename = ft_substr(line, 0, i);
 	filename = param_trim(raw_filename, local_env);
+	ft_memset(line, ' ', i);
 	free(raw_filename);
 	return (filename);
 }
