@@ -1,27 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   close_if.c                                         :+:      :+:    :+:   */
+/*   parse_lit_status_init.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmaydew <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: clkuznie <clkuznie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/02/14 14:06:49 by jmaydew           #+#    #+#             */
-/*   Updated: 2021/02/14 14:06:57 by jmaydew          ###   ########.fr       */
+/*   Created: 2021/02/16 14:12:34 by user42            #+#    #+#             */
+/*   Updated: 2021/02/25 16:10:00 by clkuznie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/*
-** Close_if: close fd specified as arg1
-** if it is different from value in arg2
-** return 0
-*/
-
-int
-	close_if(int fd1, int diff)
+void		lit_status_init(t_lit_status *lit_status)
 {
-	if (fd1 != diff)
-		close(fd1);
-	return (0);
+	lit_status->quote = 0;
+	lit_status->dquote = 0;
+	lit_status->backs = 0;
+	lit_status->unused_op = 1;
+	lit_status->pipe = 0;
+	lit_status->redir = 0;
 }
