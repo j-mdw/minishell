@@ -6,7 +6,7 @@
 /*   By: jmaydew <jmaydew@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/25 11:43:45 by jmaydew           #+#    #+#             */
-/*   Updated: 2021/02/25 14:20:16 by jmaydew          ###   ########.fr       */
+/*   Updated: 2021/02/25 16:26:03 by jmaydew          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,11 +43,13 @@ int
 	int				hist_index;
 	int				i;
 
+	(void)ac;
+	(void)av;
 	i = 0;
 	while (i < HIST_SIZE)
 		hist[i++] = NULL;
 	set_signals();
-	if (ac++ && av++ && builtin_init_data_struct(&builtin_data, env) < 0)
+	if (builtin_init_data_struct(&builtin_data, env) < 0)
 		return (EXIT_FAILURE);
 	while (read(0, NULL, 0) == 0 && \
 	(hist_index = tty_get_line(hist, HIST_SIZE)) >= 0)

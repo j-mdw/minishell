@@ -120,6 +120,7 @@ clean:
 	make --directory=libft clean
 
 fclean: clean
+	$(RM) $(NAME)
 	make --directory=libft fclean
 
 re: fclean all

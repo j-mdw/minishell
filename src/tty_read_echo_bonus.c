@@ -6,7 +6,7 @@
 /*   By: jmaydew <jmaydew@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/24 13:56:39 by jmaydew           #+#    #+#             */
-/*   Updated: 2021/02/25 14:16:22 by jmaydew          ###   ########.fr       */
+/*   Updated: 2021/02/25 16:25:52 by jmaydew          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ int
 			return (-1);
 		else if ((ret = tty_read_echo_2(&tty_param, buf, col_i, c)) != 0)
 		{
-			if (ret == 1 && buf[0] &&
+			if (ret == 1 && \
 			(tty_param.line_hist[tty_param.newline_index] = ft_strdup(buf)))
 				return (tty_param.newline_index);
 			return (ret);

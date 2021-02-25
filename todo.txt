@@ -1,3 +1,0 @@
-- sigquit (ctrl + \): not printing "core dumped" message
-- Error handling builtin: what to return on malloc or similar errors? Call strerror and return EXIT_FAILURE?
-- Return value: errr values

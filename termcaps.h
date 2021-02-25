@@ -6,7 +6,7 @@
 /*   By: jmaydew <jmaydew@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/24 12:03:39 by jmaydew           #+#    #+#             */
-/*   Updated: 2021/02/25 14:15:38 by jmaydew          ###   ########.fr       */
+/*   Updated: 2021/02/25 16:10:05 by jmaydew          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,8 @@
 # define READ_BUF_SIZE 4096
 # define HIST_SIZE 5
 
-# ifndef SHELL_MSG
-#  define SHELL_MSG "coquillage"
+# ifndef B_SHELL_MSG
+#  define B_SHELL_MSG "coquillage"
 # endif
 
 typedef struct	s_cursor {
