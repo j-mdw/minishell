@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_bonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmaydew <jmaydew@student.42.fr>            +#+  +:+       +#+        */
+/*   By: clkuznie <clkuznie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/25 11:43:45 by jmaydew           #+#    #+#             */
-/*   Updated: 2021/02/25 16:26:03 by jmaydew          ###   ########.fr       */
+/*   Updated: 2021/02/25 17:14:21 by clkuznie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,10 @@ static void
 	{
 		errno = 0;
 		if ((err_string = first_read(line)))
-			dprintf(STDERR_FILENO, "minishell: syntax error near \
-			unexpected token `%s\'\n", err_string);
-		if (parse_input(line, builtin_data) < 0)
+			dprintf(STDERR_FILENO,
+			"minishell: syntax error near unexpected token `%s\'\n",
+			err_string);
+		else if (parse_input(line, builtin_data) < 0)
 		{
 			if (errno != 0)
 				dprintf(STDERR_FILENO, "Error: %s\n", strerror(errno));

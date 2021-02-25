@@ -6,7 +6,11 @@
 /*   By: clkuznie <clkuznie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/14 12:50:31 by jmaydew           #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2021/02/25 16:55:38 by clkuznie         ###   ########.fr       */
+=======
+/*   Updated: 2021/02/25 16:58:55 by jmaydew          ###   ########.fr       */
+>>>>>>> 7a10644dfb3066ef6bccb48c393ccfee4c28aa30
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +28,7 @@ static void
 			dprintf(STDERR_FILENO,
 			"minishell: syntax error near unexpected token `%s\'\n",
 			err_string);
-		if (parse_input(line, builtin_data) < 0)
+		else if (parse_input(line, builtin_data) < 0)
 		{
 			if (errno != 0)
 				dprintf(STDERR_FILENO, "Error: %s\n", strerror(errno));
