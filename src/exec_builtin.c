@@ -19,9 +19,9 @@ int
 	int stdout_cpy;
 
 	if ((stdin_cpy = dup(STDIN_FILENO)) < 0)
-		dprintf(STDERR_FILENO, "Error: %s\n", strerror(errno));
+		printf("Error: %s\n", strerror(errno));
 	if ((stdout_cpy = dup(STDOUT_FILENO)) < 0)
-		dprintf(STDERR_FILENO, "Error: %s\n", strerror(errno));
+		printf("Error: %s\n", strerror(errno));
 	exec_set_redir(cmd_data->redirfd);
 	g_minishell_exit_status =
 	cmd_data->builtin_data->builtin_func_arr[cmd_data->builtin_index]
@@ -29,13 +29,13 @@ int
 	if (cmd_data->redirfd[0] != 0)
 	{
 		if (dup2(stdin_cpy, STDIN_FILENO) < 0)
-			dprintf(STDERR_FILENO, "Error: %s\n", strerror(errno));
+			printf("Error: %s\n", strerror(errno));
 		close(stdin_cpy);
 	}
 	if (cmd_data->redirfd[1] != 1)
 	{
 		if (dup2(stdout_cpy, STDOUT_FILENO) < 0)
-			dprintf(STDERR_FILENO, "Error: %s\n", strerror(errno));
+			printf("Error: %s\n", strerror(errno));
 		close(stdout_cpy);
 	}
 	exec_close_cmd_data(cmd_data);

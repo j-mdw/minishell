@@ -29,7 +29,7 @@ int
 		i++;
 	if (!buf[i])
 	{
-		dprintf(STDERR_FILENO, "no cursor column provided");
+		printf("no cursor column provided");
 		return (-1);
 	}
 	cursor->col = ft_atoi(&buf[i + 1]);

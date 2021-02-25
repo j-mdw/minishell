@@ -25,9 +25,9 @@ void
 	if (pipefd[0] != 0)
 		close(pipefd[0]);
 	if (dup2(readfd, STDIN_FILENO) < 0)
-		dprintf(STDERR_FILENO, "Error: %s\n", strerror(errno));
+		printf("Error: %s\n", strerror(errno));
 	if (dup2(pipefd[1], STDOUT_FILENO) < 0)
-		dprintf(STDERR_FILENO, "Error: %s\n", strerror(errno));
+		printf("Error: %s\n", strerror(errno));
 	if (pipefd[1] != 1)
 		close(pipefd[1]);
 	exec_set_redir(cmd_data->redirfd);
@@ -37,7 +37,7 @@ void
 	else
 	{
 		execve(cmd_data->filename, cmd_data->cmd_split, cmd_data->env_arr);
-		dprintf(STDERR_FILENO, "Error (after execve): %s\n", strerror(errno));
+		printf("Error: %s\n", strerror(errno));
 		exit(EXIT_FAILURE);
 	}
 }

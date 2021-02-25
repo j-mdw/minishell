@@ -46,7 +46,7 @@ static	int
 	i = 0;
 	if (!ft_isalpha(var[0]) && var[0] != '_')
 	{
-		dprintf(STDERR_FILENO, "minishell : export : '%s' : \
+		printf("minishell : export : '%s' : \
 not a valid identifier\n", var);
 		return (-1);
 	}
@@ -55,7 +55,7 @@ not a valid identifier\n", var);
 	{
 		if (!(ft_isalnum(var[i])) && (var[i] != '_'))
 		{
-			dprintf(STDERR_FILENO, "minishell : export : '%s' : \
+			printf("minishell : export : '%s' : \
 not a valid identifier\n", var);
 			return (-1);
 		}

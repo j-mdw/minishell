@@ -27,7 +27,7 @@ static void
 		else if (parse_input(line, builtin_data) < 0)
 		{
 			if (errno != 0)
-				dprintf(STDERR_FILENO, "Error: %s\n", strerror(errno));
+				printf("Error: %s\n", strerror(errno));
 			g_minishell_exit_status = 127;
 		}
 	}

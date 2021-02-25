@@ -65,7 +65,7 @@ int
 	{
 		if (!(path = env_get_val(*env, "HOME")))
 		{
-			dprintf(STDERR_FILENO, "minishell: cd: 'HOME' undefined\n");
+			printf("minishell: cd: 'HOME' undefined\n");
 			return (EXIT_FAILURE);
 		}
 	}
@@ -73,8 +73,7 @@ int
 		path = av[1];
 	if (chdir(path) < 0)
 	{
-		dprintf(STDERR_FILENO, "minishell: cd: %s: no such file or \
-		directory\n", path);
+		printf("minishell: cd: %s: no such file or directory\n", path);
 		return (EXIT_FAILURE);
 	}
 	return (cd_set_envvar(*env));
