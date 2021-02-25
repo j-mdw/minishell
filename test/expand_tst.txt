@@ -1,0 +1,70 @@
+user42@salty-VirtualBox:~/Documents/minishell/src/termcaps$ man bash
+user42@salty-VirtualBox:~/Documents/minishell/src/termcaps$ export BLI=\x3
+user42@salty-VirtualBox:~/Documents/minishell/src/termcaps$ export | grep -i bli
+declare -x BLI="x3"
+user42@salty-VirtualBox:~/Documents/minishell/src/termcaps$ echo $BLI
+x3
+user42@salty-VirtualBox:~/Documents/minishell/src/termcaps$ export BLI=\"
+user42@salty-VirtualBox:~/Documents/minishell/src/termcaps$ export | grep -i bli
+declare -x BLI="\""
+user42@salty-VirtualBox:~/Documents/minishell/src/termcaps$ man bash
+user42@salty-VirtualBox:~/Documents/minishell/src/termcaps$ export BLI=\x30
+user42@salty-VirtualBox:~/Documents/minishell/src/termcaps$ export | grep -i bli
+declare -x BLI="x30"
+user42@salty-VirtualBox:~/Documents/minishell/src/termcaps$ echo \\$BLI
+\x30
+user42@salty-VirtualBox:~/Documents/minishell/src/termcaps$ man bash
+user42@salty-VirtualBox:~/Documents/minishell/src/termcaps$ export BLI=tut\nhoho
+user42@salty-VirtualBox:~/Documents/minishell/src/termcaps$ export | grep -i bli
+declare -x BLI="tutnhoho"
+user42@salty-VirtualBox:~/Documents/minishell/src/termcaps$ export BLI=tut\\nhoho
+user42@salty-VirtualBox:~/Documents/minishell/src/termcaps$ export | grep -i bli
+declare -x BLI="tut\\nhoho"
+user42@salty-VirtualBox:~/Documents/minishell/src/termcaps$ export BLI=tut\\$?nhoho
+user42@salty-VirtualBox:~/Documents/minishell/src/termcaps$ export | grep -i bli
+declare -x BLI="tut\\0nhoho"
+user42@salty-VirtualBox:~/Documents/minishell/src/termcaps$ export BLI=tut\$?nhoho
+user42@salty-VirtualBox:~/Documents/minishell/src/termcaps$ export | grep -i bli
+declare -x BLI="tut\$?nhoho"
+user42@salty-VirtualBox:~/Documents/minishell/src/termcaps$ man bash
+user42@salty-VirtualBox:~/Documents/minishell/src/termcaps$ export BLI=\n\n
+user42@salty-VirtualBox:~/Documents/minishell/src/termcaps$ echo BLI
+BLI
+user42@salty-VirtualBox:~/Documents/minishell/src/termcaps$ echo $BLI
+user42@salty-VirtualBox:~/Documents/minishell/src/termcaps$ export BLI
+user42@salty-VirtualBox:~/Documents/minishell/src/termcaps$ export BLI="\\"
+user42@salty-VirtualBox:~/Documents/minishell/src/termcaps$ echo $BLI
+\
+user42@salty-VirtualBox:~/Documents/minishell/src/termcaps$ BLI=hoho"jj"haha
+user42@salty-VirtualBox:~/Documents/minishell/src/termcaps$ echo $BLI
+hohojjhaha
+user42@salty-VirtualBox:~/Documents/minishell/src/termcaps$ echo "$BLI"
+hohojjhaha
+user42@salty-VirtualBox:~/Documents/minishell/src/termcaps$ BLI=ho$?ho'jj'ha$?ha
+user42@salty-VirtualBox:~/Documents/minishell/src/termcaps$ echo "\'$BLI\'"
+\'ho0hojjha0ha\'
+user42@salty-VirtualBox:~/Documents/minishell/src/termcaps$ echo $BLI
+ho0hojjha0ha
+user42@salty-VirtualBox:~/Documents/minishell/src/termcaps$ echo "'$BLI'"
+'ho0hojjha0ha'
+user42@salty-VirtualBox:~/Documents/minishell/src/termcaps$ echo $BLI
+ho0hojjha0ha
+user42@salty-VirtualBox:~/Documents/minishell/src/termcaps$ BLI=ho\$?ho'jj'ha\$?ha
+user42@salty-VirtualBox:~/Documents/minishell/src/termcaps$ echo $BLI
+ho$?hojjha$?ha
+user42@salty-VirtualBox:~/Documents/minishell/src/termcaps$ echo -e $BLI
+ho$?hojjha$?ha
+user42@salty-VirtualBox:~/Documents/minishell/src/termcaps$ export | grer -i bli
+
+Command 'grer' not found, did you mean:
+
+  command 'grep' from deb grep
+
+Try: sudo apt install <deb name>
+
+user42@salty-VirtualBox:~/Documents/minishell/src/termcaps$ export | grep -i bli
+declare -x BLI="ho\$?hojjha\$?ha"
+user42@salty-VirtualBox:~/Documents/minishell/src/termcaps$ export BLI=ho$?ho'jj'ha$?ha
+user42@salty-VirtualBox:~/Documents/minishell/src/termcaps$ export | grep -i bli
+declare -x BLI="ho0hojjha0ha"
+

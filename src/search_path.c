@@ -23,7 +23,7 @@
  {
     char    *filename1;
     char    *filename2;
-    struct stat statbuf;
+    struct  stat statbuf;
     int k;
 
     if (path[ft_strlen(path) - 1] != '/')
@@ -71,7 +71,7 @@ char
         i++;
     }
     ft_free_strarr(&path_split);
-    printf("minishell: command not found: %s\n", bin);
+    // printf("minishell: command not found: %s\n", bin);
     return (NULL);
 }
 /*

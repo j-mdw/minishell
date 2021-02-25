@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jmaydew <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/02/24 11:50:21 by jmaydew           #+#    #+#             */
+/*   Updated: 2021/02/24 11:50:24 by jmaydew          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
@@ -11,10 +23,8 @@
 # include <limits.h>
 # include <signal.h>
 # include <fcntl.h>
-# include <dirent.h>
 # include "libft.h"
 
-# define BIN_PATH       "/bin/"
 # define SHELL_MSG      "coquillage$>"
 # define BUILTIN_COUNT	7
 
@@ -22,17 +32,10 @@ typedef struct	s_lit_status {
 		int				quote;
 		int				dquote;
 		int				backs;
+		int				unused_op;
+		int				pipe;
+		int				redir;
 }				t_lit_status;
-
-typedef	struct	s_parse {
-		char			**control_op_split;
-		char			**pipe_split;
-		char			**cmd_split;
-		int				redir_io_saved_fd[2];
-		int				redir_file_fd[2];
-		int				pipe_fd[2];
-		int				pipe_io_saved_fd[2];
-}			    t_parse;
 
 typedef	int	(*t_binfunc_arr)(char **cmd, t_list **local_env);
 
@@ -43,64 +46,55 @@ typedef struct	s_builtin	{
 }				t_builtin;
 
 typedef struct  s_cmd_data {
-    int     pipefd[2];
-    int     redirfd[2];
-    char    *filename;
-    char    **env_arr;
-    char    **cmd_split;
-    int     builtin_index;
-	t_builtin	*builtin_data;
+    int     			pipefd[2];
+    int     			redirfd[2];
+    char    			*filename;
+    char    			**env_arr;
+    char    			**cmd_split;
+    int     			builtin_index;
+	t_builtin			*builtin_data;
 }               t_cmd_data;
+
+int	g_minishell_exit_status;
 
 /*
 ** PROCESS MNG
 */
-int		exec_function(char **cmd, t_builtin *builtin_data);
 int		exec_pipe(char **pipe_split, int index, int piperead_fildes, t_builtin *builtin_data);
 void	exec_set_redir(int redirfd[2]);
-int		init_cmd_data(t_cmd_data *cmd_data, t_builtin *builtin_data, char *cmd_line);
-int		close_cmd_data(t_cmd_data *cmd_data);
-int		set_cmd_filename(char *cmd, t_cmd_data *cmd_data);
+int		exec_init_cmd_data(t_cmd_data *cmd_data, t_builtin *builtin_data, char *cmd_line);
+int		exec_close_cmd_data(t_cmd_data *cmd_data);
+int		exec_set_cmd_filename(char *cmd, t_cmd_data *cmd_data);
 /*
 ** REDIRECTIONS
 */
 int     redir_input(char **cmd, char *filename);
 int     redir_output(char **cmd, char *filename, int append_flag);
-int     parse_redirections(char *line, int redirfd[2]);
-int     reset_redirections(int redir_io_saved_fd[2]);
-int     reset_fd(int save_fd, int reset_fd);
-int     set_fd(int oldfd, int newfd);
-/*
-** PIPES
-*/
-char    **parse_open_pipe(char *line, int pipe_fd[2], int pipe_io_saved_fd[2]);
-int     set_pipe(int pipe_fd[2], int stdio_fd_cp[2]);
-int     close_pipe(int pipe_fd[2], int stdio_fd_cp[2]);
+int     parse_redirections(char *line, int redirfd[2], t_lit_status *lit_status, t_list *local_env);
 /*
 ** SIGNALS MNG
 */
 void    set_signals(void);
-void    reset_signals(void);
-void    sigint_handler(int sig_nb);
-void    sigexit_handler(int sig_nb);
+void	set_child_signals(void);
+void	set_parent_signals(void);
 /*
 ** PARSING
 */
 int		parse_input(char *line, t_builtin *builtin_data);
-char    *get_filename(char *line);
+// char    *get_filename(char *line);
+char    *get_filename(char *line, t_list *local_env);
 int     ft_isblank(int c);
-int		parsing_free(t_parse *parse_ptr);
-int		parsing_reset_close_fds(t_parse *parse_ptr);
+int		is_operator(char c);
 char	**shell_split(char const *s, char c);
-char	first_read(const char *str);
+char	*first_read(char *s);
 int		is_lit(char c, t_lit_status *lit_status);
-char	**parse_argv(char *cmd_line);
+void	lit_status_init(t_lit_status *lit_status);
+char	**parse_argv(char *cmd_line, t_list *local_env);
+char	*param_trim(char *raw_param, t_list *local_env);
 /*
 ** ERRORS AND FREE
 */
 void    ft_free_strarr(char ***line_split);
-int     parsing_free(t_parse *parse_ptr);
-int		parsing_reset_close_fds(t_parse *parse_ptr);
 /*
 ** BUILTIN FUNCTIONS
 */
@@ -113,6 +107,8 @@ int		builtin_export(char **av, t_list **env);
 int		builtin_unset(char **av, t_list **env);
 char	**builtin_init_names_arr(void);
 void	builtin_init_funcarr(t_binfunc_arr *binfunc_arr);
+int		builtin_init_data_struct(t_builtin *builtin_data, char **env);
+void	builtin_free_data_struct(t_builtin *builtin_data);
 /*
 ** ENV
 */
