@@ -1,28 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_free_strnarr.c                                  :+:      :+:    :+:   */
+/*   tty_write_over.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jmaydew <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/02/25 12:22:37 by jmaydew           #+#    #+#             */
-/*   Updated: 2021/02/25 12:22:39 by jmaydew          ###   ########.fr       */
+/*   Created: 2021/02/24 13:59:13 by jmaydew           #+#    #+#             */
+/*   Updated: 2021/02/24 13:59:15 by jmaydew          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "termcaps.h"
 
-void
-	ft_free_strnarr(char **arr, int arr_size)
+int
+	tty_write_over(char *read_buf, char c)
 {
-	int i;
+	int len;
 
-	i = 0;
-	while (i < arr_size)
-	{
-		free(arr[i]);
-		arr[i] = NULL;
-		i++;
-	}
-	free(arr);
+	len = ft_strlen(read_buf);
+	ft_memmove(read_buf + 1, read_buf, len);
+	read_buf[len + 1] = '\0';
+	*read_buf = c;
+	write(STDIN_FILENO, read_buf, len + 1);
+	if (tty_move_left(len) < 0)
+		return (-1);
+	return (0);
 }

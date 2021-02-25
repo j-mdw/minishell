@@ -1,28 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_free_strnarr.c                                  :+:      :+:    :+:   */
+/*   tty_echo_char.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jmaydew <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/02/25 12:22:37 by jmaydew           #+#    #+#             */
-/*   Updated: 2021/02/25 12:22:39 by jmaydew          ###   ########.fr       */
+/*   Created: 2021/02/24 12:06:15 by jmaydew           #+#    #+#             */
+/*   Updated: 2021/02/24 12:06:19 by jmaydew          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "termcaps.h"
 
-void
-	ft_free_strnarr(char **arr, int arr_size)
+int
+	tty_echo_char(t_cursor *cursor, char *read_buf, int index, char c)
 {
-	int i;
-
-	i = 0;
-	while (i < arr_size)
+	if (cursor->col == cursor->max_col)
 	{
-		free(arr[i]);
-		arr[i] = NULL;
-		i++;
+		write(STDIN_FILENO, &c, 1);
+		read_buf[index] = c;
 	}
-	free(arr);
+	else if (cursor->col < cursor->max_col)
+	{
+		if (tty_write_over(&read_buf[index], c) < 0)
+			return (-1);
+	}
+	cursor->col++;
+	cursor->max_col++;
+	return (0);
 }

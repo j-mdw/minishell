@@ -1,23 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_exit.c                                     :+:      :+:    :+:   */
+/*   signals_set.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmaydew <jmaydew@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jmaydew <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/02/14 13:27:05 by jmaydew           #+#    #+#             */
-/*   Updated: 2021/02/25 11:52:12 by jmaydew          ###   ########.fr       */
+/*   Created: 2021/02/25 12:18:20 by jmaydew           #+#    #+#             */
+/*   Updated: 2021/02/25 12:18:24 by jmaydew          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int
-	builtin_exit(char **cmd, t_list **env)
+void
+	set_signals(void)
 {
-	(void)env;
-	close(STDIN_FILENO);
-	if (cmd[1])
-		return (ft_atoi(cmd[1]));
-	return (EXIT_SUCCESS);
+	signal(SIGINT, sigint_handler);
+	signal(SIGQUIT, sigquit_handler);
+}
+
+void
+	set_parent_signals(void)
+{
+	signal(SIGINT, sigint_parent_handler);
+	signal(SIGQUIT, sigquit_parent_handler);
 }

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jmaydew <jmaydew@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/02/24 11:50:21 by jmaydew           #+#    #+#             */
+/*   Updated: 2021/02/25 10:57:10 by jmaydew          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
@@ -64,6 +76,8 @@ void	exec_set_redir(int redirfd[2]);
 int		exec_init_cmd_data(t_cmd_data *cmd_data, t_builtin *builtin_data, char *cmd_line);
 int		exec_close_cmd_data(t_cmd_data *cmd_data);
 int		exec_set_cmd_filename(char *cmd, t_cmd_data *cmd_data);
+int		exec_builtin(t_cmd_data *cmd_data);
+void	exec_child(int pipefd[2], int readfd, t_cmd_data *cmd_data);
 /*
 ** REDIRECTIONS
 */
@@ -74,13 +88,17 @@ int     parse_redirections(char *line, int redirfd[2], t_lit_status *lit_status,
 ** SIGNALS MNG
 */
 void    set_signals(void);
-void    reset_signals(void);
-void    sigint_handler(int sig_nb);
-void    sigexit_handler(int sig_nb);
+void	set_parent_signals(void);
+void	sigint_handler(int sig_nb);
+void	sigint_parent_handler(int sig_nb);
+void	sigquit_handler(int sig_nb);
+void	sigquit_parent_handler(int sig_nb);
+
 /*
 ** PARSING
 */
 int		parse_input(char *line, t_builtin *builtin_data);
+// char    *get_filename(char *line);
 char    *get_filename(char *line, t_list *local_env);
 int     ft_isblank(int c);
 int		is_operator(char c);
@@ -106,6 +124,8 @@ int		builtin_export(char **av, t_list **env);
 int		builtin_unset(char **av, t_list **env);
 char	**builtin_init_names_arr(void);
 void	builtin_init_funcarr(t_binfunc_arr *binfunc_arr);
+int		builtin_init_data_struct(t_builtin *builtin_data, char **env);
+void	builtin_free_data_struct(t_builtin *builtin_data);
 /*
 ** ENV
 */

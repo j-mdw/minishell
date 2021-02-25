@@ -1,23 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_exit.c                                     :+:      :+:    :+:   */
+/*   tty_move_left_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jmaydew <jmaydew@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/02/14 13:27:05 by jmaydew           #+#    #+#             */
-/*   Updated: 2021/02/25 11:52:12 by jmaydew          ###   ########.fr       */
+/*   Created: 2021/02/24 13:46:37 by jmaydew           #+#    #+#             */
+/*   Updated: 2021/02/24 17:07:13 by jmaydew          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "termcaps.h"
 
 int
-	builtin_exit(char **cmd, t_list **env)
+	tty_move_left(int n)
 {
-	(void)env;
-	close(STDIN_FILENO);
-	if (cmd[1])
-		return (ft_atoi(cmd[1]));
-	return (EXIT_SUCCESS);
+	char *rep;
+
+	if (!(rep = ft_itoa(n)))
+		return (tty_error("move left: itoa"));
+	write(STDIN_FILENO, "\x1b[", 2);
+	write(STDIN_FILENO, rep, ft_strlen(rep));
+	free(rep);
+	write(STDIN_FILENO, "D", 1);
+	return (0);
 }
