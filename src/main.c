@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmaydew <jmaydew@student.42.fr>            +#+  +:+       +#+        */
+/*   By: clkuznie <clkuznie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/14 12:50:31 by jmaydew           #+#    #+#             */
-/*   Updated: 2021/02/25 14:54:35 by jmaydew          ###   ########.fr       */
+/*   Updated: 2021/02/25 16:55:38 by clkuznie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,9 @@ static void
 	{
 		errno = 0;
 		if ((err_string = first_read(line)))
-			dprintf(STDERR_FILENO, "minishell: \
-			syntax error near unexpected token `%s\'\n", err_string);
+			dprintf(STDERR_FILENO,
+			"minishell: syntax error near unexpected token `%s\'\n",
+			err_string);
 		if (parse_input(line, builtin_data) < 0)
 		{
 			if (errno != 0)

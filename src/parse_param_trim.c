@@ -6,7 +6,7 @@
 /*   By: clkuznie <clkuznie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/16 14:42:27 by user42            #+#    #+#             */
-/*   Updated: 2021/02/25 16:06:51 by clkuznie         ###   ########.fr       */
+/*   Updated: 2021/02/25 17:11:35 by clkuznie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,9 +76,10 @@ static int
 	}
 	i = 0;
 	utils->raw_param++;
-	while (*utils->raw_param && (utils->char_is_lit
-		|| (*utils->raw_param != '\\' && *utils->raw_param != '"'
-		&& *utils->raw_param != '\'' && *utils->raw_param != '$')) && ++i)
+	while (*utils->raw_param
+		&& ((*utils->raw_param != '\'' && utils->lit_status->quote)
+		|| ((*utils->raw_param != '\\' && *utils->raw_param != '"'
+		&& *utils->raw_param != '\'' && *utils->raw_param != '$'))) && ++i)
 		utils->raw_param++;
 	return (i);
 }
