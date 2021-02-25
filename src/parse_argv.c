@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/18 15:42:49 by user42            #+#    #+#             */
-/*   Updated: 2021/02/23 18:36:44 by user42           ###   ########.fr       */
+/*   Updated: 2021/02/25 12:41:34 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ char
 	**parse_argv(char *cmd_line, t_list *local_env)
 {
 	char	**params;
-	char 	*trimmed_param;
+	char	*trimmed_param;
 	int		i;
 
 	if (!(params = shell_split(cmd_line, ' ')))
@@ -64,7 +64,6 @@ char
 				i++;
 			ft_free_strnarr(params, i);
 			free(params);
-			params = NULL;
 			return (NULL);
 		}
 		i++;

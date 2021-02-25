@@ -43,6 +43,17 @@ typedef struct  s_cmd_data {
 	t_builtin			*builtin_data;
 }               t_cmd_data;
 
+typedef struct	s_exp_utils
+{
+	t_lit_status		*lit_status;
+	t_list				*local_env;
+	char				*exit_status;
+	char 				*raw_param;
+	char				*final_param;
+	int					char_is_lit;
+	char				quote_type;
+}				t_exp_utils;
+
 int	g_minishell_exit_status;
 
 /*

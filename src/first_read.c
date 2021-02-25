@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/09 14:38:35 by user42            #+#    #+#             */
-/*   Updated: 2021/02/23 22:21:38 by user42           ###   ########.fr       */
+/*   Updated: 2021/02/25 12:40:15 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ char		*first_read(char *s)
 	int				i;
 	t_lit_status	lit_status;
 	int				non_blank;
-// int d = 0;
 
 	i = -1;
 	lit_status_init(&lit_status);
@@ -59,8 +58,6 @@ char		*first_read(char *s)
 				return (&(s[i]) + (s[i + 1] = '\0'));
 			else if (!is_operator(s[i]))
 				set_operators_as_used(&lit_status);
-			// printf("actual char = %c, lit_status = %d\n", s[i], d);
-	// printf("%d %d %d %d_____________\n", lit_status.quote,  lit_status.dquote, lit_status.pipe, lit_status.redir);
 		}
 	}
 	if (non_blank &&
