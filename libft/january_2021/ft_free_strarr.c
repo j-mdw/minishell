@@ -23,12 +23,15 @@ void
 	int	i;
 
 	i = 0;
-	while ((*strarr)[i])
+	if (*strarr)
 	{
-		free((*strarr)[i]);
-		(*strarr)[i] = NULL;
-		i++;
+		while ((*strarr)[i])
+		{
+			free((*strarr)[i]);
+			(*strarr)[i] = NULL;
+			i++;
+		}
+		free(*strarr);
+		*strarr = NULL;
 	}
-	free(*strarr);
-	*strarr = NULL;
 }
