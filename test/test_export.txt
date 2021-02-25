@@ -14,4 +14,4 @@ export ()=wer
 export _BIBI
 export GG=432089
 export GIGI=()
-
+export GIGI='"gaga"'
