@@ -1,23 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lit_status_init.c                                  :+:      :+:    :+:   */
+/*   util_close_if.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
+/*   By: clkuznie <clkuznie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/02/16 14:12:34 by user42            #+#    #+#             */
-/*   Updated: 2021/02/16 14:12:59 by user42           ###   ########.fr       */
+/*   Created: 2021/02/14 14:06:49 by jmaydew           #+#    #+#             */
+/*   Updated: 2021/02/25 16:16:22 by clkuznie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void		lit_status_init(t_lit_status *lit_status)
+/*
+** Close_if: close fd specified as arg1
+** if it is different from value in arg2
+** return 0
+*/
+
+int
+	close_if(int fd1, int diff)
 {
-	lit_status->quote = 0;
-	lit_status->dquote = 0;
-	lit_status->backs = 0;
-	lit_status->unused_op = 1;
-	lit_status->pipe = 0;
-	lit_status->redir = 0;
+	if (fd1 != diff)
+		close(fd1);
+	return (0);
 }
