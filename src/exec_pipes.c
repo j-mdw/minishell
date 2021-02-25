@@ -6,7 +6,7 @@
 /*   By: jmaydew <jmaydew@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/25 10:45:27 by jmaydew           #+#    #+#             */
-/*   Updated: 2021/02/25 13:53:42 by jmaydew          ###   ########.fr       */
+/*   Updated: 2021/02/25 15:57:00 by jmaydew          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,8 @@ static int
 }
 
 static int
-	exec_setup(char **pipe_split, t_cmd_data *cmd_data, int index)
+	exec_setup(char **pipe_split, t_cmd_data *cmd_data, int index, \
+	int piperead_fd)
 {
 	int child;
 
@@ -40,11 +41,13 @@ static int
 		return (exec_close_cmd_data(cmd_data)
 		+ close_if(cmd_data->pipefd[0], 0) + close_if(cmd_data->pipefd[1], 1));
 	}
+	if (child == 0)
+		exec_child(cmd_data->pipefd, piperead_fd, cmd_data);
 	return (child);
 }
 
 int
-	exec_pipe(char **pipe_split, int index, int piperead_fildes,
+	exec_pipe(char **pipe_split, int index, int piperead_fd,
 	t_builtin *builtin_data)
 {
 	int			wstatus;
@@ -57,14 +60,12 @@ int
 		return (-1);
 	if (!pipe_split[1] && cmd_data.builtin_index >= 0)
 		return (exec_builtin(&cmd_data));
-	if ((child = exec_setup(pipe_split, &cmd_data, index)) < 0)
+	if ((child = exec_setup(pipe_split, &cmd_data, index, piperead_fd)) < 0)
 		return (-1);
-	else if (child == 0)
-		exec_child(cmd_data.pipefd, piperead_fildes, &cmd_data);
 	else
 	{
 		set_parent_signals();
-		close_if(piperead_fildes, 0);
+		close_if(piperead_fd, 0);
 		close_if(cmd_data.pipefd[1], STDOUT_FILENO);
 		exec_pipe(pipe_split, index + 1, cmd_data.pipefd[0], builtin_data);
 		waitpid(child, &wstatus, 0);

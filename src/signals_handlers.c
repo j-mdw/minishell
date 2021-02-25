@@ -6,22 +6,16 @@
 /*   By: jmaydew <jmaydew@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/25 12:17:39 by jmaydew           #+#    #+#             */
-/*   Updated: 2021/02/25 14:16:01 by jmaydew          ###   ########.fr       */
+/*   Updated: 2021/02/25 15:04:27 by jmaydew          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/*
-** Does not work properly when a SIGINT is received
-** inside of a running process, as 'coquillage$>'
-** gets written twice
-*/
-
 void
 	sigint_handler(int sig_nb)
 {
-	write(1, "\nCoquillage$>", 21);
+	write(1, "\nCoquillage$>", 13);
 	g_minishell_exit_status = 128 + sig_nb;
 }
 
@@ -31,10 +25,6 @@ void
 	write(1, "\n", 1);
 	g_minishell_exit_status = 128 + sig_nb;
 }
-
-/*
-** In bash, ctrl + \ (SIGQUIT) does not do anything
-*/
 
 void
 	sigquit_handler(int sig_nb)

@@ -1,9 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse_line.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jmaydew <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/02/25 14:54:13 by jmaydew           #+#    #+#             */
+/*   Updated: 2021/02/25 14:54:15 by jmaydew          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 /*
 ** Split line on ';' then on '|'
 ** Sends the splited output to 'parse_pipe'
-** Returns -1 on program error or Exit Status of 
+** Returns -1 on program error or Exit Status of
 ** Returns 0 on success, -1 on error
 */
 
@@ -25,11 +37,7 @@ int
 			ft_free_strarr(&controlop_split);
 			return (-1);
 		}
-		// if (pipe_split[1])
-		// {
-			exit_status = exec_pipe(pipe_split, 0, STDIN_FILENO, builtin_data);
-		// else
-		// 	printf("Pass piped arg\n");
+		exit_status = exec_pipe(pipe_split, 0, STDIN_FILENO, builtin_data);
 		ft_free_strarr(&(pipe_split));
 		i++;
 	}
