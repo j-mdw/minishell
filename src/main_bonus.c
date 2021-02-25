@@ -6,7 +6,7 @@
 /*   By: jmaydew <jmaydew@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/25 11:43:45 by jmaydew           #+#    #+#             */
-/*   Updated: 2021/02/25 12:01:59 by jmaydew          ###   ########.fr       */
+/*   Updated: 2021/02/25 14:20:16 by jmaydew          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,11 +35,6 @@ static void
 	free(line);
 }
 
-#include <stdio.h>
-#include <errno.h>
-#include <error.h>
-#include <unistd.h>
-#include <string.h>
 int
 	main(int ac, char **av, char **env)
 {
@@ -50,22 +45,17 @@ int
 
 	i = 0;
 	while (i < HIST_SIZE)
-	{
-		hist[i] = NULL;
-		i++;
-	}
+		hist[i++] = NULL;
 	set_signals();
 	if (ac++ && av++ && builtin_init_data_struct(&builtin_data, env) < 0)
-		return (-1);
-	while (read(0, NULL, 0) == 0 && (hist_index = tty_get_line(hist, HIST_SIZE)) >= 0)
+		return (EXIT_FAILURE);
+	while (read(0, NULL, 0) == 0 && \
+	(hist_index = tty_get_line(hist, HIST_SIZE)) >= 0)
 		send_line(hist[hist_index], &builtin_data);
 	i = 0;
 	while (hist[i])
-	{
-		free(hist[i]);
-		i++;
-	}
+		free(hist[i++]);
 	builtin_free_data_struct(&builtin_data);
 	printf("exit\n");
-	return (0);
+	return (g_minishell_exit_status);
 }

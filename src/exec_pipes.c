@@ -6,7 +6,7 @@
 /*   By: jmaydew <jmaydew@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/25 10:45:27 by jmaydew           #+#    #+#             */
-/*   Updated: 2021/02/25 11:21:09 by jmaydew          ###   ########.fr       */
+/*   Updated: 2021/02/25 13:53:42 by jmaydew          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,10 @@ static int
 	if (pipe_open_if(cmd_data->pipefd, pipe_split[index + 1]) < 0)
 		return (exec_close_cmd_data(cmd_data) - 1);
 	if ((child = fork()) < 0)
-		return (exec_close_cmd_data(cmd_data) +\
-		close_if(cmd_data->pipefd[0], 0) +\
-		close_if(cmd_data->pipefd[1], 1));
+	{
+		return (exec_close_cmd_data(cmd_data)
+		+ close_if(cmd_data->pipefd[0], 0) + close_if(cmd_data->pipefd[1], 1));
+	}
 	return (child);
 }
 

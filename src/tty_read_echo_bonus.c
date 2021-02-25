@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tty_read_echo.c                                    :+:      :+:    :+:   */
+/*   tty_read_echo_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jmaydew <jmaydew@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/24 13:56:39 by jmaydew           #+#    #+#             */
-/*   Updated: 2021/02/24 14:16:27 by jmaydew          ###   ########.fr       */
+/*   Updated: 2021/02/25 14:16:22 by jmaydew          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ static	int
 	{
 		ft_bzero(read_buf, READ_BUF_SIZE);
 		write(STDIN_FILENO, "\r\n", 2);
+		g_minishell_exit_status = 130;
 		if (tty_newline(tty_param->cursor) < 0)
 			return (-1);
 	}

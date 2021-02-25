@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   termcaps.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmaydew <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: jmaydew <jmaydew@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/24 12:03:39 by jmaydew           #+#    #+#             */
-/*   Updated: 2021/02/24 14:02:34 by jmaydew          ###   ########.fr       */
+/*   Updated: 2021/02/25 14:15:38 by jmaydew          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include <errno.h>
 # include <string.h>
 # include "libft.h"
+# include "minishell.h"
 
 # define ARROW_RIGHT "\x1b[C"
 # define ARROW_LEFT "\x1b[D"

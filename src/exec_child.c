@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_child.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmaydew <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: jmaydew <jmaydew@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/25 10:35:57 by jmaydew           #+#    #+#             */
-/*   Updated: 2021/02/25 10:35:59 by jmaydew          ###   ########.fr       */
+/*   Updated: 2021/02/25 14:19:33 by jmaydew          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void
 	if (!cmd_data->filename && cmd_data->builtin_index < 0)
 	{
 		printf("minishell: command not found: %s\n", cmd_data->cmd_split[0]);
-		exit(EXIT_FAILURE);
+		exit(127);
 	}
 	if (pipefd[0] != 0)
 		close(pipefd[0]);

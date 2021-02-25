@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals_handlers.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmaydew <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: jmaydew <jmaydew@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/25 12:17:39 by jmaydew           #+#    #+#             */
-/*   Updated: 2021/02/25 12:17:59 by jmaydew          ###   ########.fr       */
+/*   Updated: 2021/02/25 14:16:01 by jmaydew          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 void
 	sigint_handler(int sig_nb)
 {
-	write(1, "\nCoquillage(sigint)$>", 21);
+	write(1, "\nCoquillage$>", 21);
 	g_minishell_exit_status = 128 + sig_nb;
 }
 
