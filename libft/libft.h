@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmaydew <jmaydew@student.42.fr>            +#+  +:+       +#+        */
+/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/12 11:15:10 by clkuznie          #+#    #+#             */
-/*   Updated: 2021/02/22 17:14:41 by jmaydew          ###   ########.fr       */
+/*   Updated: 2021/02/25 13:49:55 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,6 +132,7 @@ int				ft_strfind(const char **array, const char *str);
 void			ft_putstrarr(char **arr);
 void			ft_free_strnarr(char **arr, int arr_size);
 void			ft_free_strarr(char ***strarr);
-void			ft_list_remove_if(t_list **begin_list, void *data_ref, void (*free_fct)(void *));
-int     		ft_isblank(int c);
+void			ft_list_remove_if(t_list **begin_list, void *data_ref,
+	void (*free_fct)(void *));
+int				ft_isblank(int c);
 #endif
