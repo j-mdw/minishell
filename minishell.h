@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmaydew <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: jmaydew <jmaydew@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/24 11:50:21 by jmaydew           #+#    #+#             */
-/*   Updated: 2021/02/24 11:50:24 by jmaydew          ###   ########.fr       */
+/*   Updated: 2021/02/25 10:57:10 by jmaydew          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,8 @@ void	exec_set_redir(int redirfd[2]);
 int		exec_init_cmd_data(t_cmd_data *cmd_data, t_builtin *builtin_data, char *cmd_line);
 int		exec_close_cmd_data(t_cmd_data *cmd_data);
 int		exec_set_cmd_filename(char *cmd, t_cmd_data *cmd_data);
+int		exec_builtin(t_cmd_data *cmd_data);
+void	exec_child(int pipefd[2], int readfd, t_cmd_data *cmd_data);
 /*
 ** REDIRECTIONS
 */
@@ -75,8 +77,12 @@ int     parse_redirections(char *line, int redirfd[2], t_lit_status *lit_status,
 ** SIGNALS MNG
 */
 void    set_signals(void);
-void	set_child_signals(void);
 void	set_parent_signals(void);
+void	sigint_handler(int sig_nb);
+void	sigint_parent_handler(int sig_nb);
+void	sigquit_handler(int sig_nb);
+void	sigquit_parent_handler(int sig_nb);
+
 /*
 ** PARSING
 */

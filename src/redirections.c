@@ -1,5 +1,16 @@
-#include "minishell.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   redirections.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jmaydew <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/02/25 12:13:03 by jmaydew           #+#    #+#             */
+/*   Updated: 2021/02/25 12:13:43 by jmaydew          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
+#include "minishell.h"
 
 /*
 ** Open and create a file if necessary, in TRUNC or append mode
@@ -9,30 +20,30 @@
 */
 
 static int
-    parse_output_redir(char *line, t_list *local_env)
+	parse_output_redir(char *line, t_list *local_env)
 {
-    int     i;
-    int     append_flag;
-    int     fd;
-    char    *filename;
+	int		i;
+	int		append_flag;
+	int		fd;
+	char	*filename;
 
-    i = 0;
-    line[i++] = ' ';			// Overwritting redirection symbol
-    append_flag = O_TRUNC;
-    if (line[i] == '>' && (append_flag = O_APPEND))
-        line[i++] = ' ';								
-    if (!(filename = get_filename(&(line[i]), local_env)))	                            // Parsing of get_filename not final yet
-        return (-1);
-    if ((fd = open(filename, O_RDWR | O_CREAT | append_flag, 0664)) < 0)    // Open filename, if it doesn't exist, create it
-    {
-        free(filename);
-        return (-1);
-    }
-    while (ft_isblank(line[i]))
-        i++;
-    ft_memset(&(line[i]), ' ', ft_strlen(filename));		                // overwritting filename with ' ' in line
-    free(filename);
-    return (fd);
+	i = 0;
+	line[i++] = ' ';
+	append_flag = O_TRUNC;
+	if (line[i] == '>' && (append_flag = O_APPEND))
+		line[i++] = ' ';
+	if (!(filename = get_filename(&(line[i]), local_env)))
+		return (-1);
+	if ((fd = open(filename, O_RDWR | O_CREAT | append_flag, 0664)) < 0)
+	{
+		free(filename);
+		return (-1);
+	}
+	while (ft_isblank(line[i]))
+		i++;
+	ft_memset(&(line[i]), ' ', ft_strlen(filename));
+	free(filename);
+	return (fd);
 }
 
 /*
@@ -42,37 +53,38 @@ static int
 */
 
 static int
-    parse_input_redir(char *line, t_list *local_env)
+	parse_input_redir(char *line, t_list *local_env)
 {
-    int     i;
-    int     fd;
-    char    *filename;
+	int		i;
+	int		fd;
+	char	*filename;
 
-    i = 0;
-    line[i] = ' ';			                            // Overwritting redirection symbol
-    i++;														
-    if (!(filename = get_filename(&(line[i]), local_env)))	        // Parsing of get_filename not final yet
-        return (-1);
-    if ((fd = open(filename, O_RDWR, 0664)) < 0)       // Open filename, if it doesn't exist, should return -1
-    {
-        free(filename);
-        return (-1);
-    }
-    while (ft_isblank(line[i]))
-        i++;
-    ft_memset(&(line[i]), ' ', ft_strlen(filename));	// overwritting filename with ' ' in line
-    free(filename);
-    return (fd);
+	i = 0;
+	line[i] = ' ';
+	i++;
+	if (!(filename = get_filename(&(line[i]), local_env)))
+		return (-1);
+	if ((fd = open(filename, O_RDWR, 0664)) < 0)
+	{
+		free(filename);
+		return (-1);
+	}
+	while (ft_isblank(line[i]))
+		i++;
+	ft_memset(&(line[i]), ' ', ft_strlen(filename));
+	free(filename);
+	return (fd);
 }
-
 
 /*
 ** Search for redirection symbols in *line
 ** Open/Create redirection files if they don't exist
 ** Replaces redirections char and filenames in *line with blank spaces
 */
+
 int
-	parse_redirections(char *line, int redirfd[2], t_lit_status *lit_status, t_list *local_env)
+	parse_redirections(char *line, int redirfd[2], t_lit_status *lit_status, \
+	t_list *local_env)
 {
 	int	i;
 
@@ -83,19 +95,19 @@ int
 	{
 		if (line[i] == '>')
 		{
-            if (redirfd[1] != STDOUT_FILENO)
-                close(redirfd[1]);                              // If a file was already opened for an output redir, close it
-            if ((redirfd[1] = parse_output_redir(&(line[i]), local_env)) < 0)
-                return (close_if(redirfd[0], STDIN_FILENO) - 1);   // Closes input_redir file if one was open before returning
+			if (redirfd[1] != STDOUT_FILENO)
+				close(redirfd[1]);
+			if ((redirfd[1] = parse_output_redir(&(line[i]), local_env)) < 0)
+				return (close_if(redirfd[0], STDIN_FILENO) - 1);
 		}
-        else if (line[i] == '<')
-        {
-            if (redirfd[0] != STDIN_FILENO)
-                close(redirfd[0]);                              // If a file was already opened for an input redir, close it
-            if ((redirfd[0] = parse_input_redir(&(line[i]), local_env)) < 0)
-                return (close_if(redirfd[1], STDOUT_FILENO) - 1);
-        }
-        i++;
+		else if (line[i] == '<')
+		{
+			if (redirfd[0] != STDIN_FILENO)
+				close(redirfd[0]);
+			if ((redirfd[0] = parse_input_redir(&(line[i]), local_env)) < 0)
+				return (close_if(redirfd[1], STDOUT_FILENO) - 1);
+		}
+		i++;
 	}
-    return (0);
+	return (0);
 }

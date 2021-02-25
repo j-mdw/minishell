@@ -1,7 +1,8 @@
 NAME	= minishell
 
 SRCS	:= \
-signals\
+signals_set\
+signals_handlers\
 shell_split\
 redirections\
 get_filename\
@@ -40,6 +41,8 @@ exec_set_redir\
 exec_init_cmd_data\
 exec_close_cmd_data\
 exec_set_cmd_filename\
+exec_builtin\
+exec_child\
 
 SRCS_BONUS	= \
 tty_get_line\
