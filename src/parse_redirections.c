@@ -6,7 +6,7 @@
 /*   By: jmaydew <jmaydew@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/25 12:13:03 by jmaydew           #+#    #+#             */
-/*   Updated: 2021/02/26 13:42:46 by jmaydew          ###   ########.fr       */
+/*   Updated: 2021/02/26 14:46:13 by jmaydew          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,20 @@ static int
 	return (fd);
 }
 
+static int
+	parse_redir_out(char *line, int i, t_list *local_env, int redirfd[2])
+{
+	if (redirfd[0] != STDIN_FILENO)
+		close(redirfd[0]);
+	if ((redirfd[0] = parse_input_redir(&(line[i]), local_env)) < 0)
+	{
+		printf("Error: %s\n", strerror(errno));
+		ft_memset(line, ' ', ft_strlen(line));
+		return (close_if(redirfd[1], STDOUT_FILENO) - 1);
+	}
+	return (0);
+}
+
 /*
 ** Search for redirection symbols in *line
 ** Open/Create redirection files if they don't exist
@@ -97,17 +111,9 @@ int
 				return (close_if(redirfd[0], STDIN_FILENO) - 1);
 			}
 		}
-		else if (line[i] == '<')
-		{
-			if (redirfd[0] != STDIN_FILENO)
-				close(redirfd[0]);
-			if ((redirfd[0] = parse_input_redir(&(line[i]), local_env)) < 0)
-			{
-				printf("Error: %s\n", strerror(errno));
-				ft_memset(line, ' ', ft_strlen(line));
-				return (close_if(redirfd[1], STDOUT_FILENO) - 1);
-			}
-		}
+		else if (line[i] == '<' && \
+		(parse_redir_out(line, i, local_env, redirfd) < 0))
+			return (-1);
 		i++;
 	}
 	return (0);
