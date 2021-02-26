@@ -6,7 +6,7 @@
 /*   By: jmaydew <jmaydew@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/14 12:50:31 by jmaydew           #+#    #+#             */
-/*   Updated: 2021/02/26 15:20:48 by jmaydew          ###   ########.fr       */
+/*   Updated: 2021/02/26 16:29:24 by jmaydew          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ int
 	}
 	free(line);
 	builtin_free_data_struct(&builtin_data);
-	printf("exit\n");
+	if (gnl_ret == 0)
+		printf("exit\n");
 	return (g_minishell_exit_status);
 }
