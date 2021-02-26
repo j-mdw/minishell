@@ -6,7 +6,7 @@
 /*   By: jmaydew <jmaydew@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/14 12:50:31 by jmaydew           #+#    #+#             */
-/*   Updated: 2021/02/26 14:45:27 by jmaydew          ###   ########.fr       */
+/*   Updated: 2021/02/26 15:20:48 by jmaydew          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ int
 	int				gnl_ret;
 	t_builtin		builtin_data;
 
+	// printf("|%p|%p|", env, env[0]);
 	(void)ac;
 	(void)av;
 	set_signals();

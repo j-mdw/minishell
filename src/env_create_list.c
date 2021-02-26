@@ -6,7 +6,7 @@
 /*   By: jmaydew <jmaydew@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/14 12:49:30 by jmaydew           #+#    #+#             */
-/*   Updated: 2021/02/14 12:49:32 by jmaydew          ###   ########.fr       */
+/*   Updated: 2021/02/26 15:18:55 by jmaydew          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,10 @@ t_list
 	int		i;
 
 	i = 0;
+	if (!env)
+		return (NULL);
+	else if (!(*env))
+		return (NULL);
 	local_env = NULL;
 	while (env[i])
 	{
