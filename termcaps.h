@@ -6,7 +6,7 @@
 /*   By: jmaydew <jmaydew@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/24 12:03:39 by jmaydew           #+#    #+#             */
-/*   Updated: 2021/02/25 16:10:05 by jmaydew          ###   ########.fr       */
+/*   Updated: 2021/02/26 14:27:21 by jmaydew          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@
 # define HIST_DOWN 1
 
 # define READ_BUF_SIZE 4096
-# define HIST_SIZE 5
+# define HIST_SIZE 50
 
 # ifndef B_SHELL_MSG
 #  define B_SHELL_MSG "coquillage"

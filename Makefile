@@ -1,6 +1,6 @@
 NAME	= minishell
 
-SRCS	:= \
+SRCS	= \
 signals_set\
 signals_handlers\
 \
@@ -78,7 +78,7 @@ MAIN_O_BONUS := $Omain_bonus.o
 
 O_FILES	= $(addprefix $O, $(addsuffix .o, $(SRCS)))
 
-O_BONUS_FILES	= \
+O_BONUS_FILES	:= \
 $(addprefix $O, $(addsuffix .o, $(SRCS_BONUS_FILES)))
 
 H		= minishell.h
@@ -113,7 +113,8 @@ $(LIBFT):
 	$(MAKE) -C libft/
 
 bonus:
-	$(MAKE) WITH_BONUS=1 all
+	make WITH_BONUS=1 all 
+	# $(MAKE) WITH_BONUS=1 all
 
 clean:
 	$(RM) $(OBJ_FILES)
