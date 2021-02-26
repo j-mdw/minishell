@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_param_trim.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
+/*   By: clkuznie <clkuznie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/16 14:42:27 by user42            #+#    #+#             */
-/*   Updated: 2021/02/25 23:03:38 by user42           ###   ########.fr       */
+/*   Updated: 2021/02/26 14:23:02 by clkuznie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ static int
 		return (0);
 	if (*utils->raw_param == '$')
 		return (dollar_expansion(utils, value_str));
+	(*utils->be)++;
 	if (*utils->raw_param == '\\' && utils->raw_param++)
 	{
 		utils->char_is_lit = is_lit(*utils->raw_param, utils->lit_status);
@@ -115,7 +116,7 @@ static char
 }
 
 char
-	*param_trim(char *raw_param, t_list *local_env)
+	*param_trim(char *raw_param, t_list *local_env, int *be)
 {
 	char			*final_format;
 	t_exp_utils		utils;
@@ -128,6 +129,8 @@ char
 	utils.char_is_lit = 0;
 	utils.final_param = NULL;
 	utils.local_env = local_env;
+	utils.be = be;
+	*utils.be = 0;
 	if (!(utils.exit_status = ft_itoa(g_minishell_exit_status)))
 		return (NULL);
 	utils.lit_status = &lit_status;

@@ -3,20 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   parse_argv.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
+/*   By: clkuznie <clkuznie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/18 15:42:49 by user42            #+#    #+#             */
-/*   Updated: 2021/02/25 21:45:50 by user42           ###   ########.fr       */
+/*   Updated: 2021/02/26 14:19:39 by clkuznie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 static char
-	**recon_params(void)
+	**recon_params(char **params)
 {
 	char	**empty;
 
+	if (params[0])
+		return (params);
+	free(params);
 	if (!(empty = malloc(2 * sizeof(char *))))
 		return (NULL);
 	empty[1] = NULL;
@@ -28,37 +31,29 @@ static char
 	return (empty);
 }
 
-static char
-	**remove_empty_param(char **params)
+static void
+	remove_empty_param(char **params, int i)
 {
-	int		i;
-	int		j;
-
-	i = 0;
+	free(params[i]);
 	while (params[i])
 	{
-		if (!params[i][0])
-		{
-			j = i;
-			free(params[i]);
-			while (params[j])
-			{
-				params[j] = params[j + 1];
-				j++;
-			}
-		}
-		else
-			i++;
+		params[i] = params[i + 1];
+		i++;
 	}
-	if (params[0])
-		return (params);
-	if (!(params = recon_params()))
-		return (NULL);
-	return (params);
+}
+
+static char
+	**error_free(char **params, int i)
+{
+	while (params[i])
+		i++;
+	ft_free_strnarr(params, i);
+	free(params);
+	return (NULL);
 }
 
 char
-	**parse_argv(char *cmd_line, t_list *local_env)
+	**parse_argv(char *cmd_line, t_list *local_env, int be)
 {
 	char	**params;
 	char	*trimmed_param;
@@ -69,20 +64,19 @@ char
 	i = 0;
 	while (params[i])
 	{
-		if ((trimmed_param = param_trim(params[i], local_env)))
+		if ((trimmed_param = param_trim(params[i], local_env, &be)))
 		{
 			free(params[i]);
 			params[i] = trimmed_param;
+			if (!be && !params[i][0])
+			{
+				remove_empty_param(params, i);
+				continue ;
+			}
 		}
 		else
-		{
-			while (params[i])
-				i++;
-			ft_free_strnarr(params, i);
-			free(params);
-			return (NULL);
-		}
+			return (error_free(params, i));
 		i++;
 	}
-	return (remove_empty_param(params));
+	return (recon_params(params));
 }

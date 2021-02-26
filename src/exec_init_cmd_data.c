@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_init_cmd_data.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
+/*   By: clkuznie <clkuznie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/14 14:16:29 by jmaydew           #+#    #+#             */
-/*   Updated: 2021/02/25 22:10:12 by user42           ###   ########.fr       */
+/*   Updated: 2021/02/26 13:32:04 by clkuznie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@ int
 	if (parse_redirections(cmd_line, cmd_data->redirfd, &lit_status,
 		builtin_data->local_env) < 0)
 		return (-1);
-	if (!(cmd_data->cmd_split = parse_argv(cmd_line, builtin_data->local_env)))
+	if (!(cmd_data->cmd_split = parse_argv(cmd_line,
+		builtin_data->local_env, 0)))
 		return (exec_close_cmd_data(cmd_data) - 1);
 	exec_set_cmd_filename(cmd_data->cmd_split[0], cmd_data);
 	if (!(cmd_data->env_arr = env_make_arr(builtin_data->local_env)))
