@@ -80,10 +80,14 @@ O_FILES	= $(addprefix $O, $(addsuffix .o, $(SRCS)))
 
 O_BONUS_FILES	:= \
 $(addprefix $O, $(addsuffix .o, $(SRCS_BONUS_FILES)))
+# $(O_FILES)\
+# $(MAIN_O)\
 
-H		= minishell.h
+H		= minishell.h\
+# termcaps.h
 
-H_BONUS	= termcaps.h
+H_BONUS	= termcaps.h\
+# $H
 
 LIBFT	= libft/libft.a
 
@@ -93,36 +97,43 @@ CFLAGS	= -Wall -Werror -Wextra $I -g3 -O0
 
 RM		= rm -f
 
-ifdef WITH_BONUS
-    H_FILES = $H $(H_BONUS)
-    OBJ_FILES = $(O_FILES) $(O_BONUS_FILES) $(MAIN_O_BONUS)
-else
-    H_FILES = $H
-    OBJ_FILES = $(O_FILES) $(MAIN_O)
+LAST_VERSION	= standard
+
+VERSION	= standard
+
+ifneq ($(VERSION), $(LAST_VERSION))
+	make clean
+	$(LAST_VERSION) = $(VERSION)
+    ifeq ($(VERSION), "standard")
+	    H_TARGET = $H
+	    TARGET = $(O_FILES) $(MAIN_O)
+    else
+	    H_TARGET = $H $(H_BONUS)
+	    TARGET = $(O_FILES) $(O_BONUS_FILES) $(MAIN_O_BONUS)
+    endif
 endif
 
-all: $(NAME)
-
-$(NAME): $(OBJ_FILES) $(LIBFT)
-	$(CC) $^ -o $@ 
-
-$O%.o: $S%.c $(H_FILES)
-	$(CC) $(CFLAGS) -c $< -o $@
-
-$(LIBFT):
+all:
 	$(MAKE) -C libft/
+	make VERSION="standard" $(NAME)
 
 bonus:
-	make WITH_BONUS=1 all 
-	# $(MAKE) WITH_BONUS=1 all
+	$(MAKE) -C libft/
+	make VERSION="bonus" $(NAME)
+
+$(NAME): $(TARGET) $(LIBFT)
+	$(CC) $^ -o $@
+
+$O%.o: $S%.c $(H_TARGET)
+	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-	$(RM) $(OBJ_FILES)
+	$(RM) $(TARGET)
 	make --directory=libft clean
 
 fclean: clean
 	$(RM) $(NAME)
-	make --directory=libft fclean
+	$(RM) $(LIBFT)
 
 re: fclean all
 
