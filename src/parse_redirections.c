@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_redirections.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: clkuznie <clkuznie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jmaydew <jmaydew@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/25 12:13:03 by jmaydew           #+#    #+#             */
-/*   Updated: 2021/02/25 16:12:19 by clkuznie         ###   ########.fr       */
+/*   Updated: 2021/02/26 13:42:46 by jmaydew          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,14 +92,21 @@ int
 			if (redirfd[1] != STDOUT_FILENO)
 				close(redirfd[1]);
 			if ((redirfd[1] = parse_output_redir(&(line[i]), local_env)) < 0)
+			{
+				printf("Error: %s\n", strerror(errno));
 				return (close_if(redirfd[0], STDIN_FILENO) - 1);
+			}
 		}
 		else if (line[i] == '<')
 		{
 			if (redirfd[0] != STDIN_FILENO)
 				close(redirfd[0]);
 			if ((redirfd[0] = parse_input_redir(&(line[i]), local_env)) < 0)
+			{
+				printf("Error: %s\n", strerror(errno));
+				ft_memset(line, ' ', ft_strlen(line));
 				return (close_if(redirfd[1], STDOUT_FILENO) - 1);
+			}
 		}
 		i++;
 	}

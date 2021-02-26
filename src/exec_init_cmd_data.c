@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_init_cmd_data.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jmaydew <jmaydew@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/14 14:16:29 by jmaydew           #+#    #+#             */
-/*   Updated: 2021/02/25 22:10:12 by user42           ###   ########.fr       */
+/*   Updated: 2021/02/26 13:33:05 by jmaydew          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,8 @@ int
 	cmd_data->cmd_split = NULL;
 	cmd_data->filename = NULL;
 	cmd_data->builtin_data = builtin_data;
-	if (parse_redirections(cmd_line, cmd_data->redirfd, &lit_status,
-		builtin_data->local_env) < 0)
-		return (-1);
+	parse_redirections(cmd_line, cmd_data->redirfd, &lit_status,
+		builtin_data->local_env);
 	if (!(cmd_data->cmd_split = parse_argv(cmd_line, builtin_data->local_env)))
 		return (exec_close_cmd_data(cmd_data) - 1);
 	exec_set_cmd_filename(cmd_data->cmd_split[0], cmd_data);
