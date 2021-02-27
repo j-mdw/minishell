@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/16 14:42:27 by user42            #+#    #+#             */
-/*   Updated: 2021/02/27 23:17:05 by user42           ###   ########.fr       */
+/*   Updated: 2021/02/27 23:27:24 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,9 @@ static int
 	if (*utils->raw_param == '\\' && utils->raw_param++)
 	{
 		utils->char_is_lit = is_lit(*utils->raw_param, utils->lit_status);
+		if (*utils->raw_param != '"' && *utils->raw_param != '$'
+			&& *utils->raw_param != '\\' && utils->raw_param++)
+			return (2);
 		utils->raw_param++;
 		return (1);
 	}
