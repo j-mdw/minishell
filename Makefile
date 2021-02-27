@@ -42,7 +42,7 @@ exec_init_cmd_data\
 exec_close_cmd_data\
 exec_set_cmd_filename\
 exec_builtin\
-exec_child\
+exec_child
 
 SRCS_BONUS	= \
 tty_get_line\
@@ -61,9 +61,9 @@ tty_move_cursor\
 tty_erase_from_cursor\
 tty_iter_hist\
 tty_move_word\
-tty_get_escape_seq\
+tty_get_escape_seq
 
-SRCS_BONUS_FILES := $(addsuffix _bonus, $(SRCS_BONUS))
+SRCS_BONUS_FILES = $(addsuffix _bonus, $(SRCS_BONUS))
 
 S 		:= src/
 
@@ -72,18 +72,18 @@ O 		:= obj/
 I		= -I .\
 		-I libft/
 
-MAIN_O := $Omain.o
+MAIN_O = $Omain.o
 
-MAIN_O_BONUS := $Omain_bonus.o
+MAIN_O_BONUS = $Omain_bonus.o
 
 O_FILES	= $(addprefix $O, $(addsuffix .o, $(SRCS)))
 
-O_BONUS_FILES	:= \
+O_BONUS_FILES	= \
 $(addprefix $O, $(addsuffix .o, $(SRCS_BONUS_FILES)))
 
-H		= minishell.h
+H		= minishell.h\
 
-H_BONUS	= termcaps.h
+H_BONUS	= termcaps.h\
 
 LIBFT	= libft/libft.a
 
@@ -93,36 +93,45 @@ CFLAGS	= -Wall -Werror -Wextra $I -g3 -O0
 
 RM		= rm -f
 
-ifdef WITH_BONUS
-    H_FILES = $H $(H_BONUS)
-    OBJ_FILES = $(O_FILES) $(O_BONUS_FILES) $(MAIN_O_BONUS)
+ifeq ($(VERSION), standard)
+
+H_TARGET	= $H
+
+TARGET		= $(O_FILES)\
+$(MAIN_O)
+
 else
-    H_FILES = $H
-    OBJ_FILES = $(O_FILES) $(MAIN_O)
+
+H_TARGET	= $H\
+$(H_BONUS)
+
+TARGET		= $(O_FILES)\
+$(O_BONUS_FILES)\
+$(MAIN_O_BONUS)
+
 endif
 
-all: $(NAME)
-
-$(NAME): $(OBJ_FILES) $(LIBFT)
-	$(CC) $^ -o $@ 
-
-$O%.o: $S%.c $(H_FILES)
-	$(CC) $(CFLAGS) -c $< -o $@
-
-$(LIBFT):
+all:
 	$(MAKE) -C libft/
+	make VERSION=standard $(NAME)
 
 bonus:
-#	make WITH_BONUS=1 all 
-	 $(MAKE) WITH_BONUS=1 all
+	$(MAKE) -C libft/
+	make VERSION="bonus" $(NAME)
+
+$(NAME): $(TARGET) $(LIBFT)
+	$(CC) $^ -o $@
+
+$O%.o: $S%.c $(H_TARGET)
+	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-	$(RM) $(OBJ_FILES)
+	$(RM) $(O_FILES) $(O_BONUS_FILES)
 	make --directory=libft clean
 
 fclean: clean
 	$(RM) $(NAME)
-	make --directory=libft fclean
+	$(RM) $(LIBFT)
 
 re: fclean all
 

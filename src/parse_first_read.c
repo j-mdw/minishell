@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_first_read.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: clkuznie <clkuznie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/09 14:38:35 by user42            #+#    #+#             */
-/*   Updated: 2021/02/25 16:09:51 by clkuznie         ###   ########.fr       */
+/*   Updated: 2021/02/27 18:20:02 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static void	set_operators_as_used(t_lit_status *lit_status)
 	lit_status->redir = 0;
 }
 
-static int	is_operator_repeted(t_lit_status *lit_status, char *s, int *i)
+static int	is_operator_rep(t_lit_status *lit_status, char *s, int *i)
 {
 	if (((++(lit_status->unused_op) > 1) && s[*i] != '<' && s[*i] != '>')
 		|| ((s[*i] == '<' || s[*i] == '>')
@@ -51,10 +51,10 @@ char		*first_read(char *s)
 	{
 		if (!ft_isblank(s[i]) && ++non_blank)
 		{
-			if ((is_lit(s[i], &lit_status)) || !is_operator(s[i]))
+			if (is_lit(s[i], &lit_status) || lit_status.dquote
+				|| !is_operator(s[i]))
 				set_operators_as_used(&lit_status);
-			else if (is_operator(s[i])
-				&& is_operator_repeted(&lit_status, s, &i))
+			else if (is_operator(s[i]) && is_operator_rep(&lit_status, s, &i))
 				return (&(s[i]) + (s[i + 1] = '\0'));
 			else if (!is_operator(s[i]))
 				set_operators_as_used(&lit_status);
