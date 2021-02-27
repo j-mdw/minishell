@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_cd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmaydew <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: jmaydew <jmaydew@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/14 13:23:50 by jmaydew           #+#    #+#             */
-/*   Updated: 2021/02/14 13:23:55 by jmaydew          ###   ########.fr       */
+/*   Updated: 2021/02/27 15:08:31 by jmaydew          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,25 +55,35 @@ static int
 	return (EXIT_SUCCESS);
 }
 
+static int
+	exit_error(char *msg)
+{
+	printf("Error: cd: %s\n", msg);
+	return (EXIT_FAILURE);
+}
+
 int
 	builtin_cd(char **av, t_list **env)
 {
 	char	*path;
+	int		i;
 
+	i = 0;
+	while (av[i])
+		i++;
+	if (i > 2)
+		return (exit_error("too many arguments"));
 	(void)env;
-	if (!av[1])
+	if (i == 1)
 	{
 		if (!(path = env_get_val(*env, "HOME")))
-		{
-			printf("minishell: cd: 'HOME' undefined\n");
-			return (EXIT_FAILURE);
-		}
+			return (exit_error("'HOME' undefined"));
 	}
 	else
 		path = av[1];
 	if (chdir(path) < 0)
 	{
-		printf("minishell: cd: %s: no such file or directory\n", path);
+		printf("Error: cd: '%s': no such file or directory\n", av[1]);
 		return (EXIT_FAILURE);
 	}
 	return (cd_set_envvar(*env));

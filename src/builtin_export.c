@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_export.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmaydew <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: jmaydew <jmaydew@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/14 13:27:28 by jmaydew           #+#    #+#             */
-/*   Updated: 2021/02/14 14:03:44 by jmaydew          ###   ########.fr       */
+/*   Updated: 2021/02/27 16:18:54 by jmaydew          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,30 +75,48 @@ not a valid identifier\n", var);
 **			- if key doesn't exist: create new elem, dup arg1 in content
 */
 
-int
-	builtin_export(char **av, t_list **env)
+static int
+	set_var(char *var, t_list **env)
 {
 	char	*key;
 	t_list	*elem;
-	int		i;
+	int		index;
 
-	if (!av[1])
-		return (export_print(*env) + EXIT_SUCCESS);
-	if ((i = check_varname(av[1])) < 0)
-		return (EXIT_FAILURE);
-	if (!(key = ft_strndup(av[1], i)))
-		return (EXIT_FAILURE);
+	if ((index = check_varname(var)) < 0)
+		return (-1);
+	if (!(key = ft_strndup(var, index)))
+		return (-1);
 	if (!(elem = env_get_key(*env, key)))
-		ft_lstadd_back(env, ft_lstnew(ft_strdup(av[1])));
+		ft_lstadd_back(env, ft_lstnew(ft_strdup(var)));
 	else
 	{
-		if (av[1][i])
+		if (var[index])
 		{
 			free(elem->content);
-			if (!(elem->content = ft_strdup(av[1])))
-				return (EXIT_FAILURE);
+			if (!(elem->content = ft_strdup(var)))
+				return (-1);
 		}
 	}
 	free(key);
-	return (EXIT_SUCCESS);
+	return (0);
+}
+
+int
+	builtin_export(char **av, t_list **env)
+{
+	int		i;
+	int		ret;
+
+	if (!av[1])
+		return (export_print(*env) + EXIT_SUCCESS);
+	ret = 0;
+	i = 1;
+	while (av[i])
+	{
+		ret += set_var(av[i], env);
+		i++;
+	}
+	if (ret == 0)
+		return (EXIT_SUCCESS);
+	return (EXIT_FAILURE);
 }

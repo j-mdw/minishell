@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: clkuznie <clkuznie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jmaydew <jmaydew@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/24 11:50:21 by jmaydew           #+#    #+#             */
-/*   Updated: 2021/02/26 13:42:17 by clkuznie         ###   ########.fr       */
+/*   Updated: 2021/02/27 14:16:27 by jmaydew          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@
 
 # define SHELL_MSG		"coquillage$>"
 # define BUILTIN_COUNT	7
+# define USER_ROOT "/home/user42/"
 
 typedef struct	s_lit_status {
 	int					quote;

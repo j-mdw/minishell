@@ -113,8 +113,8 @@ $(LIBFT):
 	$(MAKE) -C libft/
 
 bonus:
-	make WITH_BONUS=1 all 
-	# $(MAKE) WITH_BONUS=1 all
+#	make WITH_BONUS=1 all 
+	 $(MAKE) WITH_BONUS=1 all
 
 clean:
 	$(RM) $(OBJ_FILES)

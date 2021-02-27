@@ -5,36 +5,54 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: jmaydew <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/02/14 14:02:54 by jmaydew           #+#    #+#             */
-/*   Updated: 2021/02/14 14:02:58 by jmaydew          ###   ########.fr       */
+/*   Created: 2021/02/27 16:22:28 by jmaydew           #+#    #+#             */
+/*   Updated: 2021/02/27 16:22:32 by jmaydew          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+static int
+	check_var(char *var, t_list **env)
+{
+	int i;
+
+	if (!ft_isalpha(var[0]) && var[0] != '_')
+	{
+		printf("minishell : unset : '%s' : not a valid identifier\n", var);
+		return (-1);
+	}
+	i = 1;
+	while (var[i])
+	{
+		if (!(ft_isalnum(var[i])) && (var[i] != '_'))
+		{
+			printf("minishell :unset : '%s' : \
+not a valid identifier\n", var);
+			return (-1);
+		}
+		i++;
+	}
+	ft_list_remove_if(env, var, free);
+	return (0);
+}
+
 int
 	builtin_unset(char **av, t_list **env)
 {
 	int i;
+	int ret;
 
 	if (!av[1])
 		return (EXIT_SUCCESS);
-	if (!ft_isalpha(av[1][0]) && av[1][0] != '_')
-	{
-		printf("minishell : unset : '%s' : not a valid identifier\n", av[1]);
-		return (EXIT_FAILURE);
-	}
+	ret = 0;
 	i = 1;
-	while (av[1][i])
+	while (av[i])
 	{
-		if (!(ft_isalnum(av[1][i])) && (av[1][i] != '_'))
-		{
-			printf("minishell :M export : '%s' : \
-			not a valid identifier\n", av[1]);
-			return (EXIT_FAILURE);
-		}
+		ret += check_var(av[i], env);
 		i++;
 	}
-	ft_list_remove_if(env, av[1], free);
-	return (EXIT_SUCCESS);
+	if (ret == 0)
+		return (EXIT_SUCCESS);
+	return (EXIT_FAILURE);
 }
