@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_bonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: clkuznie <clkuznie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jmaydew <jmaydew@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/25 11:43:45 by jmaydew           #+#    #+#             */
-/*   Updated: 2021/02/25 17:14:21 by clkuznie         ###   ########.fr       */
+/*   Updated: 2021/02/27 16:43:09 by jmaydew          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ int
 	char			*hist[HIST_SIZE];
 	int				hist_index;
 	int				i;
+	int				read_ret;
 
 	(void)ac;
 	(void)av;
@@ -52,13 +53,14 @@ int
 	set_signals();
 	if (builtin_init_data_struct(&builtin_data, env) < 0)
 		return (EXIT_FAILURE);
-	while (read(0, NULL, 0) == 0 && \
+	while ((read_ret = read(0, NULL, 0)) == 0 && \
 	(hist_index = tty_get_line(hist, HIST_SIZE)) >= 0)
 		send_line(hist[hist_index], &builtin_data);
 	i = 0;
 	while (hist[i])
 		free(hist[i++]);
 	builtin_free_data_struct(&builtin_data);
-	printf("exit\n");
+	if (read_ret == 0)
+		printf("exit\n");
 	return (g_minishell_exit_status);
 }
