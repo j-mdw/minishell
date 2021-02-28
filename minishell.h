@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmaydew <jmaydew@student.42.fr>            +#+  +:+       +#+        */
+/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/24 11:50:21 by jmaydew           #+#    #+#             */
-/*   Updated: 2021/02/27 14:16:27 by jmaydew          ###   ########.fr       */
+/*   Updated: 2021/02/28 02:36:17 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ typedef struct	s_exp_utils
 	char				*exit_status;
 	char				*raw_param;
 	char				*final_param;
-	int					char_is_lit;
+	int					lit_char;
 	char				quote_type;
 	int					*be;
 }				t_exp_utils;
@@ -112,6 +112,7 @@ int				is_lit(char c, t_lit_status *lit_status);
 void			lit_status_init(t_lit_status *lit_status);
 char			**parse_argv(char *cmd_line, t_list *local_env, int be);
 char			*param_trim(char *raw_param, t_list *local_env, int *be);
+char			*part_write(t_exp_utils *utils, char *value_str, int i);
 /*
 ** ERRORS AND FREE
 */

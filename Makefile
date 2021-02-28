@@ -34,6 +34,7 @@ parse_shell_split\
 util_close_if\
 util_is_lit\
 util_is_operator\
+util_part_write\
 util_search_path\
 \
 exec_pipes\

@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/09 14:38:35 by user42            #+#    #+#             */
-/*   Updated: 2021/02/27 18:20:02 by user42           ###   ########.fr       */
+/*   Updated: 2021/02/28 02:26:39 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,9 +60,9 @@ char		*first_read(char *s)
 				set_operators_as_used(&lit_status);
 		}
 	}
-	if (non_blank &&
-		(lit_status.quote || lit_status.dquote
-		|| lit_status.pipe || lit_status.redir))
+	if (non_blank && (lit_status.quote || lit_status.dquote
+		|| lit_status.pipe || lit_status.redir)
+		&& (g_minishell_exit_status = 2))
 		return ("newline");
 	return (NULL);
 }

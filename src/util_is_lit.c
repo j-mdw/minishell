@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   util_is_lit.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: clkuznie <clkuznie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/10 13:10:06 by user42            #+#    #+#             */
-/*   Updated: 2021/02/25 16:16:03 by clkuznie         ###   ########.fr       */
+/*   Updated: 2021/02/27 23:57:11 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ int		is_lit(char c, t_lit_status *lit_status)
 {
 	if (!lit_status->quote && !lit_status->backs)
 	{
+		if (lit_status->dquote && c == '\'')
+			return (1);
 		lit_status->quote = (c == '\'');
 		lit_status->dquote = ((c != '\"' && lit_status->dquote)
 			|| (c == '\"' && !lit_status->dquote));
