@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "termcaps.h"
+#include "termcaps_bonus.h"
 
 int
 	tty_echo_del(t_cursor *cursor, char *read_buf)

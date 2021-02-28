@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "termcaps.h"
+#include "termcaps_bonus.h"
 
 int
 	tty_set_raw_mode(struct termios *raw_termios)

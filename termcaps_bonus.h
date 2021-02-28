@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   termcaps.h                                         :+:      :+:    :+:   */
+/*   termcaps_bonus.h                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmaydew <jmaydew@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jmaydew <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/02/24 12:03:39 by jmaydew           #+#    #+#             */
-/*   Updated: 2021/02/26 14:27:21 by jmaydew          ###   ########.fr       */
+/*   Created: 2021/02/28 12:24:32 by jmaydew           #+#    #+#             */
+/*   Updated: 2021/02/28 12:24:35 by jmaydew          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef TERMCAPS_H
-# define TERMCAPS_H
+#ifndef TERMCAPS_BONUS_H
+# define TERMCAPS_BONUS_H
 
 # include <termios.h>
 # include <unistd.h>

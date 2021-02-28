@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "termcaps.h"
+#include "termcaps_bonus.h"
 
 int
 	tty_echo_esc_2(t_tty_param *tty_param, char *read_buf, char *esc_buf)

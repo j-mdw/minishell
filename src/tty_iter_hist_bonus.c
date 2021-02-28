@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "termcaps.h"
+#include "termcaps_bonus.h"
 
 static void
 	update_cursor_param(t_cursor *cursor, int len)

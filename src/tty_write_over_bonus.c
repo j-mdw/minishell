@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "termcaps.h"
+#include "termcaps_bonus.h"
 
 int
 	tty_write_over(char *read_buf, char c)

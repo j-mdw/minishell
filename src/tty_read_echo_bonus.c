@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "termcaps.h"
+#include "termcaps_bonus.h"
 
 static	int
 	tty_read_echo_2(t_tty_param *tty_param, char *read_buf, int col_i, char c)

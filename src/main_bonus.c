@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include "termcaps.h"
+#include "termcaps_bonus.h"
 
 static void
 	send_line(char *newline, t_builtin *builtin_data)

@@ -138,13 +138,6 @@ char			*env_get_val(t_list *env, char *key);
 t_list			*env_get_key(t_list *env, char *key);
 void			env_print(t_list *local_env);
 t_list			*env_create_list(char **env);
-
-/*
-** Create an array of the current env variable.
-**
-** @param local_env_lst List to take env variable from.
-** @return A malloc-ed array ready to be used by execve for exemple.
-*/
 char			**env_make_arr(t_list *local_env_lst);
 /*
 ** MISC

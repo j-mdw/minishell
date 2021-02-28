@@ -84,7 +84,7 @@ $(addprefix $O, $(addsuffix .o, $(SRCS_BONUS_FILES)))
 
 H		= minishell.h\
 
-H_BONUS	= termcaps.h\
+H_BONUS	= termcaps_bonus.h\
 
 LIBFT	= libft/libft.a
 
@@ -127,7 +127,7 @@ $O%.o: $S%.c $(H_TARGET)
 	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-	$(RM) $(O_FILES) $(O_BONUS_FILES)
+	$(RM) $(O_FILES) $(O_BONUS_FILES) $(MAIN_O) $(MAIN_O_BONUS)
 	make --directory=libft clean
 
 fclean: clean

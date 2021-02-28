@@ -1,7 +1,0 @@
-ls | cat
-ls|pwd
-ls | grep t | sed -s "s/t/g"
-ps |
-| pwd
-ls | | pwd
-|
